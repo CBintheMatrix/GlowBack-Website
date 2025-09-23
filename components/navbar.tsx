@@ -5,49 +5,58 @@ import Image from "next/image"
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 max-w-screen-2xl items-center">
-        <Link href="/" className="mr-6 flex items-center space-x-2 group">
-          <div className="relative">
-            <Image
-              src="/GlowBack Logo.png"
-              alt="Glowback Logo"
-              width={32}
-              height={32}
-              className="transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
-          </div>
-          <span className="font-bold text-xl group-hover:text-green-500 transition-colors duration-300">Glowback</span>
-        </Link>
-        <nav className="flex flex-1 items-center space-x-6 text-sm font-medium">
-          <Link href="/services" className="transition-colors hover:text-primary">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 shadow-sm">
+      <div className="container flex h-16 max-w-screen-2xl items-center px-4">
+        {/* Logo - Left side */}
+        <div className="flex items-center space-x-3 group w-1/3">
+          <Link href="/" className="flex items-center space-x-3">
+            <div className="relative">
+              <Image
+                src="/GlowBack Logo.png"
+                alt="Glowback Logo"
+                width={36}
+                height={36}
+                className="transition-all duration-300 group-hover:scale-110 group-hover:rotate-3"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
+            </div>
+            <span className="font-bold text-xl bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent group-hover:from-green-500 group-hover:to-emerald-500 transition-all duration-300">Glowback</span>
+          </Link>
+        </div>
+        
+        {/* Navigation Links - Center */}
+        <nav className="hidden md:flex items-start justify-center w-1/3 space-x-8 text-sm font-medium pt-6">
+          <Link href="/services" className="text-green-600 hover:text-green-700 transition-colors duration-200 font-semibold">
             Services
           </Link>
-          <Link href="/benefits" className="transition-colors hover:text-primary">
+          <Link href="/benefits" className="text-green-600 hover:text-green-700 transition-colors duration-200 font-semibold">
             Benefits
           </Link>
-          <Link href="/about" className="transition-colors hover:text-primary">
+          <Link href="/about" className="text-green-600 hover:text-green-700 transition-colors duration-200 font-semibold">
             About
           </Link>
-          <Link href="/roadmap" className="transition-colors hover:text-primary">
+          <Link href="/roadmap" className="text-green-600 hover:text-green-700 transition-colors duration-200 font-semibold">
             Our Future
           </Link>
         </nav>
-        <div className="flex items-center space-x-4">
+        
+        {/* Action Buttons - Right side */}
+        <div className="flex items-center justify-end space-x-3 w-1/3">
           <Link href="mailto:hello@glowback.io">
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="text-black hover:text-green-600 hover:bg-green-50">
               <Mail className="h-4 w-4" />
               <span className="sr-only">Email</span>
             </Button>
           </Link>
           <Link href="#contact">
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" className="text-black hover:text-green-600 hover:bg-green-50">
               Contact
             </Button>
           </Link>
           <Link href="/pilot">
-            <Button size="sm">Apply for Pilot</Button>
+            <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white">
+              Apply for Pilot
+            </Button>
           </Link>
         </div>
       </div>

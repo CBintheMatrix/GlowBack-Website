@@ -207,8 +207,8 @@ export default function Hero() {
           Your browser does not support the video tag.
         </video>
         
-        {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/40"></div>
+        {/* Subtle overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/35"></div>
 
         {/* Hero Content */}
         <div className="relative z-20 text-center flex flex-col items-center justify-center h-full">
@@ -225,7 +225,7 @@ export default function Hero() {
           <div className="space-y-8">
             {/* GLOWBACK - Green */}
             <div className="space-y-4">
-              <h1 className="text-6xl font-black tracking-tight text-emerald-400 sm:text-7xl md:text-8xl lg:text-9xl animate-in fade-in-0 duration-1000 drop-shadow-2xl">
+              <h1 className="text-6xl font-black tracking-tight text-emerald-500 sm:text-7xl md:text-8xl lg:text-9xl animate-in fade-in-0 duration-1000 drop-shadow-lg">
                 GLOWBACK
               </h1>
               <div className="h-1 w-32 bg-emerald-400 mx-auto animate-in slide-in-from-left-4 duration-1000 delay-300"></div>
@@ -238,7 +238,7 @@ export default function Hero() {
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
               >
-                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl drop-shadow-2xl">
+                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl drop-shadow-lg">
                   Seamless Operations.
                 </h2>
               </div>
@@ -247,7 +247,7 @@ export default function Hero() {
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
               >
-                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl drop-shadow-2xl">
+                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl drop-shadow-lg">
                   Exceptional Stays.
                 </h2>
               </div>
@@ -257,30 +257,33 @@ export default function Hero() {
       </section>
 
       {/* Content Section - All other content below the video */}
-      <section className="container flex flex-col items-center justify-center space-y-12 py-24 text-center md:py-32 relative max-w-screen-2xl">
+      <section className="container flex flex-col items-center justify-center space-y-12 py-24 text-center md:py-32 relative max-w-screen-2xl bg-white">
         <div className="space-y-8 relative z-10">
-          {/* Rotating Messages */}
-          <div className="relative h-32 flex items-center justify-center">
-            <p
-              key={currentMessageIndex}
-              className={`mx-auto max-w-[48rem] text-lg leading-relaxed text-muted-foreground sm:text-xl sm:leading-8 transition-all duration-1000 delay-1000 animate-in fade-in-0 slide-in-from-bottom-4 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-              }`}
-            >
-              {messages[currentMessageIndex]}
-            </p>
-          </div>
-
-          {/* Message Dots */}
-          <div className="flex justify-center space-x-2">
-            {messages.map((_, index) => (
-              <div
-                key={index}
-                className={`h-2 w-2 rounded-full transition-all duration-500 ${
-                  index === currentMessageIndex ? "bg-primary scale-125" : "bg-muted-foreground/30"
-                }`}
-              />
-            ))}
+          {/* Impact Statement for Hotel Owners */}
+          <div className="relative max-w-6xl mx-auto">
+            <h2 className="text-4xl font-bold text-green-600 mb-8 sm:text-5xl md:text-6xl">
+              Transform Your Hotel Operations
+            </h2>
+            
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              <div className="text-center p-6 bg-gray-50 rounded-lg border border-gray-100">
+                <div className="text-3xl font-bold text-green-600 mb-2">Real-Time</div>
+                <div className="text-lg font-semibold text-black mb-2">Instant Communication</div>
+                <div className="text-sm text-gray-600">Staff receive guest requests instantly with smart routing and real-time notifications</div>
+              </div>
+              
+              <div className="text-center p-6 bg-gray-50 rounded-lg border border-gray-100">
+                <div className="text-3xl font-bold text-green-600 mb-2">100+</div>
+                <div className="text-lg font-semibold text-black mb-2">Languages Supported</div>
+                <div className="text-sm text-gray-600">Eliminate language barriers with instant multilingual support for every guest</div>
+              </div>
+              
+              <div className="text-center p-6 bg-gray-50 rounded-lg border border-gray-100">
+                <div className="text-3xl font-bold text-green-600 mb-2">New Revenue</div>
+                <div className="text-lg font-semibold text-black mb-2">Streams Available</div>
+                <div className="text-sm text-gray-600">Generate additional income through curated local partnerships and services</div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -291,22 +294,22 @@ export default function Hero() {
           }`}
         >
           <div className="flex flex-col items-center space-y-3 group">
-            <div className="rounded-full bg-card p-4 shadow-lg group-hover:shadow-xl transition-shadow">
-              <Tablet className="h-12 w-12 text-primary" />
+            <div className="rounded-full bg-green-600 p-4 shadow-lg group-hover:shadow-xl transition-shadow">
+              <Tablet className="h-12 w-12 text-white" />
             </div>
-            <span className="text-sm font-medium text-foreground">Guest Tablet</span>
+            <span className="text-sm font-medium text-black">Guest Tablet</span>
           </div>
           <div className="flex flex-col items-center space-y-3 group">
-            <div className="rounded-full bg-card p-4 shadow-lg group-hover:shadow-xl transition-shadow">
-              <Smartphone className="h-12 w-12 text-accent" />
+            <div className="rounded-full bg-green-600 p-4 shadow-lg group-hover:shadow-xl transition-shadow">
+              <Smartphone className="h-12 w-12 text-white" />
             </div>
-            <span className="text-sm font-medium text-foreground">Staff App</span>
+            <span className="text-sm font-medium text-black">Staff App</span>
           </div>
           <div className="flex flex-col items-center space-y-3 group">
-            <div className="rounded-full bg-card p-4 shadow-lg group-hover:shadow-xl transition-shadow">
-              <Monitor className="h-12 w-12 text-primary" />
+            <div className="rounded-full bg-green-600 p-4 shadow-lg group-hover:shadow-xl transition-shadow">
+              <Monitor className="h-12 w-12 text-white" />
             </div>
-            <span className="text-sm font-medium text-foreground">Manager Dashboard</span>
+            <span className="text-sm font-medium text-black">Manager Dashboard</span>
           </div>
         </div>
 
@@ -316,14 +319,14 @@ export default function Hero() {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <Button size="lg" className="text-lg px-8 py-6 font-semibold shadow-lg hover:shadow-xl transition-all">
+          <Button size="lg" className="text-lg px-8 py-6 font-semibold shadow-lg hover:shadow-xl transition-all bg-green-600 hover:bg-green-700 text-white">
             Apply for Pilot Program
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
           <Button
             variant="outline"
             size="lg"
-            className="text-lg px-8 py-6 font-semibold border-2 hover:bg-muted transition-all bg-transparent"
+            className="text-lg px-8 py-6 font-semibold border-2 border-green-600 text-green-600 hover:bg-green-50 transition-all bg-transparent"
           >
             Learn More
           </Button>
