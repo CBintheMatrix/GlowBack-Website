@@ -100,8 +100,7 @@ export default function Hero() {
           style={{ 
             width: '100%', 
             height: '100%', 
-            objectFit: 'cover',
-            backgroundColor: 'red' // Temporary debug color
+            objectFit: 'cover'
           }}
         >
           <source src="https://glowback.io/hero-video-001.mp4?v=2024" type="video/mp4" />
@@ -112,7 +111,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-black/40"></div>
 
         {/* Hero Content */}
-        <div className="relative z-20 text-center">
+        <div className="relative z-20 text-center flex flex-col items-center justify-center h-full">
           <div className="mb-8 animate-in fade-in-0 duration-1000 delay-200 relative">
             <Image
               src="/GlowBack Logo.png"
@@ -123,7 +122,7 @@ export default function Hero() {
             />
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-8">
             {/* GLOWBACK - Green */}
             <div className="space-y-4">
               <h1 className="text-6xl font-black tracking-tight text-emerald-400 sm:text-7xl md:text-8xl lg:text-9xl animate-in fade-in-0 duration-1000 drop-shadow-2xl">
@@ -132,14 +131,14 @@ export default function Hero() {
               <div className="h-1 w-32 bg-emerald-400 mx-auto animate-in slide-in-from-left-4 duration-1000 delay-300"></div>
             </div>
 
-            {/* Seamless Operations. Exceptional Stays. - Black Text */}
-            <div className="space-y-2">
+            {/* Seamless Operations. Exceptional Stays. - White Text for better contrast */}
+            <div className="space-y-3">
               <div
                 className={`transition-all duration-1000 delay-500 ${
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
               >
-                <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl md:text-5xl lg:text-6xl drop-shadow-lg">
+                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl drop-shadow-2xl">
                   Seamless Operations.
                 </h2>
               </div>
@@ -148,7 +147,7 @@ export default function Hero() {
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
               >
-                <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl md:text-5xl lg:text-6xl drop-shadow-lg">
+                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl drop-shadow-2xl">
                   Exceptional Stays.
                 </h2>
               </div>
