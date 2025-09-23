@@ -10,7 +10,7 @@ export default function Navbar() {
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-3 group">
               <Image
-                src="/glowback-logo-new.svg"
+                src="/glowback-logo.svg"
                 alt="Glowback Logo"
                 width={32}
                 height={32}

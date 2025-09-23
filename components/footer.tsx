@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="flex-1 space-y-4">
           <div className="flex items-center space-x-3">
             <Image
-              src="/glowback-logo-new.svg"
+              src="/glowback-logo.svg"
               alt="Glowback Logo"
               width={32}
               height={32}

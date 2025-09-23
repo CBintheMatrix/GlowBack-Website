@@ -33,7 +33,7 @@ export default function Hero() {
     <section className="container flex min-h-[calc(100vh-3.5rem)] max-w-screen-2xl flex-col items-center justify-center space-y-12 py-24 text-center md:py-32 relative overflow-hidden">
       <div className="mb-8 animate-in fade-in-0 duration-1000 delay-200 relative">
         <Image
-          src="/glowback-logo-new.svg"
+          src="/glowback-logo.svg"
           alt="Glowback Logo"
           width={120}
           height={120}
