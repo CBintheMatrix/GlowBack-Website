@@ -106,9 +106,11 @@ export default function Hero() {
       }
 
       setIsTransitioning(true)
-      const nextIndex = (currentVideoIndex + 1) % heroVideos.length
+      // Get the current index from the video source to avoid stale closure
+      const currentIndex = heroVideos.findIndex(video => video === currentVideo.src)
+      const nextIndex = (currentIndex + 1) % heroVideos.length
       
-      console.log(`🎬 Crossfading from ${currentVideoIndex} to ${nextIndex}`)
+      console.log(`🎬 Crossfading from ${currentIndex} to ${nextIndex}`)
 
       // Load next video
       nextVideo.src = heroVideos[nextIndex]
