@@ -110,7 +110,7 @@ export default function Hero() {
       const currentIndex = currentIndexRef.current
       const nextIndex = (currentIndex + 1) % heroVideos.length
       
-      console.log(`🎬 Crossfading from ${currentIndex} to ${nextIndex}`)
+      console.log(`🎬 Crossfading from ${currentIndex} to ${nextIndex} (total videos: ${heroVideos.length})`)
 
       // Load next video
       nextVideo.src = heroVideos[nextIndex]
