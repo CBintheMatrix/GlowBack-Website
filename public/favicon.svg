@@ -1,17 +1,20 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- House with integrated G - bright green -->
+  <!-- Exact logo design with double-line house outline and integrated G -->
   <defs>
     <style>
-      .logo-path { fill: #10B981; stroke: #10B981; stroke-width: 1.5; }
+      .logo-path { fill: none; stroke: #10B981; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
     </style>
   </defs>
   
-  <!-- House roof and walls forming the G -->
-  <path class="logo-path" d="M8 8 L16 4 L24 8 L24 20 L20 20 L20 16 L12 16 L12 20 L8 20 Z"/>
+  <!-- Outer house outline -->
+  <path class="logo-path" d="M6 10 L16 6 L26 10 L26 22 L6 22 Z"/>
   
-  <!-- G extension - curved part -->
-  <path class="logo-path" d="M20 16 Q24 16 24 20 Q24 24 20 24 L16 24"/>
+  <!-- Inner house outline -->
+  <path class="logo-path" d="M8 12 L16 8.5 L24 12 L24 20 L8 20 Z"/>
+  
+  <!-- G extension - curved part extending from right side -->
+  <path class="logo-path" d="M24 12 Q28 12 28 16 Q28 20 24 20 L20 20"/>
   
   <!-- G horizontal line -->
-  <path class="logo-path" d="M16 20 L20 20"/>
+  <path class="logo-path" d="M20 16 L24 16"/>
 </svg>
