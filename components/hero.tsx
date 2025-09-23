@@ -8,6 +8,7 @@ import Image from "next/image"
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false)
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
+  const [videoLoaded, setVideoLoaded] = useState(false)
 
   const messages = [
     "Transform your hotel into an intelligent service ecosystem. Connect guests, staff and managers with real-time communication, smart inventory tracking and seamless operations.",
@@ -33,7 +34,7 @@ export default function Hero() {
     <>
       {/* Video Hero Section - GLOWBACK text and "Seamless Operations. Exceptional Stays." */}
       <section className="relative w-full h-[70vh] flex items-center justify-center overflow-hidden">
-        {/* Video Background - SIMPLE APPROACH */}
+        {/* Video Background */}
         <div className="absolute inset-0 z-0">
           <video
             className="w-full h-full object-cover"
@@ -41,11 +42,26 @@ export default function Hero() {
             playsInline
             loop
             autoPlay
-            preload="auto"
+            preload="metadata"
             controls={false}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'cover',
+              backgroundColor: '#1e293b'
+            }}
+            onLoadedData={() => {
+              console.log('Video loaded successfully')
+              setVideoLoaded(true)
+            }}
+            onError={(e) => {
+              console.error('Video failed to load:', e)
+              setVideoLoaded(false)
+            }}
           >
+            <source src="./videos/hero-video-001.mp4" type="video/mp4" />
             <source src="/videos/hero-video-001.mp4" type="video/mp4" />
+            <source src="./videos/hero video 001.mp4" type="video/mp4" />
             <source src="/videos/hero video 001.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
@@ -53,18 +69,20 @@ export default function Hero() {
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
 
-        {/* Fallback gradient background */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
+        {/* Animated Fallback Background */}
+        {!videoLoaded && (
+          <div className="absolute inset-0 z-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-transparent to-emerald-500/10 animate-pulse"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent animate-pulse" style={{ animationDelay: '1s' }}></div>
+          </div>
+        )}
 
         {/* Debug info */}
         <div className="absolute top-4 left-4 z-50 text-white text-sm bg-black/70 p-3 rounded-lg border border-white/20">
           <div className="font-bold mb-2">Video Status:</div>
-          <div>URL 1: /videos/hero-video-001.mp4</div>
-          <div>URL 2: /videos/hero video 001.mp4</div>
-          <div>File Size: 75MB</div>
-          <div className="mt-2">
-            <a href="/test-video" className="text-blue-400 underline">Test Video Page</a>
-          </div>
+          <div>Video Loaded: {videoLoaded ? '✅ Yes' : '❌ No'}</div>
+          <div>Fallback: {!videoLoaded ? '✅ Active' : '❌ Inactive'}</div>
+          <div>File: hero-video-001.mp4</div>
         </div>
 
         {/* Hero Content */}
