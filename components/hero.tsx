@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Tablet, Smartphone, Monitor, Play } from "lucide-react"
+import { ArrowRight, Tablet, Smartphone, Monitor } from "lucide-react"
 import { useEffect, useState, useRef } from "react"
 import Image from "next/image"
 
@@ -10,17 +10,10 @@ export default function Hero() {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
   const [videoLoaded, setVideoLoaded] = useState(false)
   const [videoError, setVideoError] = useState(false)
-  const [canPlay, setCanPlay] = useState(false)
-  const [showPlayButton, setShowPlayButton] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  // Multiple video URL attempts to handle different scenarios
-  const videoUrls = [
-    "/videos/hero video 001.mp4",  // Original with spaces
-    "/videos/hero%20video%20001.mp4",  // URL encoded
-    "/videos/hero-video-001.mp4",  // Alternative naming
-  ]
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
+  // Direct video path - no spaces, no encoding issues
+  const videoUrl = "/videos/hero-video-001.mp4"
 
   const messages = [
     "Transform your hotel into an intelligent service ecosystem. Connect guests, staff and managers with real-time communication, smart inventory tracking and seamless operations.",
@@ -42,120 +35,77 @@ export default function Hero() {
     return () => clearInterval(interval)
   }, [messages.length])
 
-  // Enhanced video handling with multiple fallbacks
+  // Simplified video handling - direct and aggressive
   useEffect(() => {
-    if (!videoRef.current) {
-      console.log("Video ref not available")
-      return
-    }
+    if (!videoRef.current) return
 
     const video = videoRef.current
-    const currentUrl = videoUrls[currentVideoIndex]
-    console.log("Attempting to load video:", currentUrl)
+    console.log("Setting up video with URL:", videoUrl)
 
     const handleVideoError = (e: Event) => {
-      console.error("Video error for URL:", currentUrl, e)
+      console.error("Video error:", e)
       setVideoError(true)
       setVideoLoaded(false)
-      
-      // Try next video URL
-      if (currentVideoIndex < videoUrls.length - 1) {
-        console.log("Trying next video URL...")
-        setCurrentVideoIndex(prev => prev + 1)
-      } else {
-        console.log("All video URLs failed, showing play button")
-        setShowPlayButton(true)
-      }
     }
 
     const handleVideoLoad = () => {
-      console.log("Video loaded successfully:", currentUrl)
+      console.log("Video loaded successfully")
       setVideoLoaded(true)
       setVideoError(false)
-      setShowPlayButton(false)
     }
 
     const handleCanPlay = () => {
-      console.log("Video can play:", currentUrl)
-      setCanPlay(true)
-    }
-
-    const handleLoadStart = () => {
-      console.log("Video load started:", currentUrl)
-    }
-
-    const handleLoadedData = () => {
-      console.log("Video data loaded:", currentUrl)
-    }
-
-    const handlePlay = () => {
-      console.log("Video started playing:", currentUrl)
-      setShowPlayButton(false)
-    }
-
-    const handlePause = () => {
-      console.log("Video paused:", currentUrl)
-    }
-
-    // Clear previous event listeners
-    video.removeEventListener('error', handleVideoError)
-    video.removeEventListener('loadeddata', handleVideoLoad)
-    video.removeEventListener('canplay', handleCanPlay)
-    video.removeEventListener('loadstart', handleLoadStart)
-    video.removeEventListener('loadeddata', handleLoadedData)
-    video.removeEventListener('play', handlePlay)
-    video.removeEventListener('pause', handlePause)
-
-    // Add new event listeners
-    video.addEventListener('error', handleVideoError)
-    video.addEventListener('loadeddata', handleVideoLoad)
-    video.addEventListener('canplay', handleCanPlay)
-    video.addEventListener('loadstart', handleLoadStart)
-    video.addEventListener('loadeddata', handleLoadedData)
-    video.addEventListener('play', handlePlay)
-    video.addEventListener('pause', handlePause)
-
-    // Set video source and load
-    video.src = currentUrl
-    video.load()
-
-    // Try to play after loading
-    const playVideo = () => {
-      video.play().then(() => {
-        console.log("Video playing successfully:", currentUrl)
-        setShowPlayButton(false)
-      }).catch((error) => {
+      console.log("Video can play - attempting autoplay")
+      setVideoLoaded(true)
+      // Force play immediately when ready
+      video.play().catch((error) => {
         console.error("Autoplay failed:", error)
-        setShowPlayButton(true)
       })
     }
 
-    // Try to play immediately and after a delay
-    playVideo()
-    setTimeout(playVideo, 1000)
-    setTimeout(playVideo, 3000)
+    const handlePlay = () => {
+      console.log("Video is playing!")
+    }
+
+    // Clear any existing event listeners
+    video.removeEventListener('error', handleVideoError)
+    video.removeEventListener('loadeddata', handleVideoLoad)
+    video.removeEventListener('canplay', handleCanPlay)
+    video.removeEventListener('play', handlePlay)
+
+    // Add event listeners
+    video.addEventListener('error', handleVideoError)
+    video.addEventListener('loadeddata', handleVideoLoad)
+    video.addEventListener('canplay', handleCanPlay)
+    video.addEventListener('play', handlePlay)
+
+    // Set video source directly
+    video.src = videoUrl
+    video.load()
+
+    // Multiple aggressive play attempts
+    const attemptPlay = () => {
+      video.play().then(() => {
+        console.log("Video playing successfully")
+      }).catch((error) => {
+        console.error("Play attempt failed:", error)
+      })
+    }
+
+    // Try to play immediately and multiple times
+    attemptPlay()
+    setTimeout(attemptPlay, 500)
+    setTimeout(attemptPlay, 1000)
+    setTimeout(attemptPlay, 2000)
+    setTimeout(attemptPlay, 3000)
 
     return () => {
       video.removeEventListener('error', handleVideoError)
       video.removeEventListener('loadeddata', handleVideoLoad)
       video.removeEventListener('canplay', handleCanPlay)
-      video.removeEventListener('loadstart', handleLoadStart)
-      video.removeEventListener('loadeddata', handleLoadedData)
       video.removeEventListener('play', handlePlay)
-      video.removeEventListener('pause', handlePause)
     }
-  }, [currentVideoIndex, videoUrls])
-
-  const handleManualPlay = () => {
-    if (videoRef.current) {
-      videoRef.current.play().then(() => {
-        console.log("Manual play successful")
-        setShowPlayButton(false)
-      }).catch((error) => {
-        console.error("Manual play failed:", error)
-      })
-    }
-  }
+  }, [])
 
   return (
     <>
@@ -171,9 +121,9 @@ export default function Hero() {
             loop
             preload="auto"
             autoPlay
-            poster=""
+            controls={false}
           >
-            <source src={videoUrls[currentVideoIndex]} type="video/mp4" />
+            <source src={videoUrl} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           {/* Dark overlay for better text readability */}
@@ -188,22 +138,9 @@ export default function Hero() {
           <div className="font-bold mb-2">Video Debug Info:</div>
           <div>Video Loaded: {videoLoaded ? '✅ Yes' : '❌ No'}</div>
           <div>Video Error: {videoError ? '❌ Yes' : '✅ No'}</div>
-          <div>Can Play: {canPlay ? '✅ Yes' : '❌ No'}</div>
-          <div>Show Play Button: {showPlayButton ? '✅ Yes' : '❌ No'}</div>
-          <div>Current URL: {videoUrls[currentVideoIndex]}</div>
-          <div>Video Index: {currentVideoIndex + 1}/{videoUrls.length}</div>
+          <div>Current URL: {videoUrl}</div>
+          <div>File Size: 75MB</div>
         </div>
-
-        {/* Manual play button if autoplay fails */}
-        {showPlayButton && (
-          <button
-            onClick={handleManualPlay}
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 bg-white/20 backdrop-blur-sm rounded-full p-6 hover:bg-white/30 transition-all duration-300 border border-white/30"
-          >
-            <Play className="w-12 h-12 text-white" />
-            <div className="text-white text-sm mt-2 font-medium">Click to Play Video</div>
-          </button>
-        )}
 
         {/* Hero Content */}
         <div className="relative z-10 text-center">
