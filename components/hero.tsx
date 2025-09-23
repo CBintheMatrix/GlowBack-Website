@@ -2,18 +2,12 @@
 
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Tablet, Smartphone, Monitor } from "lucide-react"
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false)
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
-  const [videoLoaded, setVideoLoaded] = useState(false)
-  const [videoError, setVideoError] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
-
-  // Direct video path - no spaces, no encoding issues
-  const videoUrl = "/videos/hero-video-001.mp4"
 
   const messages = [
     "Transform your hotel into an intelligent service ecosystem. Connect guests, staff and managers with real-time communication, smart inventory tracking and seamless operations.",
@@ -35,95 +29,24 @@ export default function Hero() {
     return () => clearInterval(interval)
   }, [messages.length])
 
-  // Simplified video handling - direct and aggressive
-  useEffect(() => {
-    if (!videoRef.current) return
-
-    const video = videoRef.current
-    console.log("Setting up video with URL:", videoUrl)
-
-    const handleVideoError = (e: Event) => {
-      console.error("Video error:", e)
-      setVideoError(true)
-      setVideoLoaded(false)
-    }
-
-    const handleVideoLoad = () => {
-      console.log("Video loaded successfully")
-      setVideoLoaded(true)
-      setVideoError(false)
-    }
-
-    const handleCanPlay = () => {
-      console.log("Video can play - attempting autoplay")
-      setVideoLoaded(true)
-      // Force play immediately when ready
-      video.play().catch((error) => {
-        console.error("Autoplay failed:", error)
-      })
-    }
-
-    const handlePlay = () => {
-      console.log("Video is playing!")
-    }
-
-    // Clear any existing event listeners
-    video.removeEventListener('error', handleVideoError)
-    video.removeEventListener('loadeddata', handleVideoLoad)
-    video.removeEventListener('canplay', handleCanPlay)
-    video.removeEventListener('play', handlePlay)
-
-    // Add event listeners
-    video.addEventListener('error', handleVideoError)
-    video.addEventListener('loadeddata', handleVideoLoad)
-    video.addEventListener('canplay', handleCanPlay)
-    video.addEventListener('play', handlePlay)
-
-    // Set video source directly
-    video.src = videoUrl
-    video.load()
-
-    // Multiple aggressive play attempts
-    const attemptPlay = () => {
-      video.play().then(() => {
-        console.log("Video playing successfully")
-      }).catch((error) => {
-        console.error("Play attempt failed:", error)
-      })
-    }
-
-    // Try to play immediately and multiple times
-    attemptPlay()
-    setTimeout(attemptPlay, 500)
-    setTimeout(attemptPlay, 1000)
-    setTimeout(attemptPlay, 2000)
-    setTimeout(attemptPlay, 3000)
-
-    return () => {
-      video.removeEventListener('error', handleVideoError)
-      video.removeEventListener('loadeddata', handleVideoLoad)
-      video.removeEventListener('canplay', handleCanPlay)
-      video.removeEventListener('play', handlePlay)
-    }
-  }, [])
-
   return (
     <>
       {/* Video Hero Section - GLOWBACK text and "Seamless Operations. Exceptional Stays." */}
       <section className="relative w-full h-[70vh] flex items-center justify-center overflow-hidden">
-        {/* Video Background */}
+        {/* Video Background - SIMPLE APPROACH */}
         <div className="absolute inset-0 z-0">
           <video
-            ref={videoRef}
             className="w-full h-full object-cover"
             muted
             playsInline
             loop
-            preload="auto"
             autoPlay
+            preload="auto"
             controls={false}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           >
-            <source src={videoUrl} type="video/mp4" />
+            <source src="/videos/hero-video-001.mp4" type="video/mp4" />
+            <source src="/videos/hero video 001.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
           {/* Dark overlay for better text readability */}
@@ -133,13 +56,15 @@ export default function Hero() {
         {/* Fallback gradient background */}
         <div className="absolute inset-0 z-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
 
-        {/* Debug info (remove in production) */}
+        {/* Debug info */}
         <div className="absolute top-4 left-4 z-50 text-white text-sm bg-black/70 p-3 rounded-lg border border-white/20">
-          <div className="font-bold mb-2">Video Debug Info:</div>
-          <div>Video Loaded: {videoLoaded ? '✅ Yes' : '❌ No'}</div>
-          <div>Video Error: {videoError ? '❌ Yes' : '✅ No'}</div>
-          <div>Current URL: {videoUrl}</div>
+          <div className="font-bold mb-2">Video Status:</div>
+          <div>URL 1: /videos/hero-video-001.mp4</div>
+          <div>URL 2: /videos/hero video 001.mp4</div>
           <div>File Size: 75MB</div>
+          <div className="mt-2">
+            <a href="/test-video" className="text-blue-400 underline">Test Video Page</a>
+          </div>
         </div>
 
         {/* Hero Content */}
