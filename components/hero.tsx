@@ -30,25 +30,57 @@ export default function Hero() {
     return () => clearInterval(interval)
   }, [messages.length])
 
-  // Simple video autoplay
+  // Video debugging and autoplay
   useEffect(() => {
     const video = videoRef.current
-    if (!video) return
+    if (!video) {
+      console.log('❌ Video ref is null')
+      return
+    }
+
+    console.log('🎬 Video element found:', video)
 
     const playVideo = async () => {
       try {
+        console.log('🎯 Attempting to play video...')
         await video.play()
+        console.log('✅ Video is now playing!')
       } catch (error) {
-        console.log('Autoplay failed, will play on user interaction')
+        console.log('❌ Autoplay failed:', error)
       }
     }
 
-    video.addEventListener('canplay', playVideo)
-    video.addEventListener('loadeddata', playVideo)
+    const handleLoadStart = () => {
+      console.log('📹 Video loading started')
+    }
+
+    const handleLoadedData = () => {
+      console.log('📹 Video data loaded')
+      playVideo()
+    }
+
+    const handleCanPlay = () => {
+      console.log('📹 Video can play')
+      playVideo()
+    }
+
+    const handleError = (e) => {
+      console.error('❌ Video error:', e)
+    }
+
+    video.addEventListener('loadstart', handleLoadStart)
+    video.addEventListener('loadeddata', handleLoadedData)
+    video.addEventListener('canplay', handleCanPlay)
+    video.addEventListener('error', handleError)
+
+    // Force load the video
+    video.load()
 
     return () => {
-      video.removeEventListener('canplay', playVideo)
-      video.removeEventListener('loadeddata', playVideo)
+      video.removeEventListener('loadstart', handleLoadStart)
+      video.removeEventListener('loadeddata', handleLoadedData)
+      video.removeEventListener('canplay', handleCanPlay)
+      video.removeEventListener('error', handleError)
     }
   }, [])
 
@@ -68,7 +100,8 @@ export default function Hero() {
           style={{ 
             width: '100%', 
             height: '100%', 
-            objectFit: 'cover'
+            objectFit: 'cover',
+            backgroundColor: 'red' // Temporary debug color
           }}
         >
           <source src="/videos/hero-video-001.mp4" type="video/mp4" />
