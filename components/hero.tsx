@@ -42,35 +42,48 @@ export default function Hero() {
     const video = videoRef.current
     if (!video) return
 
+    console.log(`🎬 Loading video ${currentVideoIndex}: ${heroVideos[currentVideoIndex]}`)
+
     const playVideo = async () => {
       try {
         await video.play()
+        console.log(`✅ Video ${currentVideoIndex} is now playing!`)
       } catch (error) {
-        console.log('Autoplay failed, will play on user interaction')
+        console.log(`❌ Video ${currentVideoIndex} autoplay failed:`, error)
       }
     }
 
     const handleVideoEnd = () => {
-      // Cycle to next video when current one ends
+      console.log(`🏁 Video ${currentVideoIndex} ended, cycling to next`)
       setCurrentVideoIndex((prev) => (prev + 1) % heroVideos.length)
+    }
+
+    const handleError = (e) => {
+      console.error(`❌ Video ${currentVideoIndex} error:`, e)
     }
 
     video.addEventListener('canplay', playVideo)
     video.addEventListener('loadeddata', playVideo)
     video.addEventListener('ended', handleVideoEnd)
+    video.addEventListener('error', handleError)
 
     return () => {
       video.removeEventListener('canplay', playVideo)
       video.removeEventListener('loadeddata', playVideo)
       video.removeEventListener('ended', handleVideoEnd)
+      video.removeEventListener('error', handleError)
     }
   }, [currentVideoIndex, heroVideos.length])
 
   // Video cycling timer (every 10 seconds)
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentVideoIndex((prev) => (prev + 1) % heroVideos.length)
-    }, 10000) // Change video every 10 seconds
+      setCurrentVideoIndex((prev) => {
+        const nextIndex = (prev + 1) % heroVideos.length
+        console.log(`🔄 Cycling video: ${prev} -> ${nextIndex} (${heroVideos[nextIndex]})`)
+        return nextIndex
+      })
+    }, 5000) // Change video every 5 seconds for testing
 
     return () => clearInterval(interval)
   }, [heroVideos.length])
