@@ -105,7 +105,6 @@ export default function Hero() {
           }}
         >
           <source src="https://glowback.io/hero-video-001.mp4" type="video/mp4" />
-          <source src="https://glowback.io/videos/hero-video-001.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         
