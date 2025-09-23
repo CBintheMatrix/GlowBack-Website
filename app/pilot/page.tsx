@@ -137,13 +137,13 @@ export default function PilotApplication() {
       <div className="relative z-10">
         <Navbar />
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
           {/* Header Section */}
-          <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold text-white mb-6">
+          <div className="text-center mb-8 sm:mb-12">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight">
               Join the Glowback <span className="text-emerald-400">Founding Partner Program</span>
             </h1>
-            <p className="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed px-4">
               Hotels who secure founding status will always have a competitive edge over those who wait. This isn't just
               early access — it's permanent competitive advantage that locks in revolutionary pricing and exclusive
               perks forever.
@@ -151,7 +151,7 @@ export default function PilotApplication() {
           </div>
 
           {/* Scarcity Indicators */}
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-12">
             {/* Spots Remaining */}
             <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm">
               <CardHeader>
@@ -162,11 +162,11 @@ export default function PilotApplication() {
               </CardHeader>
               <CardContent>
                 <div className="text-center">
-                  <div className="text-6xl font-bold text-red-400 mb-2">{spotsRemaining}</div>
-                  <p className="text-slate-200">out of 3 total spots</p>
-                  <div className="w-full bg-slate-700 rounded-full h-3 mt-4">
+                  <div className="text-4xl sm:text-6xl font-bold text-red-400 mb-2">{spotsRemaining}</div>
+                  <p className="text-slate-200 text-sm sm:text-base">out of 3 total spots</p>
+                  <div className="w-full bg-slate-700 rounded-full h-2 sm:h-3 mt-4">
                     <div
-                      className="bg-gradient-to-r from-red-500 to-orange-500 h-3 rounded-full transition-all duration-500"
+                      className="bg-gradient-to-r from-red-500 to-orange-500 h-2 sm:h-3 rounded-full transition-all duration-500"
                       style={{ width: `${(spotsRemaining / 3) * 100}%` }}
                     ></div>
                   </div>
@@ -183,25 +183,25 @@ export default function PilotApplication() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-4 gap-2 text-center">
+                <div className="grid grid-cols-4 gap-1 sm:gap-2 text-center">
                   <div>
-                    <div className="text-2xl font-bold text-white">{timeLeft.days}</div>
+                    <div className="text-lg sm:text-2xl font-bold text-white">{timeLeft.days}</div>
                     <div className="text-xs text-slate-200">DAYS</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-white">{timeLeft.hours}</div>
+                    <div className="text-lg sm:text-2xl font-bold text-white">{timeLeft.hours}</div>
                     <div className="text-xs text-slate-200">HOURS</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-white">{timeLeft.minutes}</div>
+                    <div className="text-lg sm:text-2xl font-bold text-white">{timeLeft.minutes}</div>
                     <div className="text-xs text-slate-200">MINS</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-white">{timeLeft.seconds}</div>
+                    <div className="text-lg sm:text-2xl font-bold text-white">{timeLeft.seconds}</div>
                     <div className="text-xs text-slate-200">SECS</div>
                   </div>
                 </div>
-                <p className="text-center text-slate-200 mt-4 text-sm">
+                <p className="text-center text-slate-200 mt-4 text-xs sm:text-sm px-2">
                   Applications close automatically on December 1st at 11:59 PM
                 </p>
               </CardContent>
@@ -209,12 +209,12 @@ export default function PilotApplication() {
           </div>
 
           {/* Pilot Benefits */}
-          <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm mb-12">
+          <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm mb-8 sm:mb-12">
             <CardHeader>
-              <CardTitle className="text-white text-2xl">What's Included in Your 60-Day Pilot</CardTitle>
+              <CardTitle className="text-white text-xl sm:text-2xl">What's Included in Your 60-Day Pilot</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div className="space-y-4">
                   <div className="flex items-start space-x-3">
                     <CheckCircle className="w-5 h-5 text-emerald-400 mt-1 flex-shrink-0" />
@@ -289,17 +289,17 @@ export default function PilotApplication() {
           </Card>
 
           {/* Exclusive Pricing Benefits Section */}
-          <Card className="bg-gradient-to-r from-emerald-900/30 to-blue-900/30 border-emerald-500/50 backdrop-blur-sm mb-12">
+          <Card className="bg-gradient-to-r from-emerald-900/30 to-blue-900/30 border-emerald-500/50 backdrop-blur-sm mb-8 sm:mb-12">
             <CardHeader>
-              <CardTitle className="text-white text-2xl">
+              <CardTitle className="text-white text-xl sm:text-2xl">
                 Exclusive Founding Partner Rate — Discounted Pilot Pricing
               </CardTitle>
-              <p className="text-emerald-300 font-semibold">
+              <p className="text-emerald-300 font-semibold text-sm sm:text-base">
                 🔥 These benefits are NEVER offered again — once the pilot closes, they're gone forever. 🔥
               </p>
             </CardHeader>
             <CardContent>
-              <div className="grid md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                 <div className="space-y-6">
                   <div className="bg-slate-800/50 p-4 rounded-lg border border-emerald-500/30">
                     <h4 className="font-bold text-emerald-400 text-lg mb-2">Exclusive Founding Partner Rate</h4>
@@ -349,12 +349,12 @@ export default function PilotApplication() {
           {/* Application Form */}
           <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm">
             <CardHeader>
-              <CardTitle className="text-white text-2xl">Pilot Application Form</CardTitle>
-              <p className="text-slate-200">Complete this form to secure your spot in the exclusive pilot program</p>
+              <CardTitle className="text-white text-xl sm:text-2xl">Pilot Application Form</CardTitle>
+              <p className="text-slate-200 text-sm sm:text-base">Complete this form to secure your spot in the exclusive pilot program</p>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-200 mb-2">
                       <Building2 className="w-4 h-4 inline mr-2" />
@@ -382,7 +382,7 @@ export default function PilotApplication() {
                   </div>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label className="block text-sm font-medium text-slate-200 mb-2">
                       <Mail className="w-4 h-4 inline mr-2" />
@@ -431,16 +431,16 @@ export default function PilotApplication() {
                   <div id="turnstile-widget"></div>
                 </div>
 
-                <div className="text-center pt-6">
+                <div className="text-center pt-4 sm:pt-6">
                   <Button
                     type="submit"
                     size="lg"
                     disabled={status === "submitting"}
-                    className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-12 py-4 text-lg font-semibold disabled:opacity-50"
+                    className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-8 sm:px-12 py-3 sm:py-4 text-base sm:text-lg font-semibold disabled:opacity-50 w-full sm:w-auto"
                   >
                     {status === "submitting" ? "Submitting..." : "Lock In My Founding Partner Advantage"}
                   </Button>
-                  <p className="text-slate-200 text-sm mt-4">
+                  <p className="text-slate-200 text-xs sm:text-sm mt-4 px-4">
                     Applications are reviewed within 24 hours. Spots are awarded based on operational fit and readiness.
                   </p>
                 </div>
@@ -462,9 +462,9 @@ export default function PilotApplication() {
           </Card>
 
           {/* Urgency Footer */}
-          <div className="text-center mt-12 p-6 bg-red-500/10 border border-red-500/30 rounded-lg">
-            <h3 className="text-xl font-bold text-red-400 mb-2">The Window Is Closing Fast</h3>
-            <p className="text-slate-200">Only 3 spots available. After that, the opportunity is gone permanently.</p>
+          <div className="text-center mt-8 sm:mt-12 p-4 sm:p-6 bg-red-500/10 border border-red-500/30 rounded-lg">
+            <h3 className="text-lg sm:text-xl font-bold text-red-400 mb-2">The Window Is Closing Fast</h3>
+            <p className="text-slate-200 text-sm sm:text-base">Only 3 spots available. After that, the opportunity is gone permanently.</p>
           </div>
         </div>
       </div>

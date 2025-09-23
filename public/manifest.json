@@ -1,0 +1,26 @@
+{
+  "name": "Glowback - Hotel Intelligence Platform",
+  "short_name": "Glowback",
+  "description": "Transform your hotel into an intelligent service ecosystem. Connect guests, staff, and managers with our comprehensive hotel operations platform.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#10B981",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["business", "productivity", "travel"],
+  "lang": "en",
+  "dir": "ltr"
+}

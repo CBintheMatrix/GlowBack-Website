@@ -10,7 +10,27 @@ export const metadata: Metadata = {
   title: "Glowback - Seamless Operations. Exceptional Stays.",
   description:
     "Transform your hotel into an intelligent service ecosystem. Connect guests, staff, and managers with our comprehensive hotel operations platform.",
-    generator: 'v0.app'
+  generator: 'v0.app',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
+  themeColor: '#10B981',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Glowback',
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/manifest.json',
 }
 
 export default function RootLayout({
