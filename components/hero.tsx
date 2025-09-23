@@ -12,6 +12,7 @@ export default function Hero() {
   const [isTransitioning, setIsTransitioning] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
   const nextVideoRef = useRef<HTMLVideoElement>(null)
+  const currentIndexRef = useRef(0)
 
   const heroVideos = [
     "https://glowback.io/hero-video-001.mp4?v=2025",
@@ -106,8 +107,7 @@ export default function Hero() {
       }
 
       setIsTransitioning(true)
-      // Get the current index from the video source to avoid stale closure
-      const currentIndex = heroVideos.findIndex(video => video === currentVideo.src)
+      const currentIndex = currentIndexRef.current
       const nextIndex = (currentIndex + 1) % heroVideos.length
       
       console.log(`🎬 Crossfading from ${currentIndex} to ${nextIndex}`)
@@ -140,6 +140,7 @@ export default function Hero() {
           setTimeout(() => {
             console.log('✅ Crossfade complete')
             setCurrentVideoIndex(nextIndex)
+            currentIndexRef.current = nextIndex // Update the ref
             currentVideo.style.opacity = '1'
             currentVideo.style.transition = ''
             nextVideo.style.transition = ''
