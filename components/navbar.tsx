@@ -10,7 +10,7 @@ export default function Navbar() {
         <Link href="/" className="mr-6 flex items-center space-x-2 group">
           <div className="relative">
             <Image
-              src="/glowback-logo.svg"
+              src="/GlowBack Logo.png"
               alt="Glowback Logo"
               width={32}
               height={32}
