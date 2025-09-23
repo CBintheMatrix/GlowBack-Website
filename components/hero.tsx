@@ -44,7 +44,12 @@ export default function Hero() {
 
     console.log(`🎬 Loading video ${currentVideoIndex}: ${heroVideos[currentVideoIndex]}`)
 
+    let hasPlayed = false
+
     const playVideo = async () => {
+      if (hasPlayed) return // Prevent multiple play attempts
+      hasPlayed = true
+      
       try {
         video.currentTime = 0 // Start from beginning
         video.muted = true // Ensure muted for autoplay
@@ -52,15 +57,7 @@ export default function Hero() {
         console.log(`✅ Video ${currentVideoIndex} is now playing from start!`)
       } catch (error) {
         console.log(`❌ Video ${currentVideoIndex} autoplay failed:`, error)
-        // Try again after a short delay
-        setTimeout(async () => {
-          try {
-            await video.play()
-            console.log(`✅ Video ${currentVideoIndex} started on retry!`)
-          } catch (retryError) {
-            console.log(`❌ Video ${currentVideoIndex} retry failed:`, retryError)
-          }
-        }, 500)
+        hasPlayed = false // Reset on failure
       }
     }
 
@@ -71,27 +68,19 @@ export default function Hero() {
 
     const handleError = (e) => {
       console.error(`❌ Video ${currentVideoIndex} error:`, e)
+      hasPlayed = false // Reset on error
     }
 
     // Force reload the video source when currentVideoIndex changes
     video.load()
     
-    // Wait for video to be ready to play
-    const handleCanPlayThrough = () => {
-      console.log(`📹 Video ${currentVideoIndex} can play through`)
-      playVideo()
-    }
-    
-    video.addEventListener('canplaythrough', handleCanPlayThrough)
+    // Only use one event listener to prevent spam
     video.addEventListener('canplay', playVideo)
-    video.addEventListener('loadeddata', playVideo)
     video.addEventListener('ended', handleVideoEnd)
     video.addEventListener('error', handleError)
 
     return () => {
-      video.removeEventListener('canplaythrough', handleCanPlayThrough)
       video.removeEventListener('canplay', playVideo)
-      video.removeEventListener('loadeddata', playVideo)
       video.removeEventListener('ended', handleVideoEnd)
       video.removeEventListener('error', handleError)
     }
