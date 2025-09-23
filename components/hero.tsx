@@ -88,12 +88,22 @@ export default function Hero() {
 
   // Video cycling timer (every 10 seconds)
   useEffect(() => {
+    console.log('🔄 Setting up video cycling timer')
+    
     const interval = setInterval(() => {
-      if (isTransitioning) return
+      console.log('⏰ Timer triggered - checking for transition')
+      
+      if (isTransitioning) {
+        console.log('⏸️ Already transitioning, skipping')
+        return
+      }
       
       const currentVideo = videoRef.current
       const nextVideo = nextVideoRef.current
-      if (!currentVideo || !nextVideo) return
+      if (!currentVideo || !nextVideo) {
+        console.log('❌ Video refs not available')
+        return
+      }
 
       setIsTransitioning(true)
       const nextIndex = (currentVideoIndex + 1) % heroVideos.length
@@ -106,9 +116,11 @@ export default function Hero() {
 
       // Wait for next video to be ready
       const handleCanPlay = () => {
+        console.log('📹 Next video can play, starting crossfade')
         nextVideo.currentTime = 0
         nextVideo.muted = true
         nextVideo.play().then(() => {
+          console.log('▶️ Next video playing, starting crossfade')
           // Start crossfade
           nextVideo.style.opacity = '0'
           nextVideo.style.transition = 'opacity 1s ease-in-out'
@@ -124,6 +136,7 @@ export default function Hero() {
           
           // Complete transition
           setTimeout(() => {
+            console.log('✅ Crossfade complete')
             setCurrentVideoIndex(nextIndex)
             currentVideo.style.opacity = '1'
             currentVideo.style.transition = ''
@@ -132,7 +145,7 @@ export default function Hero() {
             setIsTransitioning(false)
           }, 1000)
         }).catch(err => {
-          console.log('Next video play failed:', err)
+          console.log('❌ Next video play failed:', err)
           setIsTransitioning(false)
         })
       }
@@ -140,8 +153,11 @@ export default function Hero() {
       nextVideo.addEventListener('canplay', handleCanPlay, { once: true })
     }, 10000) // Change video every 10 seconds
 
-    return () => clearInterval(interval)
-  }, [currentVideoIndex, heroVideos, isTransitioning])
+    return () => {
+      console.log('🧹 Cleaning up video cycling timer')
+      clearInterval(interval)
+    }
+  }, []) // Empty dependency array to prevent restarting
 
   return (
     <>
