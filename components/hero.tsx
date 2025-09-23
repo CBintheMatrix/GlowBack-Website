@@ -1,17 +1,20 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Tablet, Smartphone, Monitor } from "lucide-react"
+import { ArrowRight, Tablet, Smartphone, Monitor, Play } from "lucide-react"
 import { useEffect, useState, useRef } from "react"
 import Image from "next/image"
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false)
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
+  const [videoLoaded, setVideoLoaded] = useState(false)
+  const [videoError, setVideoError] = useState(false)
+  const [canPlay, setCanPlay] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  // Video file - will use your actual video when ready
-  const videoUrl = "/videos/hero video 001.mp4"
+  // Video file - using encoded URI to handle spaces
+  const videoUrl = "/videos/hero%20video%20001.mp4"
 
   const messages = [
     "Transform your hotel into an intelligent service ecosystem. Connect guests, staff and managers with real-time communication, smart inventory tracking and seamless operations.",
@@ -33,28 +36,77 @@ export default function Hero() {
     return () => clearInterval(interval)
   }, [messages.length])
 
-  // Video handling logic with looping
+  // Video handling logic with enhanced debugging
   useEffect(() => {
-    if (!videoRef.current) return
+    if (!videoRef.current) {
+      console.log("Video ref not available")
+      return
+    }
 
     const video = videoRef.current
+    console.log("Setting up video with URL:", videoUrl)
 
-    const handleVideoError = () => {
-      console.log("Video failed to load, using fallback background")
+    const handleVideoError = (e: Event) => {
+      console.error("Video error:", e)
+      setVideoError(true)
+      setVideoLoaded(false)
+    }
+
+    const handleVideoLoad = () => {
+      console.log("Video loaded successfully")
+      setVideoLoaded(true)
+      setVideoError(false)
+    }
+
+    const handleCanPlay = () => {
+      console.log("Video can play")
+      setCanPlay(true)
+    }
+
+    const handleLoadStart = () => {
+      console.log("Video load started")
+    }
+
+    const handleLoadedData = () => {
+      console.log("Video data loaded")
     }
 
     video.addEventListener('error', handleVideoError)
+    video.addEventListener('loadeddata', handleVideoLoad)
+    video.addEventListener('canplay', handleCanPlay)
+    video.addEventListener('loadstart', handleLoadStart)
+    video.addEventListener('loadeddata', handleLoadedData)
 
-    // Start playing the video with loop
+    // Start loading the video
     video.load()
-    video.play().catch(() => {
-      console.log("Autoplay failed, video will be available for manual play")
-    })
+
+    // Try to play after a short delay
+    setTimeout(() => {
+      video.play().then(() => {
+        console.log("Video playing successfully")
+      }).catch((error) => {
+        console.error("Autoplay failed:", error)
+      })
+    }, 1000)
 
     return () => {
       video.removeEventListener('error', handleVideoError)
+      video.removeEventListener('loadeddata', handleVideoLoad)
+      video.removeEventListener('canplay', handleCanPlay)
+      video.removeEventListener('loadstart', handleLoadStart)
+      video.removeEventListener('loadeddata', handleLoadedData)
     }
-  }, [])
+  }, [videoUrl])
+
+  const handleManualPlay = () => {
+    if (videoRef.current) {
+      videoRef.current.play().then(() => {
+        console.log("Manual play successful")
+      }).catch((error) => {
+        console.error("Manual play failed:", error)
+      })
+    }
+  }
 
   return (
     <>
@@ -68,7 +120,8 @@ export default function Hero() {
             muted
             playsInline
             loop
-            preload="metadata"
+            preload="auto"
+            poster=""
           >
             <source src={videoUrl} type="video/mp4" />
             Your browser does not support the video tag.
@@ -77,8 +130,26 @@ export default function Hero() {
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
 
-        {/* Fallback gradient background if video doesn't load */}
+        {/* Fallback gradient background */}
         <div className="absolute inset-0 z-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
+
+        {/* Debug info (remove in production) */}
+        <div className="absolute top-4 left-4 z-50 text-white text-sm bg-black/50 p-2 rounded">
+          <div>Video Loaded: {videoLoaded ? 'Yes' : 'No'}</div>
+          <div>Video Error: {videoError ? 'Yes' : 'No'}</div>
+          <div>Can Play: {canPlay ? 'Yes' : 'No'}</div>
+          <div>URL: {videoUrl}</div>
+        </div>
+
+        {/* Manual play button if autoplay fails */}
+        {canPlay && !videoLoaded && (
+          <button
+            onClick={handleManualPlay}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-40 bg-white/20 backdrop-blur-sm rounded-full p-4 hover:bg-white/30 transition-colors"
+          >
+            <Play className="w-8 h-8 text-white" />
+          </button>
+        )}
 
         {/* Hero Content */}
         <div className="relative z-10 text-center">
