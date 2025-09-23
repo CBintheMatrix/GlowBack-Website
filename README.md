@@ -1,58 +1,66 @@
-# Glowback Website (Cloudflare Pages)
+# Glowback Website
 
-A Next.js marketing website for Glowback with a pilot application form that integrates with Cloudflare Turnstile and Resend for email delivery.
+A modern, responsive marketing website for Glowback - the intelligent hotel operations platform that transforms guest experiences through seamless technology integration.
 
-## Features
+## 🌟 About Glowback
 
-- **Static Export**: Configured for Cloudflare Pages deployment
-- **Pilot Application Form**: Secure form with Turnstile anti-spam protection
-- **Email Integration**: Form submissions sent via Resend API
-- **Responsive Design**: Modern UI with Tailwind CSS
-- **SEO Optimized**: Includes robots.txt, sitemap.xml, and meta tags
+Glowback is revolutionizing hotel operations by connecting guests, staff, and managers through an intelligent service ecosystem. Our platform streamlines guest requests, optimizes staff coordination, and provides real-time insights for hotel management.
 
-## Build Configuration
+## ✨ Features
 
-- **Next.js Static Export**: `output: 'export'`, `images.unoptimized: true`, `trailingSlash: true`
-- **Build Command**: `npm ci && npm run build`
-- **Output Directory**: `out/`
+- **Modern Design**: Clean, professional interface built with Next.js and Tailwind CSS
+- **Responsive Layout**: Optimized for desktop, tablet, and mobile devices
+- **Pilot Program**: Exclusive founding partner application system
+- **Performance Optimized**: Static site generation for fast loading times
+- **SEO Ready**: Comprehensive meta tags, sitemap, and structured data
+- **Accessibility**: WCAG compliant with proper ARIA labels and keyboard navigation
 
-## Deploy on Cloudflare Pages
+## 🚀 Technology Stack
 
-### 1. Create Pages Project
-1. Go to [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → **Pages**
-2. Click **Create** → **Connect to Git**
-3. Connect your GitHub repository
-4. Configure build settings:
-   - **Build command**: `npm ci && npm run build`
-   - **Build output directory**: `out`
-   - **Root directory**: `/` (leave empty)
+- **Framework**: Next.js 14 with App Router
+- **Styling**: Tailwind CSS with custom design system
+- **UI Components**: Radix UI primitives with custom styling
+- **Icons**: Lucide React icon library
+- **Deployment**: Cloudflare Pages with static export
+- **Form Handling**: Secure form processing with anti-spam protection
 
-### 2. Environment Variables
-In your Pages project → **Settings** → **Environment Variables**, add:
+## 📱 Mobile Experience
 
-- `RESEND_API_KEY`: Your Resend API key from [resend.com](https://resend.com)
-- `ADMIN_EMAIL`: Destination email for pilot applications (e.g., `cooper@glowback.io`)
-- `NEXT_PUBLIC_TURNSTILE_SITE_KEY`: Turnstile site key from [Cloudflare Dashboard](https://dash.cloudflare.com)
-- `TURNSTILE_SECRET_KEY`: Turnstile secret key (server-side only)
+- **Progressive Web App**: Installable on mobile devices
+- **Touch Optimized**: Large touch targets and smooth interactions
+- **iOS Integration**: Custom app icons and home screen support
+- **Responsive Typography**: Scales perfectly across all screen sizes
 
-### 3. Custom Domain
-1. After first deploy → **Custom Domains**
-2. Add `glowback.io` (and optionally `www.glowback.io`)
-3. Configure DNS records as instructed
-4. Wait for SSL certificate activation
+## 🏗️ Project Structure
 
-## API Endpoint
+```
+glowback-website/
+├── app/                    # Next.js App Router
+│   ├── pilot/             # Pilot application page
+│   ├── about/             # About page
+│   ├── services/          # Services overview
+│   └── components/        # Reusable UI components
+├── components/            # Shared components
+│   └── ui/               # Base UI components
+├── public/               # Static assets
+│   ├── favicon.svg       # Site favicon
+│   ├── robots.txt        # SEO directives
+│   └── sitemap.xml       # Site structure
+└── functions/            # Serverless functions
+    └── api/              # API endpoints
+```
 
-The pilot form submits to `/api/apply` which is handled by a Cloudflare Pages Function at `functions/api/apply.ts`. This function:
+## 🛠️ Development
 
-1. Validates form fields (`name`, `email`, `hotelName`, `city`, `notes`)
-2. Verifies Cloudflare Turnstile token
-3. Sends email via Resend API
-4. Returns JSON response
+### Prerequisites
+- Node.js 18+ 
+- npm or pnpm
 
-## Local Development
-
+### Local Setup
 ```bash
+# Clone the repository
+git clone https://github.com/CBintheMatrix/GlowBack-Website.git
+
 # Install dependencies
 npm install
 
@@ -61,52 +69,53 @@ npm run dev
 
 # Build for production
 npm run build
-
-# Preview production build
-npm start
 ```
 
-## Environment Setup
+### Available Scripts
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Preview production build
+- `npm run lint` - Run ESLint
 
-Copy `.env.example` to `.env.local` and fill in your values:
+## 🎨 Design System
 
-```bash
-cp .env.example .env.local
-```
+The website uses a carefully crafted design system with:
+- **Color Palette**: Emerald green primary with slate grays
+- **Typography**: Inter font family for optimal readability
+- **Spacing**: Consistent 4px grid system
+- **Components**: Reusable UI components with consistent styling
 
-## Testing
+## 📄 Pages
 
-1. Visit `/pilot` page
-2. Fill out the application form
-3. Complete Turnstile challenge
-4. Submit form
-5. Check that email is received at `ADMIN_EMAIL`
+- **Home** (`/`) - Main landing page with hero section and features
+- **Pilot** (`/pilot`) - Founding partner application form
+- **About** (`/about`) - Company information and mission
+- **Services** (`/services`) - Platform capabilities overview
+- **Benefits** (`/benefits`) - Value proposition and advantages
+- **Roadmap** (`/roadmap`) - Product development timeline
 
-## Project Structure
+## 🔒 Security & Privacy
 
-```
-glowback-website/
-├── app/                    # Next.js App Router pages
-│   ├── pilot/page.tsx     # Pilot application form
-│   └── ...
-├── functions/             # Cloudflare Pages Functions
-│   └── api/apply.ts      # Form submission handler
-├── public/               # Static assets
-│   ├── robots.txt
-│   ├── sitemap.xml
-│   └── favicon.svg
-├── .env.example          # Environment variables template
-└── README.md
-```
+- **Form Protection**: Anti-spam measures and input validation
+- **Data Handling**: Secure form processing with proper sanitization
+- **Privacy First**: No unnecessary data collection or tracking
+- **HTTPS**: Secure connections with SSL certificates
 
-## Security Notes
+## 📈 Performance
 
-- Turnstile site key is exposed client-side (safe)
-- Turnstile secret key is server-side only
-- Resend API key is server-side only
-- Form validation happens both client and server-side
-- HTML is escaped in email content
+- **Static Generation**: Pre-built pages for optimal loading speeds
+- **Image Optimization**: Responsive images with proper sizing
+- **Code Splitting**: Automatic code splitting for faster initial loads
+- **Caching**: Optimized caching strategies for static assets
 
-## Support
+## 🤝 Contributing
 
-For issues or questions, contact the development team.
+This is a private project for Glowback. For questions or support, please contact the development team.
+
+## 📞 Contact
+
+Visit [glowback.io](https://glowback.io) to learn more about our platform and apply for the founding partner program.
+
+---
+
+Built with ❤️ for the future of hotel operations.
