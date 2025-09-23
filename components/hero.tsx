@@ -8,7 +8,14 @@ import Image from "next/image"
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false)
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
   const videoRef = useRef<HTMLVideoElement>(null)
+
+  const heroVideos = [
+    "https://glowback.io/hero-video-001.mp4?v=2024",
+    "https://glowback.io/hero-video-002.mp4?v=2024", 
+    "https://glowback.io/hero-video-003.mp4?v=2024"
+  ]
 
   const messages = [
     "Transform your hotel into an intelligent service ecosystem. Connect guests, staff and managers with real-time communication, smart inventory tracking and seamless operations.",
@@ -30,59 +37,43 @@ export default function Hero() {
     return () => clearInterval(interval)
   }, [messages.length])
 
-  // Video debugging and autoplay
+  // Video cycling and autoplay
   useEffect(() => {
     const video = videoRef.current
-    if (!video) {
-      console.log('❌ Video ref is null')
-      return
-    }
-
-    console.log('🎬 Video element found:', video)
+    if (!video) return
 
     const playVideo = async () => {
       try {
-        console.log('🎯 Attempting to play video...')
         await video.play()
-        console.log('✅ Video is now playing!')
       } catch (error) {
-        console.log('❌ Autoplay failed:', error)
+        console.log('Autoplay failed, will play on user interaction')
       }
     }
 
-    const handleLoadStart = () => {
-      console.log('📹 Video loading started')
+    const handleVideoEnd = () => {
+      // Cycle to next video when current one ends
+      setCurrentVideoIndex((prev) => (prev + 1) % heroVideos.length)
     }
 
-    const handleLoadedData = () => {
-      console.log('📹 Video data loaded')
-      playVideo()
-    }
-
-    const handleCanPlay = () => {
-      console.log('📹 Video can play')
-      playVideo()
-    }
-
-    const handleError = (e) => {
-      console.error('❌ Video error:', e)
-    }
-
-    video.addEventListener('loadstart', handleLoadStart)
-    video.addEventListener('loadeddata', handleLoadedData)
-    video.addEventListener('canplay', handleCanPlay)
-    video.addEventListener('error', handleError)
-
-    // Force load the video
-    video.load()
+    video.addEventListener('canplay', playVideo)
+    video.addEventListener('loadeddata', playVideo)
+    video.addEventListener('ended', handleVideoEnd)
 
     return () => {
-      video.removeEventListener('loadstart', handleLoadStart)
-      video.removeEventListener('loadeddata', handleLoadedData)
-      video.removeEventListener('canplay', handleCanPlay)
-      video.removeEventListener('error', handleError)
+      video.removeEventListener('canplay', playVideo)
+      video.removeEventListener('loadeddata', playVideo)
+      video.removeEventListener('ended', handleVideoEnd)
     }
-  }, [])
+  }, [currentVideoIndex, heroVideos.length])
+
+  // Video cycling timer (every 10 seconds)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentVideoIndex((prev) => (prev + 1) % heroVideos.length)
+    }, 10000) // Change video every 10 seconds
+
+    return () => clearInterval(interval)
+  }, [heroVideos.length])
 
   return (
     <>
@@ -103,7 +94,7 @@ export default function Hero() {
             objectFit: 'cover'
           }}
         >
-          <source src="https://glowback.io/hero-video-001.mp4?v=2024" type="video/mp4" />
+          <source src={heroVideos[currentVideoIndex]} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         
