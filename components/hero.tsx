@@ -63,6 +63,9 @@ export default function Hero() {
       console.error(`❌ Video ${currentVideoIndex} error:`, e)
     }
 
+    // Force reload the video source when currentVideoIndex changes
+    video.load()
+    
     video.addEventListener('canplay', playVideo)
     video.addEventListener('loadeddata', playVideo)
     video.addEventListener('ended', handleVideoEnd)
