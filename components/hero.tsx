@@ -8,8 +8,6 @@ import Image from "next/image"
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false)
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
-  const [videoLoading, setVideoLoading] = useState(true)
-  const [videoError, setVideoError] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
 
   const messages = [
@@ -32,124 +30,25 @@ export default function Hero() {
     return () => clearInterval(interval)
   }, [messages.length])
 
-  // GUARANTEED VIDEO AUTOPLAY - BULLETPROOF SOLUTION
+  // Simple video autoplay
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
 
-    console.log('🚀 INITIALIZING GUARANTEED VIDEO AUTOPLAY')
-
-    // Set video properties immediately
-    video.muted = true
-    video.loop = true
-    video.playsInline = true
-    video.controls = false
-
-    const forcePlay = async () => {
+    const playVideo = async () => {
       try {
-        console.log('🎬 FORCE PLAYING VIDEO...')
-        video.currentTime = 0
         await video.play()
-        console.log('✅ VIDEO IS NOW PLAYING!')
-        setVideoLoading(false)
-        return true
       } catch (error) {
-        console.log('❌ Autoplay failed:', error)
-        return false
+        console.log('Autoplay failed, will play on user interaction')
       }
     }
 
-    // Multiple play attempts with different triggers
-    const playAttempts = [
-      // Immediate attempt
-      () => forcePlay(),
-      // After metadata loads
-      () => {
-        if (video.readyState >= 1) return forcePlay()
-        return false
-      },
-      // After data loads
-      () => {
-        if (video.readyState >= 2) return forcePlay()
-        return false
-      },
-      // After can play
-      () => {
-        if (video.readyState >= 3) return forcePlay()
-        return false
-      },
-      // After 500ms delay
-      () => new Promise(resolve => setTimeout(() => resolve(forcePlay()), 500)),
-      // After 1 second delay
-      () => new Promise(resolve => setTimeout(() => resolve(forcePlay()), 1000)),
-      // After 2 second delay
-      () => new Promise(resolve => setTimeout(() => resolve(forcePlay()), 2000))
-    ]
-
-    // Execute all play attempts
-    playAttempts.forEach((attempt, index) => {
-      setTimeout(async () => {
-        const success = await attempt()
-        if (success) {
-          console.log(`✅ Video started on attempt ${index + 1}`)
-        }
-      }, index * 100)
-    })
-
-    // Event listeners for additional attempts
-    const handleCanPlay = () => {
-      console.log('📹 Video can play - attempting autoplay')
-      forcePlay()
-    }
-
-    const handleLoadedData = () => {
-      console.log('📹 Video data loaded - attempting autoplay')
-      forcePlay()
-    }
-
-    const handleError = (e: any) => {
-      console.error('❌ Video error:', e)
-      setVideoError(true)
-      setVideoLoading(false)
-    }
-
-    const handleLoadStart = () => {
-      console.log('📹 Video loading started')
-      setVideoLoading(true)
-      setVideoError(false)
-    }
-
-    // Add event listeners
-    video.addEventListener('canplay', handleCanPlay)
-    video.addEventListener('loadeddata', handleLoadedData)
-    video.addEventListener('error', handleError)
-    video.addEventListener('loadstart', handleLoadStart)
-
-    // Force load
-    video.load()
-
-    // User interaction fallback
-    const handleUserInteraction = async () => {
-      console.log('👆 User interaction detected - playing video')
-      await forcePlay()
-      document.removeEventListener('click', handleUserInteraction)
-      document.removeEventListener('touchstart', handleUserInteraction)
-      document.removeEventListener('keydown', handleUserInteraction)
-      document.removeEventListener('scroll', handleUserInteraction)
-      document.removeEventListener('mousemove', handleUserInteraction)
-    }
-
-    document.addEventListener('click', handleUserInteraction)
-    document.addEventListener('touchstart', handleUserInteraction)
-    document.addEventListener('keydown', handleUserInteraction)
-    document.addEventListener('scroll', handleUserInteraction)
-    document.addEventListener('mousemove', handleUserInteraction)
+    video.addEventListener('canplay', playVideo)
+    video.addEventListener('loadeddata', playVideo)
 
     return () => {
-      video.removeEventListener('canplay', handleCanPlay)
-      video.removeEventListener('loadeddata', handleLoadedData)
-      video.removeEventListener('error', handleError)
-      video.removeEventListener('loadstart', handleLoadStart)
+      video.removeEventListener('canplay', playVideo)
+      video.removeEventListener('loadeddata', playVideo)
     }
   }, [])
 
@@ -157,93 +56,34 @@ export default function Hero() {
     <>
       {/* Video Hero Section - GLOWBACK text and "Seamless Operations. Exceptional Stays." */}
       <section className="relative w-full h-[70vh] flex items-center justify-center overflow-hidden">
-        {/* Video Background - DIRECT APPROACH */}
-        <div className="absolute inset-0 z-0">
-          <video
-            ref={videoRef}
-            className="w-full h-full object-cover"
-            muted
-            playsInline
-            loop
-            autoPlay
-            preload="auto"
-            controls={false}
-            style={{ 
-              width: '100%', 
-              height: '100%', 
-              objectFit: 'cover'
-            }}
-          >
-            <source src="/videos/hero-video-001.mp4" type="video/mp4" />
-            <source src="/videos/hero video 001.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          
-          {/* Loading indicator */}
-          {videoLoading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/60">
-              <div className="text-white text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-400 mx-auto mb-4"></div>
-                <p className="text-lg">Loading video...</p>
-              </div>
-            </div>
-          )}
-          
-          {/* Error state */}
-          {videoError && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/60">
-              <div className="text-white text-center">
-                <p className="text-lg mb-2">Video failed to load</p>
-                <button 
-                  onClick={() => {
-                    setVideoError(false)
-                    setVideoLoading(true)
-                    videoRef.current?.load()
-                  }}
-                  className="px-4 py-2 bg-emerald-400 text-black rounded hover:bg-emerald-300 transition-colors"
-                >
-                  Retry
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* GUARANTEED MANUAL PLAY BUTTON */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <button
-              onClick={async () => {
-                console.log('🎯 MANUAL PLAY BUTTON CLICKED')
-                const video = videoRef.current
-                if (video) {
-                  try {
-                    video.muted = true
-                    video.currentTime = 0
-                    await video.play()
-                    console.log('✅ MANUAL PLAY SUCCESS!')
-                    setVideoLoading(false)
-                  } catch (error) {
-                    console.error('❌ Manual play failed:', error)
-                  }
-                }
-              }}
-              className="bg-emerald-500/80 hover:bg-emerald-400/90 text-white rounded-full p-6 transition-all duration-300 hover:scale-110 pointer-events-auto shadow-2xl"
-              aria-label="Play video"
-            >
-              <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z"/>
-              </svg>
-            </button>
-          </div>
-          
-          {/* Dark overlay for better text readability */}
-          <div className="absolute inset-0 bg-black/40"></div>
-        </div>
+        {/* Video Background */}
+        <video
+          ref={videoRef}
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          muted
+          playsInline
+          loop
+          autoPlay
+          preload="auto"
+          style={{ 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'cover'
+          }}
+        >
+          <source src="/videos/hero-video-001.mp4" type="video/mp4" />
+          <source src="/videos/hero video 001.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/40 z-10"></div>
 
         {/* Fallback gradient background */}
         <div className="absolute inset-0 z-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
 
         {/* Hero Content */}
-        <div className="relative z-10 text-center">
+        <div className="relative z-20 text-center">
           <div className="mb-8 animate-in fade-in-0 duration-1000 delay-200 relative">
             <Image
               src="/GlowBack Logo.png"
