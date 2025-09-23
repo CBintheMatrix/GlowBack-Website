@@ -1,20 +1,20 @@
 <svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Exact logo design with double-line house outline and integrated G -->
+  <!-- Exact logo from image - double-line house with integrated G -->
   <defs>
     <style>
-      .logo-path { fill: none; stroke: #10B981; stroke-width: 14; stroke-linecap: round; stroke-linejoin: round; }
+      .logo-path { fill: none; stroke: #00FF00; stroke-width: 16; stroke-linecap: round; stroke-linejoin: round; }
     </style>
   </defs>
   
   <!-- Outer house outline -->
-  <path class="logo-path" d="M33.75 56.25 L90 33.75 L146.25 56.25 L146.25 123.75 L33.75 123.75 Z"/>
+  <path class="logo-path" d="M22.5 45 L90 22.5 L157.5 45 L157.5 112.5 L22.5 112.5 Z"/>
   
   <!-- Inner house outline -->
-  <path class="logo-path" d="M45 67.5 L90 47.8 L135 67.5 L135 112.5 L45 112.5 Z"/>
+  <path class="logo-path" d="M33.75 56.25 L90 36.6 L146.25 56.25 L146.25 101.25 L33.75 101.25 Z"/>
   
   <!-- G extension - curved part extending from right side -->
-  <path class="logo-path" d="M135 67.5 Q157.5 67.5 157.5 90 Q157.5 112.5 135 112.5 L112.5 112.5"/>
+  <path class="logo-path" d="M146.25 56.25 Q168.75 56.25 168.75 78.75 Q168.75 101.25 146.25 101.25 L123.75 101.25"/>
   
   <!-- G horizontal line -->
-  <path class="logo-path" d="M112.5 90 L135 90"/>
+  <path class="logo-path" d="M123.75 78.75 L146.25 78.75"/>
 </svg>
