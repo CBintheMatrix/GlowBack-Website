@@ -119,7 +119,6 @@ export default function Hero() {
       // Wait for next video to be ready
       const handleCanPlay = () => {
         console.log('📹 Next video can play, starting crossfade')
-        nextVideo.currentTime = 0
         nextVideo.muted = true
         nextVideo.play().then(() => {
           console.log('▶️ Next video playing, starting crossfade')
