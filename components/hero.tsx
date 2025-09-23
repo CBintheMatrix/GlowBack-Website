@@ -86,67 +86,62 @@ export default function Hero() {
     }
   }, [currentVideoIndex, heroVideos.length])
 
-  // Crossfade transition function
-  const crossfadeToNext = useCallback(() => {
-    if (isTransitioning) return
-    
-    const currentVideo = videoRef.current
-    const nextVideo = nextVideoRef.current
-    if (!currentVideo || !nextVideo) return
-
-    setIsTransitioning(true)
-    const nextIndex = (currentVideoIndex + 1) % heroVideos.length
-    
-    console.log(`🎬 Crossfading from ${currentVideoIndex} to ${nextIndex}`)
-
-    // Load next video
-    nextVideo.src = heroVideos[nextIndex]
-    nextVideo.load()
-
-    // Wait for next video to be ready
-    const handleCanPlay = () => {
-      nextVideo.currentTime = 0
-      nextVideo.muted = true
-      nextVideo.play().then(() => {
-        // Start crossfade
-        nextVideo.style.opacity = '0'
-        nextVideo.style.transition = 'opacity 1s ease-in-out'
-        
-        // Fade in next video
-        setTimeout(() => {
-          nextVideo.style.opacity = '1'
-        }, 50)
-        
-        // Fade out current video
-        currentVideo.style.transition = 'opacity 1s ease-in-out'
-        currentVideo.style.opacity = '0'
-        
-        // Complete transition
-        setTimeout(() => {
-          setCurrentVideoIndex(nextIndex)
-          currentVideo.style.opacity = '1'
-          currentVideo.style.transition = ''
-          nextVideo.style.transition = ''
-          nextVideo.src = ''
-          setIsTransitioning(false)
-        }, 1000)
-      }).catch(err => {
-        console.log('Next video play failed:', err)
-        setIsTransitioning(false)
-      })
-    }
-
-    nextVideo.addEventListener('canplay', handleCanPlay, { once: true })
-  }, [currentVideoIndex, heroVideos, isTransitioning])
-
   // Video cycling timer (every 10 seconds)
   useEffect(() => {
     const interval = setInterval(() => {
-      crossfadeToNext()
+      if (isTransitioning) return
+      
+      const currentVideo = videoRef.current
+      const nextVideo = nextVideoRef.current
+      if (!currentVideo || !nextVideo) return
+
+      setIsTransitioning(true)
+      const nextIndex = (currentVideoIndex + 1) % heroVideos.length
+      
+      console.log(`🎬 Crossfading from ${currentVideoIndex} to ${nextIndex}`)
+
+      // Load next video
+      nextVideo.src = heroVideos[nextIndex]
+      nextVideo.load()
+
+      // Wait for next video to be ready
+      const handleCanPlay = () => {
+        nextVideo.currentTime = 0
+        nextVideo.muted = true
+        nextVideo.play().then(() => {
+          // Start crossfade
+          nextVideo.style.opacity = '0'
+          nextVideo.style.transition = 'opacity 1s ease-in-out'
+          
+          // Fade in next video
+          setTimeout(() => {
+            nextVideo.style.opacity = '1'
+          }, 50)
+          
+          // Fade out current video
+          currentVideo.style.transition = 'opacity 1s ease-in-out'
+          currentVideo.style.opacity = '0'
+          
+          // Complete transition
+          setTimeout(() => {
+            setCurrentVideoIndex(nextIndex)
+            currentVideo.style.opacity = '1'
+            currentVideo.style.transition = ''
+            nextVideo.style.transition = ''
+            nextVideo.src = ''
+            setIsTransitioning(false)
+          }, 1000)
+        }).catch(err => {
+          console.log('Next video play failed:', err)
+          setIsTransitioning(false)
+        })
+      }
+
+      nextVideo.addEventListener('canplay', handleCanPlay, { once: true })
     }, 10000) // Change video every 10 seconds
 
     return () => clearInterval(interval)
-  }, [crossfadeToNext])
+  }, [currentVideoIndex, heroVideos, isTransitioning])
 
   return (
     <>
