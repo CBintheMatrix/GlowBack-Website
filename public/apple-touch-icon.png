@@ -1,1 +1,17 @@
-data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiByeD0iMzAiIGZpbGw9IiMxMEI5ODEiLz4KPHBhdGggZD0iTTQ1IDY3LjVoOTB2OUg0NXYtOXptMCAyNGg5MHY5SDQ1di05em0wIDI0aDY3LjV2OUg0NXYtOXoiIGZpbGw9IndoaXRlIi8+CjxjaXJjbGUgY3g9IjEzNSIgY3k9IjU1IiByPSIxNSIgZmlsbD0iIzNCODJGNiIvPgo8L3N2Zz4K
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- House with integrated G - bright green -->
+  <defs>
+    <style>
+      .logo-path { fill: #10B981; stroke: #10B981; stroke-width: 8; }
+    </style>
+  </defs>
+  
+  <!-- House roof and walls forming the G -->
+  <path class="logo-path" d="M45 45 L90 22.5 L135 45 L135 112.5 L112.5 112.5 L112.5 90 L67.5 90 L67.5 112.5 L45 112.5 Z"/>
+  
+  <!-- G extension - curved part -->
+  <path class="logo-path" d="M112.5 90 Q135 90 135 112.5 Q135 135 112.5 135 L90 135"/>
+  
+  <!-- G horizontal line -->
+  <path class="logo-path" d="M90 112.5 L112.5 112.5"/>
+</svg>
