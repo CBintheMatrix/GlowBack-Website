@@ -2,12 +2,16 @@
 
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Tablet, Smartphone, Monitor } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import Image from "next/image"
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false)
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  // Video file - will use your actual video when ready
+  const videoUrl = "/videos/hero video 001.mp4"
 
   const messages = [
     "Transform your hotel into an intelligent service ecosystem. Connect guests, staff and managers with real-time communication, smart inventory tracking and seamless operations.",
@@ -29,112 +33,172 @@ export default function Hero() {
     return () => clearInterval(interval)
   }, [messages.length])
 
+  // Video handling logic with looping
+  useEffect(() => {
+    if (!videoRef.current) return
+
+    const video = videoRef.current
+
+    const handleVideoError = () => {
+      console.log("Video failed to load, using fallback background")
+    }
+
+    video.addEventListener('error', handleVideoError)
+
+    // Start playing the video with loop
+    video.load()
+    video.play().catch(() => {
+      console.log("Autoplay failed, video will be available for manual play")
+    })
+
+    return () => {
+      video.removeEventListener('error', handleVideoError)
+    }
+  }, [])
+
   return (
-    <section className="container flex min-h-[calc(100vh-3.5rem)] max-w-screen-2xl flex-col items-center justify-center space-y-12 py-24 text-center md:py-32 relative overflow-hidden">
-      <div className="mb-8 animate-in fade-in-0 duration-1000 delay-200 relative">
-        <Image
-          src="/GlowBack Logo.png"
-          alt="Glowback Logo"
-          width={120}
-          height={120}
-          className="mx-auto hover:scale-110 hover:rotate-6 transition-all duration-500 hover:drop-shadow-2xl hover:brightness-110 animate-pulse"
-        />
-      </div>
-
-      <div className="space-y-8 relative z-10">
-        <div className="space-y-4">
-          <h1 className="text-6xl font-black tracking-tight text-primary sm:text-7xl md:text-8xl lg:text-9xl animate-in fade-in-0 duration-1000">
-            GLOWBACK
-          </h1>
-          <div className="h-1 w-32 bg-primary mx-auto animate-in slide-in-from-left-4 duration-1000 delay-300"></div>
+    <>
+      {/* Video Hero Section - GLOWBACK text and "Seamless Operations. Exceptional Stays." */}
+      <section className="relative w-full h-[70vh] flex items-center justify-center overflow-hidden">
+        {/* Video Background */}
+        <div className="absolute inset-0 z-0">
+          <video
+            ref={videoRef}
+            className="w-full h-full object-cover"
+            muted
+            playsInline
+            loop
+            preload="metadata"
+          >
+            <source src={videoUrl} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          {/* Dark overlay for better text readability */}
+          <div className="absolute inset-0 bg-black/40"></div>
         </div>
 
-        <div className="space-y-2">
-          <div
-            className={`transition-all duration-1000 delay-500 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
-              Seamless Operations.
-            </h2>
-          </div>
-          <div
-            className={`transition-all duration-1000 delay-700 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
-            <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
-              Exceptional Stays.
-            </h2>
-          </div>
-        </div>
+        {/* Fallback gradient background if video doesn't load */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
 
-        <div className="relative h-32 flex items-center justify-center">
-          <p
-            key={currentMessageIndex}
-            className={`mx-auto max-w-[48rem] text-lg leading-relaxed text-muted-foreground sm:text-xl sm:leading-8 transition-all duration-1000 delay-1000 animate-in fade-in-0 slide-in-from-bottom-4 ${
-              isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            }`}
-          >
-            {messages[currentMessageIndex]}
-          </p>
-        </div>
-
-        <div className="flex justify-center space-x-2">
-          {messages.map((_, index) => (
-            <div
-              key={index}
-              className={`h-2 w-2 rounded-full transition-all duration-500 ${
-                index === currentMessageIndex ? "bg-primary scale-125" : "bg-muted-foreground/30"
-              }`}
+        {/* Hero Content */}
+        <div className="relative z-10 text-center">
+          <div className="mb-8 animate-in fade-in-0 duration-1000 delay-200 relative">
+            <Image
+              src="/GlowBack Logo.png"
+              alt="Glowback Logo"
+              width={120}
+              height={120}
+              className="mx-auto hover:scale-110 hover:rotate-6 transition-all duration-500 hover:drop-shadow-2xl hover:brightness-110 animate-pulse"
             />
-          ))}
-        </div>
-      </div>
+          </div>
 
-      <div
-        className={`flex items-center justify-center gap-12 py-8 transition-all duration-1000 delay-1200 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
-      >
-        <div className="flex flex-col items-center space-y-3 group">
-          <div className="rounded-full bg-card p-4 shadow-lg group-hover:shadow-xl transition-shadow">
-            <Tablet className="h-12 w-12 text-primary" />
-          </div>
-          <span className="text-sm font-medium text-foreground">Guest Tablet</span>
-        </div>
-        <div className="flex flex-col items-center space-y-3 group">
-          <div className="rounded-full bg-card p-4 shadow-lg group-hover:shadow-xl transition-shadow">
-            <Smartphone className="h-12 w-12 text-accent" />
-          </div>
-          <span className="text-sm font-medium text-foreground">Staff App</span>
-        </div>
-        <div className="flex flex-col items-center space-y-3 group">
-          <div className="rounded-full bg-card p-4 shadow-lg group-hover:shadow-xl transition-shadow">
-            <Monitor className="h-12 w-12 text-primary" />
-          </div>
-          <span className="text-sm font-medium text-foreground">Manager Dashboard</span>
-        </div>
-      </div>
+          <div className="space-y-6">
+            {/* GLOWBACK - Green */}
+            <div className="space-y-4">
+              <h1 className="text-6xl font-black tracking-tight text-emerald-400 sm:text-7xl md:text-8xl lg:text-9xl animate-in fade-in-0 duration-1000 drop-shadow-2xl">
+                GLOWBACK
+              </h1>
+              <div className="h-1 w-32 bg-emerald-400 mx-auto animate-in slide-in-from-left-4 duration-1000 delay-300"></div>
+            </div>
 
-      <div
-        className={`flex flex-col sm:flex-row gap-4 transition-all duration-1000 delay-1400 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}
-      >
-        <Button size="lg" className="text-lg px-8 py-6 font-semibold shadow-lg hover:shadow-xl transition-all">
-          Apply for Pilot Program
-          <ArrowRight className="ml-2 h-5 w-5" />
-        </Button>
-        <Button
-          variant="outline"
-          size="lg"
-          className="text-lg px-8 py-6 font-semibold border-2 hover:bg-muted transition-all bg-transparent"
+            {/* Seamless Operations. Exceptional Stays. - Black Text */}
+            <div className="space-y-2">
+              <div
+                className={`transition-all duration-1000 delay-500 ${
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+              >
+                <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl md:text-5xl lg:text-6xl drop-shadow-lg">
+                  Seamless Operations.
+                </h2>
+              </div>
+              <div
+                className={`transition-all duration-1000 delay-700 ${
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+              >
+                <h2 className="text-3xl font-bold tracking-tight text-black sm:text-4xl md:text-5xl lg:text-6xl drop-shadow-lg">
+                  Exceptional Stays.
+                </h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Content Section - All other content below the video */}
+      <section className="container flex flex-col items-center justify-center space-y-12 py-24 text-center md:py-32 relative max-w-screen-2xl">
+        <div className="space-y-8 relative z-10">
+          {/* Rotating Messages */}
+          <div className="relative h-32 flex items-center justify-center">
+            <p
+              key={currentMessageIndex}
+              className={`mx-auto max-w-[48rem] text-lg leading-relaxed text-muted-foreground sm:text-xl sm:leading-8 transition-all duration-1000 delay-1000 animate-in fade-in-0 slide-in-from-bottom-4 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+            >
+              {messages[currentMessageIndex]}
+            </p>
+          </div>
+
+          {/* Message Dots */}
+          <div className="flex justify-center space-x-2">
+            {messages.map((_, index) => (
+              <div
+                key={index}
+                className={`h-2 w-2 rounded-full transition-all duration-500 ${
+                  index === currentMessageIndex ? "bg-primary scale-125" : "bg-muted-foreground/30"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Feature Icons */}
+        <div
+          className={`flex items-center justify-center gap-12 py-8 transition-all duration-1000 delay-1200 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
         >
-          Learn More
-        </Button>
-      </div>
-    </section>
+          <div className="flex flex-col items-center space-y-3 group">
+            <div className="rounded-full bg-card p-4 shadow-lg group-hover:shadow-xl transition-shadow">
+              <Tablet className="h-12 w-12 text-primary" />
+            </div>
+            <span className="text-sm font-medium text-foreground">Guest Tablet</span>
+          </div>
+          <div className="flex flex-col items-center space-y-3 group">
+            <div className="rounded-full bg-card p-4 shadow-lg group-hover:shadow-xl transition-shadow">
+              <Smartphone className="h-12 w-12 text-accent" />
+            </div>
+            <span className="text-sm font-medium text-foreground">Staff App</span>
+          </div>
+          <div className="flex flex-col items-center space-y-3 group">
+            <div className="rounded-full bg-card p-4 shadow-lg group-hover:shadow-xl transition-shadow">
+              <Monitor className="h-12 w-12 text-primary" />
+            </div>
+            <span className="text-sm font-medium text-foreground">Manager Dashboard</span>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div
+          className={`flex flex-col sm:flex-row gap-4 transition-all duration-1000 delay-1400 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <Button size="lg" className="text-lg px-8 py-6 font-semibold shadow-lg hover:shadow-xl transition-all">
+            Apply for Pilot Program
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            className="text-lg px-8 py-6 font-semibold border-2 hover:bg-muted transition-all bg-transparent"
+          >
+            Learn More
+          </Button>
+        </div>
+      </section>
+    </>
   )
 }
