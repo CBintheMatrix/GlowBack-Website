@@ -2,13 +2,15 @@
 
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Tablet, Smartphone, Monitor } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import Image from "next/image"
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false)
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
-  const [videoLoaded, setVideoLoaded] = useState(false)
+  const [videoLoading, setVideoLoading] = useState(true)
+  const [videoError, setVideoError] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   const messages = [
     "Transform your hotel into an intelligent service ecosystem. Connect guests, staff and managers with real-time communication, smart inventory tracking and seamless operations.",
@@ -30,13 +32,76 @@ export default function Hero() {
     return () => clearInterval(interval)
   }, [messages.length])
 
+  // Video autoplay handling
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    let hasUserInteracted = false
+
+    const handleCanPlay = () => {
+      console.log('Video can play, attempting autoplay...')
+      setVideoLoading(false)
+      video.play().catch((error) => {
+        console.warn('Video autoplay failed:', error)
+        // Fallback: try to play when user interacts with the page
+        if (!hasUserInteracted) {
+          const handleUserInteraction = () => {
+            hasUserInteracted = true
+            video.play().catch(console.error)
+            document.removeEventListener('click', handleUserInteraction)
+            document.removeEventListener('touchstart', handleUserInteraction)
+            document.removeEventListener('keydown', handleUserInteraction)
+          }
+          document.addEventListener('click', handleUserInteraction)
+          document.addEventListener('touchstart', handleUserInteraction)
+          document.addEventListener('keydown', handleUserInteraction)
+        }
+      })
+    }
+
+    const handleLoadedData = () => {
+      console.log('Video data loaded')
+      setVideoLoading(false)
+    }
+
+    const handleError = (e: any) => {
+      console.error('Video loading error:', e)
+      setVideoError(true)
+      setVideoLoading(false)
+    }
+
+    const handleLoadStart = () => {
+      console.log('Video loading started')
+      setVideoLoading(true)
+      setVideoError(false)
+    }
+
+    // Add event listeners
+    video.addEventListener('canplay', handleCanPlay)
+    video.addEventListener('loadeddata', handleLoadedData)
+    video.addEventListener('error', handleError)
+    video.addEventListener('loadstart', handleLoadStart)
+
+    // Set video source and load
+    video.load()
+
+    return () => {
+      video.removeEventListener('canplay', handleCanPlay)
+      video.removeEventListener('loadeddata', handleLoadedData)
+      video.removeEventListener('error', handleError)
+      video.removeEventListener('loadstart', handleLoadStart)
+    }
+  }, [])
+
   return (
     <>
       {/* Video Hero Section - GLOWBACK text and "Seamless Operations. Exceptional Stays." */}
       <section className="relative w-full h-[70vh] flex items-center justify-center overflow-hidden">
-        {/* Video Background */}
+        {/* Video Background - DIRECT APPROACH */}
         <div className="absolute inset-0 z-0">
           <video
+            ref={videoRef}
             className="w-full h-full object-cover"
             muted
             playsInline
@@ -44,46 +109,53 @@ export default function Hero() {
             autoPlay
             preload="metadata"
             controls={false}
+            webkit-playsinline="true"
             style={{ 
               width: '100%', 
               height: '100%', 
-              objectFit: 'cover',
-              backgroundColor: '#1e293b'
-            }}
-            onLoadedData={() => {
-              console.log('Video loaded successfully')
-              setVideoLoaded(true)
-            }}
-            onError={(e) => {
-              console.error('Video failed to load:', e)
-              setVideoLoaded(false)
+              objectFit: 'cover'
             }}
           >
-            <source src="./videos/hero-video-001.mp4" type="video/mp4" />
             <source src="/videos/hero-video-001.mp4" type="video/mp4" />
-            <source src="./videos/hero video 001.mp4" type="video/mp4" />
             <source src="/videos/hero video 001.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
+          
+          {/* Loading indicator */}
+          {videoLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/60">
+              <div className="text-white text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-400 mx-auto mb-4"></div>
+                <p className="text-lg">Loading video...</p>
+              </div>
+            </div>
+          )}
+          
+          {/* Error state */}
+          {videoError && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/60">
+              <div className="text-white text-center">
+                <p className="text-lg mb-2">Video failed to load</p>
+                <button 
+                  onClick={() => {
+                    setVideoError(false)
+                    setVideoLoading(true)
+                    videoRef.current?.load()
+                  }}
+                  className="px-4 py-2 bg-emerald-400 text-black rounded hover:bg-emerald-300 transition-colors"
+                >
+                  Retry
+                </button>
+              </div>
+            </div>
+          )}
+          
           {/* Dark overlay for better text readability */}
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
 
-        {/* Animated Fallback Background */}
-        {!videoLoaded && (
-          <div className="absolute inset-0 z-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-transparent to-emerald-500/10 animate-pulse"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent animate-pulse" style={{ animationDelay: '1s' }}></div>
-          </div>
-        )}
-
-        {/* Debug info */}
-        <div className="absolute top-4 left-4 z-50 text-white text-sm bg-black/70 p-3 rounded-lg border border-white/20">
-          <div className="font-bold mb-2">Video Status:</div>
-          <div>Video Loaded: {videoLoaded ? '✅ Yes' : '❌ No'}</div>
-          <div>Fallback: {!videoLoaded ? '✅ Active' : '❌ Inactive'}</div>
-          <div>File: hero-video-001.mp4</div>
-        </div>
+        {/* Fallback gradient background */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
 
         {/* Hero Content */}
         <div className="relative z-10 text-center">
