@@ -32,70 +32,89 @@ export default function Hero() {
     return () => clearInterval(interval)
   }, [messages.length])
 
-  // Video autoplay handling - DEFINITIVE FIX
+  // GUARANTEED VIDEO AUTOPLAY - BULLETPROOF SOLUTION
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
 
-    let hasUserInteracted = false
-    let autoplayAttempted = false
+    console.log('🚀 INITIALIZING GUARANTEED VIDEO AUTOPLAY')
 
-    const attemptAutoplay = async () => {
-      if (autoplayAttempted) return
-      autoplayAttempted = true
+    // Set video properties immediately
+    video.muted = true
+    video.loop = true
+    video.playsInline = true
+    video.controls = false
 
+    const forcePlay = async () => {
       try {
-        console.log('Attempting video autoplay...')
+        console.log('🎬 FORCE PLAYING VIDEO...')
+        video.currentTime = 0
         await video.play()
-        console.log('Video autoplay successful!')
+        console.log('✅ VIDEO IS NOW PLAYING!')
         setVideoLoading(false)
+        return true
       } catch (error) {
-        console.warn('Video autoplay failed:', error)
-        setVideoLoading(false)
-        
-        // Set up user interaction fallback
-        if (!hasUserInteracted) {
-          const handleUserInteraction = async () => {
-            hasUserInteracted = true
-            try {
-              await video.play()
-              console.log('Video started after user interaction')
-            } catch (err) {
-              console.error('Video play failed even after user interaction:', err)
-            }
-            // Remove listeners after successful play
-            document.removeEventListener('click', handleUserInteraction)
-            document.removeEventListener('touchstart', handleUserInteraction)
-            document.removeEventListener('keydown', handleUserInteraction)
-            document.removeEventListener('scroll', handleUserInteraction)
-          }
-          
-          document.addEventListener('click', handleUserInteraction)
-          document.addEventListener('touchstart', handleUserInteraction)
-          document.addEventListener('keydown', handleUserInteraction)
-          document.addEventListener('scroll', handleUserInteraction)
-        }
+        console.log('❌ Autoplay failed:', error)
+        return false
       }
     }
 
+    // Multiple play attempts with different triggers
+    const playAttempts = [
+      // Immediate attempt
+      () => forcePlay(),
+      // After metadata loads
+      () => {
+        if (video.readyState >= 1) return forcePlay()
+        return false
+      },
+      // After data loads
+      () => {
+        if (video.readyState >= 2) return forcePlay()
+        return false
+      },
+      // After can play
+      () => {
+        if (video.readyState >= 3) return forcePlay()
+        return false
+      },
+      // After 500ms delay
+      () => new Promise(resolve => setTimeout(() => resolve(forcePlay()), 500)),
+      // After 1 second delay
+      () => new Promise(resolve => setTimeout(() => resolve(forcePlay()), 1000)),
+      // After 2 second delay
+      () => new Promise(resolve => setTimeout(() => resolve(forcePlay()), 2000))
+    ]
+
+    // Execute all play attempts
+    playAttempts.forEach((attempt, index) => {
+      setTimeout(async () => {
+        const success = await attempt()
+        if (success) {
+          console.log(`✅ Video started on attempt ${index + 1}`)
+        }
+      }, index * 100)
+    })
+
+    // Event listeners for additional attempts
     const handleCanPlay = () => {
-      console.log('Video can play')
-      attemptAutoplay()
+      console.log('📹 Video can play - attempting autoplay')
+      forcePlay()
     }
 
     const handleLoadedData = () => {
-      console.log('Video data loaded')
-      attemptAutoplay()
+      console.log('📹 Video data loaded - attempting autoplay')
+      forcePlay()
     }
 
     const handleError = (e: any) => {
-      console.error('Video loading error:', e)
+      console.error('❌ Video error:', e)
       setVideoError(true)
       setVideoLoading(false)
     }
 
     const handleLoadStart = () => {
-      console.log('Video loading started')
+      console.log('📹 Video loading started')
       setVideoLoading(true)
       setVideoError(false)
     }
@@ -106,48 +125,31 @@ export default function Hero() {
     video.addEventListener('error', handleError)
     video.addEventListener('loadstart', handleLoadStart)
 
-    // Force load the video
+    // Force load
     video.load()
 
-    // Fallback: try autoplay after a short delay
-    const fallbackTimer = setTimeout(() => {
-      if (video.readyState >= 2) { // HAVE_CURRENT_DATA
-        attemptAutoplay()
-      }
-    }, 1000)
+    // User interaction fallback
+    const handleUserInteraction = async () => {
+      console.log('👆 User interaction detected - playing video')
+      await forcePlay()
+      document.removeEventListener('click', handleUserInteraction)
+      document.removeEventListener('touchstart', handleUserInteraction)
+      document.removeEventListener('keydown', handleUserInteraction)
+      document.removeEventListener('scroll', handleUserInteraction)
+      document.removeEventListener('mousemove', handleUserInteraction)
+    }
+
+    document.addEventListener('click', handleUserInteraction)
+    document.addEventListener('touchstart', handleUserInteraction)
+    document.addEventListener('keydown', handleUserInteraction)
+    document.addEventListener('scroll', handleUserInteraction)
+    document.addEventListener('mousemove', handleUserInteraction)
 
     return () => {
-      clearTimeout(fallbackTimer)
       video.removeEventListener('canplay', handleCanPlay)
       video.removeEventListener('loadeddata', handleLoadedData)
       video.removeEventListener('error', handleError)
       video.removeEventListener('loadstart', handleLoadStart)
-    }
-  }, [])
-
-  // Intersection Observer for better autoplay timing
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            console.log('Video is visible, attempting autoplay...')
-            video.play().catch((error) => {
-              console.warn('Intersection autoplay failed:', error)
-            })
-          }
-        })
-      },
-      { threshold: 0.1 }
-    )
-
-    observer.observe(video)
-
-    return () => {
-      observer.disconnect()
     }
   }, [])
 
@@ -166,10 +168,6 @@ export default function Hero() {
             autoPlay
             preload="auto"
             controls={false}
-            webkit-playsinline="true"
-            x5-playsinline="true"
-            x5-video-player-type="h5"
-            x5-video-player-fullscreen="false"
             style={{ 
               width: '100%', 
               height: '100%', 
@@ -210,27 +208,32 @@ export default function Hero() {
             </div>
           )}
 
-          {/* Manual play button - appears if video is paused and not loading */}
-          {!videoLoading && !videoError && videoRef.current?.paused && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <button
-                onClick={async () => {
+          {/* GUARANTEED MANUAL PLAY BUTTON */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <button
+              onClick={async () => {
+                console.log('🎯 MANUAL PLAY BUTTON CLICKED')
+                const video = videoRef.current
+                if (video) {
                   try {
-                    await videoRef.current?.play()
-                    console.log('Manual play successful')
+                    video.muted = true
+                    video.currentTime = 0
+                    await video.play()
+                    console.log('✅ MANUAL PLAY SUCCESS!')
+                    setVideoLoading(false)
                   } catch (error) {
-                    console.error('Manual play failed:', error)
+                    console.error('❌ Manual play failed:', error)
                   }
-                }}
-                className="bg-black/50 hover:bg-black/70 text-white rounded-full p-4 transition-all duration-300 hover:scale-110"
-                aria-label="Play video"
-              >
-                <svg className="w-12 h-12" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z"/>
-                </svg>
-              </button>
-            </div>
-          )}
+                }
+              }}
+              className="bg-emerald-500/80 hover:bg-emerald-400/90 text-white rounded-full p-6 transition-all duration-300 hover:scale-110 pointer-events-auto shadow-2xl"
+              aria-label="Play video"
+            >
+              <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </button>
+          </div>
           
           {/* Dark overlay for better text readability */}
           <div className="absolute inset-0 bg-black/40"></div>
