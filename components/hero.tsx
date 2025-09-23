@@ -141,10 +141,15 @@ export default function Hero() {
             console.log('✅ Crossfade complete')
             setCurrentVideoIndex(nextIndex)
             currentIndexRef.current = nextIndex // Update the ref
+            
+            // Reset styles properly for next transition
             currentVideo.style.opacity = '1'
             currentVideo.style.transition = ''
+            nextVideo.style.opacity = '0'
             nextVideo.style.transition = ''
             nextVideo.src = ''
+            nextVideo.load() // Clear the video completely
+            
             setIsTransitioning(false)
           }, 1000)
         }).catch(err => {
