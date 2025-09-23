@@ -46,8 +46,9 @@ export default function Hero() {
 
     const playVideo = async () => {
       try {
+        video.currentTime = 0 // Start from beginning
         await video.play()
-        console.log(`✅ Video ${currentVideoIndex} is now playing!`)
+        console.log(`✅ Video ${currentVideoIndex} is now playing from start!`)
       } catch (error) {
         console.log(`❌ Video ${currentVideoIndex} autoplay failed:`, error)
       }
@@ -60,11 +61,6 @@ export default function Hero() {
 
     const handleError = (e) => {
       console.error(`❌ Video ${currentVideoIndex} error:`, e)
-      // If video fails to load, try next video after 2 seconds
-      setTimeout(() => {
-        console.log(`🔄 Video ${currentVideoIndex} failed, trying next video`)
-        setCurrentVideoIndex((prev) => (prev + 1) % heroVideos.length)
-      }, 2000)
     }
 
     video.addEventListener('canplay', playVideo)
@@ -88,7 +84,7 @@ export default function Hero() {
         console.log(`🔄 Cycling video: ${prev} -> ${nextIndex} (${heroVideos[nextIndex]})`)
         return nextIndex
       })
-    }, 5000) // Change video every 5 seconds for testing
+    }, 10000) // Change video every 10 seconds
 
     return () => clearInterval(interval)
   }, [heroVideos.length])
@@ -99,9 +95,8 @@ export default function Hero() {
       <section className="relative w-full h-[70vh] flex items-center justify-center overflow-hidden">
         {/* Video Background */}
         <video
-          key={currentVideoIndex}
           ref={videoRef}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover z-0"
           muted
           playsInline
           loop
@@ -116,9 +111,6 @@ export default function Hero() {
           <source src={heroVideos[currentVideoIndex]} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
-        
-        {/* Fallback background in case video doesn't load */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
         
         {/* Dark overlay for better text readability */}
         <div className="absolute inset-0 bg-black/40"></div>
