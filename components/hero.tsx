@@ -104,8 +104,8 @@ export default function Hero() {
             backgroundColor: 'red' // Temporary debug color
           }}
         >
-          <source src="videos/hero-video-001.mp4" type="video/mp4" />
-          <source src="videos/hero video 001.mp4" type="video/mp4" />
+          <source src="./videos/hero-video-001.mp4" type="video/mp4" />
+          <source src="./videos/hero video 001.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         
