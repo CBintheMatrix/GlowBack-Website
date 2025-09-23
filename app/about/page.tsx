@@ -110,15 +110,14 @@ export default function AboutPage() {
                 <CardHeader>
                   <div className="flex items-center space-x-3">
                     <Users className="h-6 w-6 text-emerald-500" />
-                    <CardTitle>Cooper</CardTitle>
+                    <CardTitle>Leadership Team</CardTitle>
                   </div>
-                  <p className="text-sm text-muted-foreground font-medium">Founder & CEO</p>
+                  <p className="text-sm text-muted-foreground font-medium">Experienced Leadership</p>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground leading-relaxed">
-                    A hospitality technology veteran with over a decade of experience building systems that actually
-                    work for real hotels. Cooper's obsession with operational efficiency drives Glowback's relentless
-                    focus on practical solutions.
+                    Our leadership team brings together decades of combined experience in hospitality technology, 
+                    operations management, and industry innovation to drive Glowback's mission forward.
                   </p>
                 </CardContent>
               </Card>
@@ -127,15 +126,14 @@ export default function AboutPage() {
                 <CardHeader>
                   <div className="flex items-center space-x-3">
                     <Users className="h-6 w-6 text-blue-500" />
-                    <CardTitle>Ethan</CardTitle>
+                    <CardTitle>Industry Expertise</CardTitle>
                   </div>
-                  <p className="text-sm text-muted-foreground font-medium">Head of Partnerships</p>
+                  <p className="text-sm text-muted-foreground font-medium">Deep Hospitality Knowledge</p>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground leading-relaxed">
-                    The bridge between Glowback and the hospitality world. Ethan's deep industry relationships and
-                    understanding of hotel operations ensure our solutions address real world challenges that matter to
-                    property managers.
+                    Our team's deep understanding of hotel operations and industry relationships ensures our solutions 
+                    address real-world challenges that matter to property managers and staff.
                   </p>
                 </CardContent>
               </Card>
@@ -144,15 +142,14 @@ export default function AboutPage() {
                 <CardHeader>
                   <div className="flex items-center space-x-3">
                     <Users className="h-6 w-6 text-purple-500" />
-                    <CardTitle>Cam</CardTitle>
+                    <CardTitle>Strategic Vision</CardTitle>
                   </div>
-                  <p className="text-sm text-muted-foreground font-medium">Chairman</p>
+                  <p className="text-sm text-muted-foreground font-medium">Future-Focused</p>
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground leading-relaxed">
-                    Strategic advisor and industry thought leader who brings decades of hospitality expertise. Cam's
-                    guidance ensures Glowback stays aligned with the evolving needs of modern hotel operations and guest
-                    expectations.
+                    Strategic guidance and industry thought leadership ensure Glowback stays aligned with the evolving 
+                    needs of modern hotel operations and guest expectations.
                   </p>
                 </CardContent>
               </Card>

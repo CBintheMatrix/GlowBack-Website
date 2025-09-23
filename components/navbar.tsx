@@ -35,7 +35,7 @@ export default function Navbar() {
           </Link>
         </nav>
         <div className="flex items-center space-x-4">
-          <Link href="mailto:cooper@glowback.io">
+          <Link href="mailto:hello@glowback.io">
             <Button variant="ghost" size="icon">
               <Mail className="h-4 w-4" />
               <span className="sr-only">Email</span>

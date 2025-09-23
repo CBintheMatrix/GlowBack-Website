@@ -35,17 +35,9 @@ export default function About() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2 text-sm">
-              <div>
-                <strong>Cooper</strong> — Founder & CEO
-              </div>
-              <div>
-                <strong>Ethan</strong> — Partnerships
-              </div>
-              <div>
-                <strong>Cam</strong> — Chairman
-              </div>
-            </div>
+            <p className="text-muted-foreground">
+              A dedicated team of hospitality technology experts, industry veterans, and innovation leaders working together to transform hotel operations.
+            </p>
           </CardContent>
         </Card>
 
