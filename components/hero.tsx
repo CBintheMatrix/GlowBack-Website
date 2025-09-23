@@ -9,7 +9,9 @@ export default function Hero() {
   const [isVisible, setIsVisible] = useState(false)
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
+  const [isTransitioning, setIsTransitioning] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const nextVideoRef = useRef<HTMLVideoElement>(null)
 
   const heroVideos = [
     "https://glowback.io/hero-video-001.mp4?v=2025",
@@ -84,27 +86,76 @@ export default function Hero() {
     }
   }, [currentVideoIndex, heroVideos.length])
 
+  // Smooth transition function
+  const transitionToNextVideo = useCallback(() => {
+    if (isTransitioning) return
+    
+    const currentVideo = videoRef.current
+    const nextVideo = nextVideoRef.current
+    if (!currentVideo || !nextVideo) return
+
+    setIsTransitioning(true)
+    const nextIndex = (currentVideoIndex + 1) % heroVideos.length
+    
+    console.log(`🎬 Transitioning from ${currentVideoIndex} to ${nextIndex}`)
+
+    // Load next video
+    nextVideo.src = heroVideos[nextIndex]
+    nextVideo.load()
+
+    // Wait for next video to be ready
+    const handleCanPlay = () => {
+      nextVideo.currentTime = 0
+      nextVideo.muted = true
+      nextVideo.play().then(() => {
+        // Start crossfade
+        nextVideo.style.opacity = '0'
+        nextVideo.style.transition = 'opacity 1s ease-in-out'
+        
+        // Fade in next video
+        setTimeout(() => {
+          nextVideo.style.opacity = '1'
+        }, 50)
+        
+        // Fade out current video
+        currentVideo.style.transition = 'opacity 1s ease-in-out'
+        currentVideo.style.opacity = '0'
+        
+        // Complete transition
+        setTimeout(() => {
+          setCurrentVideoIndex(nextIndex)
+          currentVideo.style.opacity = '1'
+          currentVideo.style.transition = ''
+          nextVideo.style.transition = ''
+          nextVideo.src = ''
+          setIsTransitioning(false)
+        }, 1000)
+      }).catch(err => {
+        console.log('Next video play failed:', err)
+        setIsTransitioning(false)
+      })
+    }
+
+    nextVideo.addEventListener('canplay', handleCanPlay, { once: true })
+  }, [currentVideoIndex, heroVideos, isTransitioning])
+
   // Video cycling timer (every 10 seconds)
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentVideoIndex((prev) => {
-        const nextIndex = (prev + 1) % heroVideos.length
-        console.log(`🔄 Cycling video: ${prev} -> ${nextIndex} (${heroVideos[nextIndex]})`)
-        return nextIndex
-      })
+      transitionToNextVideo()
     }, 10000) // Change video every 10 seconds
 
     return () => clearInterval(interval)
-  }, [heroVideos.length])
+  }, [transitionToNextVideo])
 
   return (
     <>
       {/* Video Hero Section - GLOWBACK text and "Seamless Operations. Exceptional Stays." */}
       <section className="relative w-full h-[70vh] flex items-center justify-center overflow-hidden">
-        {/* Video Background */}
+        {/* Current Video Background */}
         <video
           ref={videoRef}
-          className="absolute inset-0 w-full h-full object-cover z-0 transition-opacity duration-1000 ease-in-out"
+          className="absolute inset-0 w-full h-full object-cover z-0"
           muted
           playsInline
           loop
@@ -117,6 +168,24 @@ export default function Hero() {
           }}
         >
           <source src={heroVideos[currentVideoIndex]} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
+        {/* Next Video for Transition */}
+        <video
+          ref={nextVideoRef}
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          muted
+          playsInline
+          loop
+          preload="auto"
+          style={{ 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'cover',
+            opacity: 0
+          }}
+        >
           Your browser does not support the video tag.
         </video>
         
