@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Tablet, Smartphone, Monitor } from "lucide-react"
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useCallback } from "react"
 import Image from "next/image"
 
 export default function Hero() {
@@ -40,7 +40,9 @@ export default function Hero() {
   }, [messages.length])
 
   // Smooth video transition function
-  const transitionToNextVideo = async () => {
+  const transitionToNextVideo = useCallback(async () => {
+    if (isTransitioning) return // Prevent overlapping transitions
+    
     const currentVideo = videoRef.current
     const nextVideo = nextVideoRef.current
     if (!currentVideo || !nextVideo) return
@@ -48,14 +50,14 @@ export default function Hero() {
     setIsTransitioning(true)
     
     const nextIndex = (currentVideoIndex + 1) % heroVideos.length
-    console.log(`🎬 Transitioning to video ${nextIndex}`)
+    console.log(`🎬 Transitioning from video ${currentVideoIndex} to video ${nextIndex}`)
 
     // Load next video
     nextVideo.src = heroVideos[nextIndex]
     nextVideo.load()
 
     // Wait for next video to be ready
-    nextVideo.addEventListener('canplay', async () => {
+    const handleCanPlay = async () => {
       try {
         nextVideo.currentTime = 0
         nextVideo.muted = true
@@ -76,19 +78,30 @@ export default function Hero() {
         
         // Complete transition after fade
         setTimeout(() => {
+          // Update the current video index
           setCurrentVideoIndex(nextIndex)
-          setIsTransitioning(false)
+          
+          // Reset styles
           currentVideo.style.opacity = '1'
           currentVideo.style.transition = ''
           nextVideo.style.transition = ''
+          
+          // Clear the next video source to prepare for next transition
+          nextVideo.src = ''
+          nextVideo.load()
+          
+          setIsTransitioning(false)
+          console.log(`✅ Transition completed to video ${nextIndex}`)
         }, 1000)
         
       } catch (error) {
         console.log(`❌ Next video play failed:`, error)
         setIsTransitioning(false)
       }
-    }, { once: true })
-  }
+    }
+
+    nextVideo.addEventListener('canplay', handleCanPlay, { once: true })
+  }, [isTransitioning, currentVideoIndex, heroVideos])
 
   // Video cycling and autoplay
   useEffect(() => {
@@ -145,7 +158,7 @@ export default function Hero() {
     }, 10000) // Change video every 10 seconds
 
     return () => clearInterval(interval)
-  }, [isTransitioning, currentVideoIndex, heroVideos.length])
+  }, [isTransitioning, currentVideoIndex, heroVideos.length, transitionToNextVideo])
 
   return (
     <>
