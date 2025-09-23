@@ -118,43 +118,35 @@ export default function Hero() {
 
       // Wait for next video to be ready
       const handleCanPlay = () => {
-        console.log('📹 Next video can play, starting crossfade')
-        nextVideo.muted = true
-        nextVideo.play().then(() => {
-          console.log('▶️ Next video playing, starting crossfade')
-          // Start crossfade
-          nextVideo.style.opacity = '0'
-          nextVideo.style.transition = 'opacity 1s ease-in-out'
+        console.log('📹 Next video ready, starting fade transition')
+        
+        // Fade out current video
+        currentVideo.style.transition = 'opacity 1s ease-in-out'
+        currentVideo.style.opacity = '0'
+        
+        // After fade out, switch to next video
+        setTimeout(() => {
+          console.log('✅ Fade complete, switching to next video')
           
-          // Fade in next video
-          setTimeout(() => {
-            nextVideo.style.opacity = '1'
-          }, 50)
+          // Update the main video source
+          currentVideo.src = heroVideos[nextIndex]
+          currentVideo.load()
+          currentVideo.play()
           
-          // Fade out current video
-          currentVideo.style.transition = 'opacity 1s ease-in-out'
-          currentVideo.style.opacity = '0'
+          // Update state
+          setCurrentVideoIndex(nextIndex)
+          currentIndexRef.current = nextIndex
           
-          // Complete transition
-          setTimeout(() => {
-            console.log('✅ Crossfade complete')
-            setCurrentVideoIndex(nextIndex)
-            currentIndexRef.current = nextIndex // Update the ref
-            
-            // Reset styles properly for next transition
-            currentVideo.style.opacity = '1'
-            currentVideo.style.transition = ''
-            nextVideo.style.opacity = '0'
-            nextVideo.style.transition = ''
-            nextVideo.src = ''
-            nextVideo.load() // Clear the video completely
-            
-            setIsTransitioning(false)
-          }, 1000)
-        }).catch(err => {
-          console.log('❌ Next video play failed:', err)
+          // Fade in the new video
+          currentVideo.style.opacity = '1'
+          currentVideo.style.transition = ''
+          
+          // Clean up next video
+          nextVideo.src = ''
+          nextVideo.load()
+          
           setIsTransitioning(false)
-        })
+        }, 1000) // Wait for fade out to complete
       }
 
       nextVideo.addEventListener('canplay', handleCanPlay, { once: true })
