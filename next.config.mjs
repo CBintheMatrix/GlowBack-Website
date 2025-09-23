@@ -2,7 +2,6 @@
 const nextConfig = {
   output: 'export',
   trailingSlash: true,
-  assetPrefix: './',
   eslint: {
     ignoreDuringBuilds: true,
   },
