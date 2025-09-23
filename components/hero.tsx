@@ -59,7 +59,7 @@ export default function Hero() {
         {/* Video Background */}
         <video
           ref={videoRef}
-          className="absolute inset-0 w-full h-full object-cover z-0"
+          className="absolute inset-0 w-full h-full object-cover"
           muted
           playsInline
           loop
@@ -77,10 +77,7 @@ export default function Hero() {
         </video>
         
         {/* Dark overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/40 z-10"></div>
-
-        {/* Fallback gradient background */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
+        <div className="absolute inset-0 bg-black/40"></div>
 
         {/* Hero Content */}
         <div className="relative z-20 text-center">
