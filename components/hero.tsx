@@ -12,9 +12,9 @@ export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   const heroVideos = [
-    "https://glowback.io/hero-video-001.mp4?v=2024",
-    "https://glowback.io/hero-video-002.mp4?v=2024", 
-    "https://glowback.io/hero-video-003.mp4?v=2024"
+    "https://glowback.io/hero-video-001.mp4?v=2025",
+    "https://glowback.io/hero-video-002.mp4?v=2025", 
+    "https://glowback.io/hero-video-003.mp4?v=2025"
   ]
 
   const messages = [
@@ -60,6 +60,11 @@ export default function Hero() {
 
     const handleError = (e) => {
       console.error(`❌ Video ${currentVideoIndex} error:`, e)
+      // If video fails to load, try next video after 2 seconds
+      setTimeout(() => {
+        console.log(`🔄 Video ${currentVideoIndex} failed, trying next video`)
+        setCurrentVideoIndex((prev) => (prev + 1) % heroVideos.length)
+      }, 2000)
     }
 
     video.addEventListener('canplay', playVideo)
