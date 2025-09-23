@@ -9,7 +9,9 @@ export default function Hero() {
   const [isVisible, setIsVisible] = useState(false)
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
+  const [isTransitioning, setIsTransitioning] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const nextVideoRef = useRef<HTMLVideoElement>(null)
 
   const heroVideos = [
     "https://glowback.io/hero-video-001.mp4?v=2025",
@@ -37,6 +39,57 @@ export default function Hero() {
     return () => clearInterval(interval)
   }, [messages.length])
 
+  // Smooth video transition function
+  const transitionToNextVideo = async () => {
+    const currentVideo = videoRef.current
+    const nextVideo = nextVideoRef.current
+    if (!currentVideo || !nextVideo) return
+
+    setIsTransitioning(true)
+    
+    const nextIndex = (currentVideoIndex + 1) % heroVideos.length
+    console.log(`🎬 Transitioning to video ${nextIndex}`)
+
+    // Load next video
+    nextVideo.src = heroVideos[nextIndex]
+    nextVideo.load()
+
+    // Wait for next video to be ready
+    nextVideo.addEventListener('canplay', async () => {
+      try {
+        nextVideo.currentTime = 0
+        nextVideo.muted = true
+        await nextVideo.play()
+        
+        // Start crossfade
+        nextVideo.style.opacity = '0'
+        nextVideo.style.transition = 'opacity 1s ease-in-out'
+        
+        // Fade in next video
+        setTimeout(() => {
+          nextVideo.style.opacity = '1'
+        }, 100)
+        
+        // Fade out current video
+        currentVideo.style.transition = 'opacity 1s ease-in-out'
+        currentVideo.style.opacity = '0'
+        
+        // Complete transition after fade
+        setTimeout(() => {
+          setCurrentVideoIndex(nextIndex)
+          setIsTransitioning(false)
+          currentVideo.style.opacity = '1'
+          currentVideo.style.transition = ''
+          nextVideo.style.transition = ''
+        }, 1000)
+        
+      } catch (error) {
+        console.log(`❌ Next video play failed:`, error)
+        setIsTransitioning(false)
+      }
+    }, { once: true })
+  }
+
   // Video cycling and autoplay
   useEffect(() => {
     const video = videoRef.current
@@ -47,34 +100,31 @@ export default function Hero() {
     let hasPlayed = false
 
     const playVideo = async () => {
-      if (hasPlayed) return // Prevent multiple play attempts
+      if (hasPlayed) return
       hasPlayed = true
       
       try {
-        video.currentTime = 0 // Start from beginning
-        video.muted = true // Ensure muted for autoplay
+        video.currentTime = 0
+        video.muted = true
         await video.play()
         console.log(`✅ Video ${currentVideoIndex} is now playing from start!`)
       } catch (error) {
         console.log(`❌ Video ${currentVideoIndex} autoplay failed:`, error)
-        hasPlayed = false // Reset on failure
+        hasPlayed = false
       }
     }
 
     const handleVideoEnd = () => {
       console.log(`🏁 Video ${currentVideoIndex} ended, cycling to next`)
-      setCurrentVideoIndex((prev) => (prev + 1) % heroVideos.length)
+      transitionToNextVideo()
     }
 
     const handleError = (e) => {
       console.error(`❌ Video ${currentVideoIndex} error:`, e)
-      hasPlayed = false // Reset on error
+      hasPlayed = false
     }
 
-    // Force reload the video source when currentVideoIndex changes
     video.load()
-    
-    // Only use one event listener to prevent spam
     video.addEventListener('canplay', playVideo)
     video.addEventListener('ended', handleVideoEnd)
     video.addEventListener('error', handleError)
@@ -89,21 +139,19 @@ export default function Hero() {
   // Video cycling timer (every 10 seconds)
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentVideoIndex((prev) => {
-        const nextIndex = (prev + 1) % heroVideos.length
-        console.log(`🔄 Cycling video: ${prev} -> ${nextIndex} (${heroVideos[nextIndex]})`)
-        return nextIndex
-      })
+      if (!isTransitioning) {
+        transitionToNextVideo()
+      }
     }, 10000) // Change video every 10 seconds
 
     return () => clearInterval(interval)
-  }, [heroVideos.length])
+  }, [isTransitioning, currentVideoIndex, heroVideos.length])
 
   return (
     <>
       {/* Video Hero Section - GLOWBACK text and "Seamless Operations. Exceptional Stays." */}
       <section className="relative w-full h-[70vh] flex items-center justify-center overflow-hidden">
-        {/* Video Background */}
+        {/* Current Video Background */}
         <video
           ref={videoRef}
           className="absolute inset-0 w-full h-full object-cover z-0"
@@ -119,6 +167,24 @@ export default function Hero() {
           }}
         >
           <source src={heroVideos[currentVideoIndex]} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+
+        {/* Next Video for Smooth Transition */}
+        <video
+          ref={nextVideoRef}
+          className="absolute inset-0 w-full h-full object-cover z-0"
+          muted
+          playsInline
+          loop
+          preload="auto"
+          style={{ 
+            width: '100%', 
+            height: '100%', 
+            objectFit: 'cover',
+            opacity: 0
+          }}
+        >
           Your browser does not support the video tag.
         </video>
         
