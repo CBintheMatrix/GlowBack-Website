@@ -98,7 +98,7 @@ export default function ServicesPage() {
                 kicker="Staff Operations"
                 color="green"
                 side="right"
-                imageUrl="/phone.png"
+                imageUrl="/Phone.png"
               >
                 <div className="mb-8">
                   <div className="text-xs uppercase tracking-wider text-emerald-700/80 mb-2">
@@ -140,7 +140,7 @@ export default function ServicesPage() {
                 kicker="Manager Oversight"
                 color="purple"
                 side="left"
-                imageUrl="/manager dashboard.png"
+                imageUrl="/Manager Dashboard.png"
               >
                 <div className="mb-8">
                   <div className="text-xs uppercase tracking-wider text-emerald-700/80 mb-2">
