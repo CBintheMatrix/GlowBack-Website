@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Tablet, Smartphone, Monitor } from "lucide-react"
 import { useEffect, useState, useRef, useCallback } from "react"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false)
@@ -200,7 +201,7 @@ export default function Hero() {
         </video>
         
         {/* Subtle overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/35"></div>
+        <div className="absolute inset-0 bg-black/40"></div>
 
         {/* Hero Content */}
         <div className="relative z-20 text-center flex flex-col items-center justify-center h-full">
@@ -210,27 +211,28 @@ export default function Hero() {
               alt="Glowback Logo"
               width={120}
               height={120}
-              className="mx-auto hover:scale-110 hover:rotate-6 transition-all duration-500 hover:drop-shadow-2xl hover:brightness-110 animate-pulse"
+              className="mx-auto hover:scale-110 hover:rotate-6 transition-all duration-500 hover:drop-shadow-2xl hover:brightness-110"
+              style={{ animation: 'pulse 4s ease-in-out infinite' }}
             />
           </div>
 
           <div className="space-y-8">
             {/* GLOWBACK - Green */}
-            <div className="space-y-4">
-              <h1 className="text-6xl font-black tracking-tight text-emerald-500 sm:text-7xl md:text-8xl lg:text-9xl animate-in fade-in-0 duration-1000 drop-shadow-lg">
+            <div className="space-y-6">
+              <h1 className="text-5xl font-bold tracking-tight text-emerald-500 md:text-6xl animate-in fade-in-0 duration-1000 drop-shadow-lg">
                 GLOWBACK
               </h1>
               <div className="h-1 w-32 bg-emerald-400 mx-auto animate-in slide-in-from-left-4 duration-1000 delay-300"></div>
             </div>
 
             {/* Seamless Operations. Exceptional Stays. - White Text for better contrast */}
-            <div className="space-y-3">
+            <div className="space-y-4 mt-8">
               <div
                 className={`transition-all duration-1000 delay-500 ${
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
               >
-                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl drop-shadow-lg">
+                <h2 className="text-lg font-medium tracking-tight text-gray-100/90 md:text-xl drop-shadow-lg">
                   Seamless Operations.
                 </h2>
               </div>
@@ -239,7 +241,7 @@ export default function Hero() {
                   isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
                 }`}
               >
-                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl drop-shadow-lg">
+                <h2 className="text-lg font-medium tracking-tight text-gray-100/90 md:text-xl drop-shadow-lg">
                   Exceptional Stays.
                 </h2>
               </div>
@@ -249,79 +251,155 @@ export default function Hero() {
       </section>
 
       {/* Content Section - All other content below the video */}
-      <section className="container flex flex-col items-center justify-center space-y-12 py-24 text-center md:py-32 relative max-w-screen-2xl bg-white">
-        <div className="space-y-8 relative z-10">
-          {/* Impact Statement for Hotel Owners */}
-          <div className="relative max-w-6xl mx-auto">
-            <h2 className="text-4xl font-bold text-green-600 mb-8 sm:text-5xl md:text-6xl">
-              Transform Your Hotel Operations
-            </h2>
-            
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              <div className="text-center p-6 bg-gray-50 rounded-lg border border-gray-100">
-                <div className="text-3xl font-bold text-green-600 mb-2">Real-Time</div>
-                <div className="text-lg font-semibold text-black mb-2">Instant Communication</div>
-                <div className="text-sm text-gray-600">Staff receive guest requests instantly with smart routing and real-time notifications</div>
-              </div>
+      <section className="py-20 md:py-28 bg-white relative">
+        {/* Soft radial gradient background */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(16,185,129,.08),transparent_60%)]"></div>
+        
+        <div className="max-w-6xl mx-auto px-4 relative">
+          <div className="text-center">
+            {/* Impact Statement for Hotel Owners */}
+            <div>
+              <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-emerald-700 mt-8 mb-10 text-center">
+                Transform Your Hotel Operations
+              </h2>
               
-              <div className="text-center p-6 bg-gray-50 rounded-lg border border-gray-100">
-                <div className="text-3xl font-bold text-green-600 mb-2">100+</div>
-                <div className="text-lg font-semibold text-black mb-2">Languages Supported</div>
-                <div className="text-sm text-gray-600">Eliminate language barriers with instant multilingual support for every guest</div>
-              </div>
-              
-              <div className="text-center p-6 bg-gray-50 rounded-lg border border-gray-100">
-                <div className="text-3xl font-bold text-green-600 mb-2">New Revenue</div>
-                <div className="text-lg font-semibold text-black mb-2">Streams Available</div>
-                <div className="text-sm text-gray-600">Generate additional income through curated local partnerships and services</div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="rounded-2xl bg-white/90 backdrop-blur p-8 text-center shadow-[0_6px_24px_-8px_rgba(16,24,40,.15)] ring-1 ring-black/5 transition hover:shadow-[0_10px_32px_-8px_rgba(16,24,40,.2)]">
+                  <div className="text-2xl font-semibold text-emerald-600 mb-2">Real-Time</div>
+                  <div className="text-base font-medium text-emerald-700 mb-3">Instant Communication</div>
+                  <div className="text-sm text-slate-600 leading-6">Staff receive guest requests instantly with smart routing and real-time notifications</div>
+                  
+                  {/* Icons row */}
+                  <div className="flex items-center justify-center gap-4 mt-8">
+                    <div className="h-12 w-12 rounded-xl bg-white shadow ring-1 ring-black/5 grid place-items-center">
+                      <Tablet className="h-6 w-6 text-emerald-600" />
+                    </div>
+                    <div className="h-12 w-12 rounded-xl bg-white shadow ring-1 ring-black/5 grid place-items-center">
+                      <Smartphone className="h-6 w-6 text-emerald-600" />
+                    </div>
+                    <div className="h-12 w-12 rounded-xl bg-white shadow ring-1 ring-black/5 grid place-items-center">
+                      <Monitor className="h-6 w-6 text-emerald-600" />
+                    </div>
+                  </div>
+                  
+                  {/* CTA group */}
+                  <div className="mt-10 flex items-center justify-center gap-4">
+                    <Button className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl h-12 px-6 font-semibold">
+                      Learn More
+                    </Button>
+                    <Button variant="outline" className="bg-white hover:bg-slate-50 ring-1 ring-slate-200 text-slate-800 rounded-xl h-12 px-6">
+                      Contact Us
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="rounded-2xl bg-white/90 backdrop-blur p-8 text-center shadow-[0_6px_24px_-8px_rgba(16,24,40,.15)] ring-1 ring-black/5 transition hover:shadow-[0_10px_32px_-8px_rgba(16,24,40,.2)]">
+                  <div className="text-2xl font-semibold text-emerald-600 mb-2">100+</div>
+                  <div className="text-base font-medium text-emerald-700 mb-3">Languages Supported</div>
+                  <div className="text-sm text-slate-600 leading-6">Eliminate language barriers with instant multilingual support for every guest</div>
+                  
+                  {/* Icons row */}
+                  <div className="flex items-center justify-center gap-4 mt-8">
+                    <div className="h-12 w-12 rounded-xl bg-white shadow ring-1 ring-black/5 grid place-items-center">
+                      <Tablet className="h-6 w-6 text-emerald-600" />
+                    </div>
+                    <div className="h-12 w-12 rounded-xl bg-white shadow ring-1 ring-black/5 grid place-items-center">
+                      <Smartphone className="h-6 w-6 text-emerald-600" />
+                    </div>
+                    <div className="h-12 w-12 rounded-xl bg-white shadow ring-1 ring-black/5 grid place-items-center">
+                      <Monitor className="h-6 w-6 text-emerald-600" />
+                    </div>
+                  </div>
+                  
+                  {/* CTA group */}
+                  <div className="mt-10 flex items-center justify-center gap-4">
+                    <Button className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl h-12 px-6 font-semibold">
+                      Learn More
+                    </Button>
+                    <Button variant="outline" className="bg-white hover:bg-slate-50 ring-1 ring-slate-200 text-slate-800 rounded-xl h-12 px-6">
+                      Contact Us
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="rounded-2xl bg-white/90 backdrop-blur p-8 text-center shadow-[0_6px_24px_-8px_rgba(16,24,40,.15)] ring-1 ring-black/5 transition hover:shadow-[0_10px_32px_-8px_rgba(16,24,40,.2)]">
+                  <div className="text-2xl font-semibold text-emerald-600 mb-2">New Revenue</div>
+                  <div className="text-base font-medium text-emerald-700 mb-3">Streams Available</div>
+                  <div className="text-sm text-slate-600 leading-6">Generate additional income through curated local partnerships and services</div>
+                  
+                  {/* Icons row */}
+                  <div className="flex items-center justify-center gap-4 mt-8">
+                    <div className="h-12 w-12 rounded-xl bg-white shadow ring-1 ring-black/5 grid place-items-center">
+                      <Tablet className="h-6 w-6 text-emerald-600" />
+                    </div>
+                    <div className="h-12 w-12 rounded-xl bg-white shadow ring-1 ring-black/5 grid place-items-center">
+                      <Smartphone className="h-6 w-6 text-emerald-600" />
+                    </div>
+                    <div className="h-12 w-12 rounded-xl bg-white shadow ring-1 ring-black/5 grid place-items-center">
+                      <Monitor className="h-6 w-6 text-emerald-600" />
+                    </div>
+                  </div>
+                  
+                  {/* CTA group */}
+                  <div className="mt-10 flex items-center justify-center gap-4">
+                    <Button className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl h-12 px-6 font-semibold">
+                      Learn More
+                    </Button>
+                    <Button variant="outline" className="bg-white hover:bg-slate-50 ring-1 ring-slate-200 text-slate-800 rounded-xl h-12 px-6">
+                      Contact Us
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Feature Icons */}
+        {/* Mini Value Badges */}
         <div
-          className={`flex items-center justify-center gap-12 py-8 transition-all duration-1000 delay-1200 ${
+          className={`flex items-center justify-center gap-8 py-8 transition-all duration-1000 delay-1200 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
           <div className="flex flex-col items-center space-y-3 group">
-            <div className="rounded-full bg-green-600 p-4 shadow-lg group-hover:shadow-xl transition-shadow">
-              <Tablet className="h-12 w-12 text-white" />
+            <div className="rounded-xl bg-white/90 backdrop-blur shadow-md p-4 group-hover:scale-105 transition-all duration-300">
+              <Tablet className="h-8 w-8 text-emerald-600" />
             </div>
-            <span className="text-sm font-medium text-black">Guest Tablet</span>
+            <span className="text-sm font-medium text-white">Guest Tablet</span>
           </div>
           <div className="flex flex-col items-center space-y-3 group">
-            <div className="rounded-full bg-green-600 p-4 shadow-lg group-hover:shadow-xl transition-shadow">
-              <Smartphone className="h-12 w-12 text-white" />
+            <div className="rounded-xl bg-white/90 backdrop-blur shadow-md p-4 group-hover:scale-105 transition-all duration-300">
+              <Smartphone className="h-8 w-8 text-emerald-600" />
             </div>
-            <span className="text-sm font-medium text-black">Staff App</span>
+            <span className="text-sm font-medium text-white">Staff App</span>
           </div>
           <div className="flex flex-col items-center space-y-3 group">
-            <div className="rounded-full bg-green-600 p-4 shadow-lg group-hover:shadow-xl transition-shadow">
-              <Monitor className="h-12 w-12 text-white" />
+            <div className="rounded-xl bg-white/90 backdrop-blur shadow-md p-4 group-hover:scale-105 transition-all duration-300">
+              <Monitor className="h-8 w-8 text-emerald-600" />
             </div>
-            <span className="text-sm font-medium text-black">Manager Dashboard</span>
+            <span className="text-sm font-medium text-white">Manager Dashboard</span>
           </div>
         </div>
 
         {/* Action Buttons */}
         <div
-          className={`flex flex-col sm:flex-row gap-4 transition-all duration-1000 delay-1400 ${
+          className={`flex flex-col sm:flex-row gap-4 mt-12 justify-center transition-all duration-1000 delay-1400 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <Button size="lg" className="text-lg px-8 py-6 font-semibold shadow-lg hover:shadow-xl transition-all bg-green-600 hover:bg-green-700 text-white">
+          <Button size="lg" className="text-lg px-8 py-6 font-semibold shadow-lg hover:shadow-xl transition-all bg-emerald-600 hover:bg-emerald-700 text-white">
             Apply for Pilot Program
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="text-lg px-8 py-6 font-semibold border-2 border-green-600 text-green-600 hover:bg-green-50 transition-all bg-transparent"
-          >
-            Learn More
-          </Button>
+          <Link href="/about">
+            <Button
+              variant="outline"
+              size="lg"
+              className="text-lg px-8 py-6 font-semibold border border-emerald-600 text-emerald-600 hover:bg-emerald-50 transition-all bg-white"
+            >
+              Learn More
+            </Button>
+          </Link>
         </div>
       </section>
     </>
