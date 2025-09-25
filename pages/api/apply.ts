@@ -1,18 +1,19 @@
 import { Client } from '@notionhq/client';
+import type { NextApiRequest, NextApiResponse } from "next";
 
 const notion = new Client({
   auth: process.env.NOTION_API_KEY,
 });
 
-export default async function handler(req, res) {
-  // Handle GET requests
-  if (req.method === 'GET') {
-    return res.status(200).json({ ok: true });
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === "GET") {
+    // So opening /api/apply in a browser returns 200 instead of 405
+    return res.status(200).json({ ok: true, message: "apply endpoint is alive" });
   }
 
-  // Only allow POST requests for form submissions
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+  if (req.method !== "POST") {
+    res.setHeader("Allow", ["GET", "POST"]);
+    return res.status(405).end("Method Not Allowed");
   }
 
   try {
