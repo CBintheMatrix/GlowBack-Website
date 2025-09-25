@@ -9,8 +9,7 @@
     "start": "npx serve out -l 3000",
     "pages:build": "npx @cloudflare/next-on-pages",
     "preview": "npm run pages:build && wrangler pages dev",
-    "deploy": "npm run pages:build && wrangler pages deploy",
-    "prebuild": "tsx scripts/check-imports.ts"
+    "deploy": "npm run pages:build && wrangler pages deploy"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -72,7 +71,6 @@
     "@types/react-dom": "^18",
     "postcss": "^8.5",
     "tailwindcss": "^3.4.17",
-    "tsx": "^4.20.5",
     "typescript": "^5"
   }
 }
