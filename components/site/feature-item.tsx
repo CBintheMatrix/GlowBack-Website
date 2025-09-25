@@ -19,7 +19,7 @@ export default function FeatureItem({ icon, title, body, result }: FeatureItemPr
           <p className="text-gray-700 text-xs leading-relaxed mt-1">
             {body}
           </p>
-          <div className="mt-2 text-xs font-medium text-emerald-700">
+          <div className="mt-2 text-xs font-medium text-emerald-500">
             {result}
           </div>
         </div>

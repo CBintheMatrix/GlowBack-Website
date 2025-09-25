@@ -59,28 +59,28 @@ export default function ServicesPage() {
                 imageUrl="/Tablet.png"
               >
                 <div className="mb-8">
-                  <div className="text-xs uppercase tracking-wider text-emerald-700/80 mb-2">
+                  <div className="text-xs uppercase tracking-wider text-emerald-500/80 mb-2">
                       Guest Experience
                   </div>
-                  <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-emerald-800">
+                  <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-emerald-500">
                     Guest Tablet
                   </h3>
                           </div>
                 <div className="grid md:grid-cols-2 gap-3">
                   <FeatureItem
-                    icon={<MessageSquare className="h-5 w-5 text-emerald-700" />}
+                    icon={<MessageSquare className="h-5 w-5 text-emerald-500" />}
                     title="Instant Service at Their Fingertips"
                     body="One tap requests for towels, cleaning, maintenance or amenities. No phone calls needed."
                     result="Faster responses, fewer complaints."
                   />
                   <FeatureItem
-                    icon={<Users className="h-5 w-5 text-emerald-700" />}
+                    icon={<Users className="h-5 w-5 text-emerald-500" />}
                     title="Seamless Guest–Staff Communication"
                     body="100+ language support with instant translation. Guests type naturally, staff get clear instructions."
                     result="Clearer communication, happier guests."
                   />
                   <FeatureItem
-                    icon={<Clock className="h-5 w-5 text-emerald-700" />}
+                    icon={<Clock className="h-5 w-5 text-emerald-500" />}
                     title="Transparent Service Tracking"
                     body="Live status updates from accepted to completed. Managers see everything without chasing."
                     result="Less chasing, more control."
@@ -101,28 +101,28 @@ export default function ServicesPage() {
                 imageUrl="/Phone.png"
               >
                 <div className="mb-8">
-                  <div className="text-xs uppercase tracking-wider text-emerald-700/80 mb-2">
+                  <div className="text-xs uppercase tracking-wider text-emerald-500/80 mb-2">
                       Staff Operations
                   </div>
-                  <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-emerald-800">
+                  <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-emerald-500">
                     Staff App
                   </h3>
                           </div>
                 <div className="grid md:grid-cols-2 gap-3">
                   <FeatureItem
-                    icon={<CheckCircle className="h-5 w-5 text-emerald-700" />}
+                    icon={<CheckCircle className="h-5 w-5 text-emerald-500" />}
                     title="Task Management That Flows"
                     body="Clear job assignments in real time. Staff know exactly what to do next, managers see progress."
                     result="Smoother shifts, faster service."
                   />
                   <FeatureItem
-                    icon={<Bell className="h-5 w-5 text-emerald-700" />}
+                    icon={<Bell className="h-5 w-5 text-emerald-500" />}
                     title="Instant Alerts Where It Counts"
                     body="Critical requests go to the right person immediately. Routine jobs flow steadily without distraction."
                     result="Guests feel cared for, staff stay focused."
                   />
                   <FeatureItem
-                    icon={<MessageSquare className="h-5 w-5 text-emerald-700" />}
+                    icon={<MessageSquare className="h-5 w-5 text-emerald-500" />}
                     title="Built-In Accountability"
                     body="Individual staff IDs with timestamped jobs. Managers see who's working, staff have proof of their work."
                     result="Fair tracking, stronger trust."
@@ -143,28 +143,28 @@ export default function ServicesPage() {
                 imageUrl="/Manager Dashboard.png"
               >
                 <div className="mb-8">
-                  <div className="text-xs uppercase tracking-wider text-emerald-700/80 mb-2">
+                  <div className="text-xs uppercase tracking-wider text-emerald-500/80 mb-2">
                     Manager Oversight
                   </div>
-                  <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-emerald-800">
+                  <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-emerald-500">
                     Manager Dashboard
                   </h3>
               </div>
                 <div className="grid md:grid-cols-2 gap-3">
                   <FeatureItem
-                    icon={<BarChart3 className="h-5 w-5 text-emerald-700" />}
+                    icon={<BarChart3 className="h-5 w-5 text-emerald-500" />}
                     title="Live Operations Oversight"
                     body="See every active request and staff action in real time. No more chasing updates."
                     result="Issues resolved faster, operations stay in control."
                   />
                   <FeatureItem
-                    icon={<TrendingUp className="h-5 w-5 text-emerald-700" />}
+                    icon={<TrendingUp className="h-5 w-5 text-emerald-500" />}
                     title="Staff Performance Visibility"
                     body="Every job logged with timestamps. See who's delivering on standards and where service is slipping."
                     result="Fair system that raises performance."
                   />
                   <FeatureItem
-                    icon={<Shield className="h-5 w-5 text-emerald-700" />}
+                    icon={<Shield className="h-5 w-5 text-emerald-500" />}
                     title="Centralized Control Hub"
                     body="Single dashboard for requests, staff actions and guest feedback. High-level view and task-level detail."
                     result="Cleaner workflows, fewer service gaps."
@@ -180,8 +180,8 @@ export default function ServicesPage() {
         </div>
 
         <CtaBanner
-          headline="Now selecting 3 hotels in Thailand for our 2026 Pilot Program."
-          subline="Join early, lock in lifetime partner rates and help shape the future of hospitality operations."
+          headline="Applications Open for Glowback's 2026 Pilot Program"
+          subline="A limited number of hotels will be selected to join our founding circle and secure lifetime partner rates."
           button={{
             text: "Apply for Pilot",
             href: "/pilot"

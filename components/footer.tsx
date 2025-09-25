@@ -15,7 +15,7 @@ export default function Footer() {
               height={32}
               className="transition-transform duration-300 hover:scale-110"
             />
-            <h2 className="font-bold text-xl text-emerald-600">Glowback</h2>
+            <h2 className="font-bold text-xl text-emerald-500">Glowback</h2>
           </div>
           <p className="text-sm text-muted-foreground">
             Revolutionizing hotel operations through intelligent technology solutions.

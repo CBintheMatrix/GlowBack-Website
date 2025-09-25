@@ -9,7 +9,7 @@ export default function MiniCta({ label, href }: MiniCtaProps) {
   return (
     <Link
       href={href}
-      className="inline-flex items-center gap-2 text-sm font-medium text-emerald-700 hover:text-emerald-900 transition-colors"
+      className="inline-flex items-center gap-2 text-sm font-medium text-emerald-500 hover:text-emerald-600 transition-colors"
     >
       {label}
     </Link>

@@ -2,7 +2,7 @@ export default function CTA() {
   return (
     <div className="mt-14">
       <div className="rounded-2xl bg-emerald-50 ring-1 ring-emerald-100 p-8 md:p-10 text-center shadow-[0_8px_24px_-12px_rgba(16,185,129,.35)]">
-        <h2 className="text-3xl md:text-4xl font-bold text-emerald-800 mb-4">
+        <h2 className="text-3xl md:text-4xl font-bold text-emerald-500 mb-4">
           Join the Hotels Leading Innovation
         </h2>
         <p className="text-lg text-slate-600 mb-6 max-w-2xl mx-auto">

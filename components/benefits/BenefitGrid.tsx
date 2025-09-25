@@ -13,7 +13,7 @@ export default function BenefitGrid() {
             height={300}
             className="w-full h-auto rounded-lg mb-6"
           />
-          <h3 className="text-3xl font-bold text-emerald-700 mb-6">Revenue Growth</h3>
+          <h3 className="text-3xl font-bold text-emerald-500 mb-6">Revenue Growth</h3>
         </div>
         <div className="space-y-6">
           <div>
@@ -41,7 +41,7 @@ export default function BenefitGrid() {
             height={300}
             className="w-full h-auto rounded-lg mb-6"
           />
-          <h3 className="text-3xl font-bold text-emerald-700 mb-6">Risk Reduction</h3>
+          <h3 className="text-3xl font-bold text-emerald-500 mb-6">Risk Reduction</h3>
         </div>
         <div className="space-y-6">
           <div>
@@ -69,7 +69,7 @@ export default function BenefitGrid() {
             height={300}
             className="w-full h-auto rounded-lg mb-6"
           />
-          <h3 className="text-3xl font-bold text-emerald-700 mb-6">Market Position</h3>
+          <h3 className="text-3xl font-bold text-emerald-500 mb-6">Market Position</h3>
         </div>
         <div className="space-y-6">
           <div>

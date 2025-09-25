@@ -1,319 +1,312 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Globe, Brain, Zap, Heart, Shield, Trophy, Sparkles, Rocket } from "lucide-react"
+import { Brain, Zap, Shield, Globe, Heart, Sparkles } from "lucide-react"
 import Navbar from "@/components/navbar"
+import Footer from "@/components/footer"
 
 export default function OurFuturePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-transparent to-green-600/20" />
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-green-500/30 rounded-full blur-3xl" />
+    <div className="bg-white min-h-screen">
+      <Navbar />
 
-      <div className="relative z-10">
-        <Navbar />
-
-        <div className="container max-w-screen-2xl py-24">
-          <div className="text-center space-y-6 mb-20">
-            <h1 className="text-5xl font-bold tracking-tight sm:text-6xl text-white bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
+      <div className="max-w-6xl mx-auto px-4 md:px-6">
+        {/* Hero Section */}
+        <div className="py-16 md:py-24">
+          <div className="text-center">
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-emerald-500">
               Our Future
             </h1>
-            <p className="mx-auto max-w-[50rem] text-xl text-slate-200 leading-relaxed">
-              We envision a world where hospitality technology creates seamless experiences, empowers staff, and
-              transforms how hotels operate. Here's the future we're building together.
+            <p className="mt-3 text-base md:text-lg text-slate-800 max-w-3xl mx-auto">
+              We're building toward a hospitality world where technology feels invisible, service feels effortless and teams feel fully supported. This page outlines the direction we're taking: what we're shaping with partners, not promises we can't keep.
             </p>
-            <div className="flex justify-center">
-              <Badge
-                variant="secondary"
-                className="px-4 py-2 text-sm font-medium bg-slate-800/80 text-white border-slate-600/50"
+            <div className="mt-6 flex flex-wrap justify-center gap-2">
+              <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full px-2.5 py-1 text-xs font-medium">
+                Innovation
+              </span>
+              <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full px-2.5 py-1 text-xs font-medium">
+                Vision
+              </span>
+              <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full px-2.5 py-1 text-xs font-medium">
+                Human-First
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Background gradient */}
+        <div className="bg-[radial-gradient(ellipse_at_top,_rgba(20,184,166,0.08),transparent_60%)]">
+          <div className="space-y-16 md:space-y-20">
+            
+            {/* Section 1: Intelligent Operations */}
+            <div className="py-16 md:py-20">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-emerald-500 mb-4">
+                  Intelligent Operations
+                </h2>
+              </div>
+
+              <div className="grid gap-8 md:grid-cols-3">
+                {/* Card A */}
+                <div className="bg-emerald-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-emerald-200/50 p-8">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="p-2 bg-purple-100 rounded-lg">
+                      <Brain className="h-6 w-6 text-purple-600" />
+                    </div>
+                    <div>
+                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full px-2.5 py-1 text-xs font-medium">
+                        Vision
+                      </span>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-emerald-500 mb-4">Predictive Assistance</h3>
+                  <p className="text-slate-800 leading-relaxed mb-6">
+                    Systems that learn common patterns and surface the next best action for staff. Requests get routed clearly, small issues are caught earlier and managers gain signal without extra steps.
+                  </p>
+                  <div>
+                    <h4 className="font-semibold text-slate-800 mb-3">Exploration Areas</h4>
+                    <ul className="text-sm text-slate-800 space-y-2">
+                      <li>• Live demand patterns</li>
+                      <li>• Suggested task routing</li>
+                      <li>• Early maintenance signals</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Card B */}
+                <div className="bg-emerald-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-emerald-200/50 p-8">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="p-2 bg-blue-100 rounded-lg">
+                      <Zap className="h-6 w-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full px-2.5 py-1 text-xs font-medium">
+                        Vision
+                      </span>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-emerald-500 mb-4">Instant Everything</h3>
+                  <p className="text-slate-800 leading-relaxed mb-6">
+                    Zero-delay communication for guest requests and internal updates. The right person gets the right task with full context, then everyone sees progress without chasing.
+                  </p>
+                  <div>
+                    <h4 className="font-semibold text-slate-800 mb-3">Exploration Areas</h4>
+                    <ul className="text-sm text-slate-800 space-y-2">
+                      <li>• Sub-second handoffs</li>
+                      <li>• Real-time status clarity</li>
+                      <li>• Smart escalations</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Card C */}
+                <div className="bg-emerald-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-emerald-200/50 p-8">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="p-2 bg-green-100 rounded-lg">
+                      <Shield className="h-6 w-6 text-green-600" />
+                    </div>
+                    <div>
+                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full px-2.5 py-1 text-xs font-medium">
+                        Vision
+                      </span>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-emerald-500 mb-4">Clear Accountability</h3>
+                  <p className="text-slate-800 leading-relaxed mb-6">
+                    Transparent ownership from request to resolution. Teams know what's next, managers see where help is needed and guests feel looked after from the first tap to the final check.
+                  </p>
+                  <div>
+                    <h4 className="font-semibold text-slate-800 mb-3">Exploration Areas</h4>
+                    <ul className="text-sm text-slate-800 space-y-2">
+                      <li>• Time-stamped workflows</li>
+                      <li>• Bottleneck flags</li>
+                      <li>• Follow-through nudges</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Section 2: Global Standards */}
+            <div className="py-16 md:py-20">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-emerald-500 mb-4">
+                  Global Standards
+                </h2>
+              </div>
+
+              <div className="grid gap-8 md:grid-cols-2">
+                {/* Card A */}
+                <div className="bg-emerald-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-emerald-200/50 p-8">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="p-2 bg-orange-100 rounded-lg">
+                      <Globe className="h-6 w-6 text-orange-600" />
+                    </div>
+                    <div>
+                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full px-2.5 py-1 text-xs font-medium">
+                        Vision
+                      </span>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-emerald-500 mb-4">Consistency Across Properties</h3>
+                  <p className="text-slate-800 leading-relaxed mb-6">
+                    A framework that helps any hotel deliver the same reliable experience shift after shift. Local personality stays; operational clarity scales.
+                  </p>
+                  <div>
+                    <h4 className="font-semibold text-slate-800 mb-3">Foundations</h4>
+                    <ul className="text-sm text-slate-800 space-y-2">
+                      <li>• Shared service playbooks</li>
+                      <li>• Cross-culture readiness</li>
+                      <li>• Scalable configurations</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Card B */}
+                <div className="bg-emerald-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-emerald-200/50 p-8">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="p-2 bg-teal-100 rounded-lg">
+                      <Sparkles className="h-6 w-6 text-teal-600" />
+                    </div>
+                    <div>
+                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full px-2.5 py-1 text-xs font-medium">
+                        Vision
+                      </span>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-emerald-500 mb-4">Modern Guest Expectations</h3>
+                  <p className="text-slate-800 leading-relaxed mb-6">
+                    Digital-first travelers expect smooth, simple and responsive service. We're designing the plumbing that lets hotels meet that bar without adding complexity.
+                  </p>
+                  <div>
+                    <h4 className="font-semibold text-slate-800 mb-3">Focus</h4>
+                    <ul className="text-sm text-slate-800 space-y-2">
+                      <li>• Clear communications</li>
+                      <li>• Friction-light requests</li>
+                      <li>• Thoughtful follow-up</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Section 3: Human-Centered Innovation */}
+            <div className="py-16 md:py-20">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl md:text-4xl font-bold text-emerald-500 mb-4">
+                  Human-Centered Innovation
+                </h2>
+              </div>
+
+              <div className="grid gap-8 md:grid-cols-3">
+                {/* Card A */}
+                <div className="bg-emerald-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-emerald-200/50 p-8">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="p-2 bg-red-100 rounded-lg">
+                      <Heart className="h-6 w-6 text-red-600" />
+                    </div>
+                    <div>
+                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full px-2.5 py-1 text-xs font-medium">
+                        Vision
+                      </span>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-emerald-500 mb-4">Empowered Teams</h3>
+                  <p className="text-slate-800 leading-relaxed mb-6">
+                    Tools that remove busywork and boost confidence. Staff have context, managers have clarity and great service becomes the default, not the exception.
+                  </p>
+                  <div>
+                    <h4 className="font-semibold text-slate-800 mb-3">What We Prioritize</h4>
+                    <ul className="text-sm text-slate-800 space-y-2">
+                      <li>• Guidance, not guesswork</li>
+                      <li>• Reduced admin load</li>
+                      <li>• Skill growth over time</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Card B */}
+                <div className="bg-emerald-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-emerald-200/50 p-8">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="p-2 bg-indigo-100 rounded-lg">
+                      <Brain className="h-6 w-6 text-indigo-600" />
+                    </div>
+                    <div>
+                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full px-2.5 py-1 text-xs font-medium">
+                        Vision
+                      </span>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-emerald-500 mb-4">Responsible AI</h3>
+                  <p className="text-slate-800 leading-relaxed mb-6">
+                    AI should enhance judgment, not replace it. We're exploring features that assist decisions, keep humans in control and respect privacy from the start.
+                  </p>
+                  <div>
+                    <h4 className="font-semibold text-slate-800 mb-3">Guardrails</h4>
+                    <ul className="text-sm text-slate-800 space-y-2">
+                      <li>• Human-in-the-loop design</li>
+                      <li>• Clear data boundaries</li>
+                      <li>• Explainable suggestions</li>
+                    </ul>
+                  </div>
+                </div>
+
+                {/* Card C */}
+                <div className="bg-emerald-100 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 border border-emerald-200/50 p-8">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="p-2 bg-green-100 rounded-lg">
+                      <Shield className="h-6 w-6 text-green-600" />
+                    </div>
+                    <div>
+                      <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full px-2.5 py-1 text-xs font-medium">
+                        Vision
+                      </span>
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-emerald-500 mb-4">Sustainable Operations</h3>
+                  <p className="text-slate-800 leading-relaxed mb-6">
+                    Smarter use of resources and fewer preventable issues. The aim is simple: reduce waste while improving comfort and reliability for guests.
+                  </p>
+                  <div>
+                    <h4 className="font-semibold text-slate-800 mb-3">Focus</h4>
+                    <ul className="text-sm text-slate-800 space-y-2">
+                      <li>• Energy awareness</li>
+                      <li>• Resource efficiency</li>
+                      <li>• Longevity over quick fixes</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Final CTA */}
+        <div className="py-16 md:py-20">
+          <div className="bg-emerald-50 rounded-2xl p-8 md:p-12 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-emerald-500 mb-4">
+              Build the Future with Us
+            </h2>
+            <p className="text-lg text-slate-800 mb-8 max-w-3xl mx-auto">
+              We're developing this roadmap with partner hotels that want simple systems and standout service. If that sounds like you, let's explore it together.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a 
+                href="/pilot" 
+                className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl h-12 px-6 inline-flex items-center justify-center font-semibold transition-colors"
               >
-                Innovation • Vision • Impact
-              </Badge>
+                Join Our Vision
+              </a>
+              <a 
+                href="/#demo" 
+                className="bg-white text-emerald-700 border border-emerald-200 hover:border-emerald-300 rounded-xl h-12 px-5 inline-flex items-center justify-center font-semibold transition-colors"
+              >
+                Learn More
+              </a>
             </div>
-          </div>
-
-          <div className="space-y-16">
-            {/* Intelligent Operations */}
-            <div className="space-y-8">
-              <div className="text-center">
-                <h2 className="text-3xl font-bold text-white mb-4">Intelligent Operations</h2>
-                <p className="text-lg text-slate-200 max-w-3xl mx-auto">
-                  We see a future where AI and automation handle routine tasks, allowing your team to focus on creating
-                  exceptional guest experiences and building meaningful connections.
-                </p>
-              </div>
-
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                <Card className="bg-slate-800/80 backdrop-blur-sm border-slate-600/50 shadow-lg hover:shadow-xl transition-all duration-300">
-                  <CardHeader>
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-purple-500/20 rounded-lg">
-                        <Brain className="h-6 w-6 text-purple-400" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-xl text-white">Predictive Intelligence</CardTitle>
-                        <Badge variant="outline" className="mt-1 border-purple-400/50 text-purple-400 bg-purple-600/30">
-                          Vision
-                        </Badge>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-slate-200 leading-relaxed">
-                      AI that anticipates guest needs before they're expressed, predicts maintenance requirements, and
-                      optimizes staffing based on real-time demand patterns.
-                    </p>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold text-white">Future Capabilities:</h4>
-                      <ul className="text-sm text-slate-200 space-y-1">
-                        <li>• Predictive guest preferences</li>
-                        <li>• Automated maintenance scheduling</li>
-                        <li>• Dynamic staff optimization</li>
-                        <li>• Proactive issue resolution</li>
-                      </ul>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-slate-800/80 backdrop-blur-sm border-slate-600/50 shadow-lg hover:shadow-xl transition-all duration-300">
-                  <CardHeader>
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-blue-500/20 rounded-lg">
-                        <Zap className="h-6 w-6 text-blue-400" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-xl text-white">Instant Everything</CardTitle>
-                        <Badge variant="outline" className="mt-1 border-blue-400/50 text-blue-400 bg-blue-600/30">
-                          Vision
-                        </Badge>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-slate-200 leading-relaxed">
-                      Zero-delay communication where guest requests are instantly routed to the right team member, with
-                      automatic follow-up and satisfaction tracking.
-                    </p>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold text-white">Instant Features:</h4>
-                      <ul className="text-sm text-slate-200 space-y-1">
-                        <li>• Sub-second request routing</li>
-                        <li>• Real-time status updates</li>
-                        <li>• Automatic escalation</li>
-                        <li>• Instant feedback loops</li>
-                      </ul>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-
-            {/* Global Impact */}
-            <div className="space-y-8">
-              <div className="text-center">
-                <h2 className="text-3xl font-bold text-white mb-4">Global Impact</h2>
-                <p className="text-lg text-slate-200 max-w-3xl mx-auto">
-                  Our vision extends beyond individual hotels to transform the entire hospitality industry, creating a
-                  connected ecosystem that elevates standards worldwide.
-                </p>
-              </div>
-
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                <Card className="bg-slate-800/80 backdrop-blur-sm border-slate-600/50 shadow-lg hover:shadow-xl transition-all duration-300">
-                  <CardHeader>
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-green-500/20 rounded-lg">
-                        <Globe className="h-6 w-6 text-green-400" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-xl text-white">Universal Standards</CardTitle>
-                        <Badge variant="outline" className="mt-1 border-green-400/50 text-green-400 bg-green-600/30">
-                          Vision
-                        </Badge>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-slate-200 leading-relaxed">
-                      A world where every hotel, regardless of size or location, can deliver five-star service through
-                      intelligent technology and standardized excellence.
-                    </p>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold text-white">Global Vision:</h4>
-                      <ul className="text-sm text-slate-200 space-y-1">
-                        <li>• Consistent service quality</li>
-                        <li>• Cross-cultural adaptation</li>
-                        <li>• Scalable excellence</li>
-                        <li>• Industry-wide standards</li>
-                      </ul>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-slate-800/80 backdrop-blur-sm border-slate-600/50 shadow-lg hover:shadow-xl transition-all duration-300">
-                  <CardHeader>
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-orange-500/20 rounded-lg">
-                        <Sparkles className="h-6 w-6 text-orange-400" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-xl text-white">Magical Experiences</CardTitle>
-                        <Badge variant="outline" className="mt-1 border-orange-400/50 text-orange-400 bg-orange-600/30">
-                          Vision
-                        </Badge>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-slate-200 leading-relaxed">
-                      Technology so seamless it becomes invisible, creating moments that feel like magic while
-                      empowering staff to be their most creative and caring selves.
-                    </p>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold text-white">Magical Elements:</h4>
-                      <ul className="text-sm text-slate-200 space-y-1">
-                        <li>• Invisible technology</li>
-                        <li>• Surprise & delight moments</li>
-                        <li>• Personalized experiences</li>
-                        <li>• Emotional connections</li>
-                      </ul>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-
-            {/* Human-Centered Innovation */}
-            <div className="space-y-8">
-              <div className="text-center">
-                <h2 className="text-3xl font-bold text-white mb-4">Human-Centered Innovation</h2>
-                <p className="text-lg text-slate-200 max-w-3xl mx-auto">
-                  Technology should amplify human potential, not replace it. We're building tools that make staff more
-                  effective, guests more delighted, and operations more sustainable.
-                </p>
-              </div>
-
-              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                <Card className="bg-slate-800/80 backdrop-blur-sm border-slate-600/50 shadow-lg hover:shadow-xl transition-all duration-300">
-                  <CardHeader>
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-red-500/20 rounded-lg">
-                        <Heart className="h-6 w-6 text-red-400" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-xl text-white">Empowered Teams</CardTitle>
-                        <Badge variant="outline" className="mt-1 border-red-400/50 text-red-400 bg-red-600/30">
-                          Vision
-                        </Badge>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-slate-200 leading-relaxed">
-                      Staff equipped with intelligent tools that eliminate frustration, provide instant insights, and
-                      enable them to create memorable moments for every guest.
-                    </p>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold text-white">Team Empowerment:</h4>
-                      <ul className="text-sm text-slate-200 space-y-1">
-                        <li>• Intelligent assistance</li>
-                        <li>• Reduced administrative burden</li>
-                        <li>• Enhanced decision-making</li>
-                        <li>• Career development tools</li>
-                      </ul>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-slate-800/80 backdrop-blur-sm border-slate-600/50 shadow-lg hover:shadow-xl transition-all duration-300">
-                  <CardHeader>
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-indigo-500/20 rounded-lg">
-                        <Shield className="h-6 w-6 text-indigo-400" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-xl text-white">Sustainable Operations</CardTitle>
-                        <Badge variant="outline" className="mt-1 border-indigo-400/50 text-indigo-400 bg-indigo-600/30">
-                          Vision
-                        </Badge>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-slate-200 leading-relaxed">
-                      Smart resource management that reduces waste, optimizes energy usage, and creates environmentally
-                      responsible operations without compromising guest comfort.
-                    </p>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold text-white">Sustainability Focus:</h4>
-                      <ul className="text-sm text-slate-200 space-y-1">
-                        <li>• Energy optimization</li>
-                        <li>• Waste reduction</li>
-                        <li>• Resource efficiency</li>
-                        <li>• Carbon footprint tracking</li>
-                      </ul>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-slate-800/80 backdrop-blur-sm border-slate-600/50 shadow-lg hover:shadow-xl transition-all duration-300">
-                  <CardHeader>
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-teal-500/20 rounded-lg">
-                        <Trophy className="h-6 w-6 text-teal-400" />
-                      </div>
-                      <div>
-                        <CardTitle className="text-xl text-white">Industry Leadership</CardTitle>
-                        <Badge variant="outline" className="mt-1 border-teal-400/50 text-teal-400 bg-teal-600/30">
-                          Vision
-                        </Badge>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-slate-200 leading-relaxed">
-                      Setting new benchmarks for hospitality technology, inspiring innovation across the industry, and
-                      creating a legacy of excellence that transforms guest expectations.
-                    </p>
-                    <div className="space-y-2">
-                      <h4 className="font-semibold text-white">Leadership Goals:</h4>
-                      <ul className="text-sm text-slate-200 space-y-1">
-                        <li>• Industry innovation</li>
-                        <li>• Best practice standards</li>
-                        <li>• Thought leadership</li>
-                        <li>• Transformative impact</li>
-                      </ul>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-20 text-center">
-            <Card className="bg-gradient-to-r from-emerald-500/20 to-blue-500/20 border-white/20 shadow-xl max-w-4xl mx-auto backdrop-blur-sm">
-              <CardContent className="p-12">
-                <div className="flex justify-center mb-6">
-                  <Rocket className="h-12 w-12 text-emerald-400" />
-                </div>
-                <h3 className="text-3xl font-bold text-white mb-4">Build the Future with Us</h3>
-                <p className="text-lg text-slate-200 mb-8 leading-relaxed">
-                  This isn't just our vision—it's a future we're creating together. Join us in transforming hospitality
-                  technology and shaping the experiences of tomorrow.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button className="px-8 py-4 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition-colors">
-                    Join Our Vision
-                  </button>
-                  <button className="px-8 py-4 border-2 border-white/30 text-white font-semibold rounded-lg hover:bg-white/10 transition-colors">
-                    Learn More
-                  </button>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   )
 }

@@ -14,7 +14,7 @@ export default function CtaBanner({ headline, subline, button }: CtaBannerProps)
     <section className="py-14 md:py-20 bg-white">
       <div className="max-w-5xl md:max-w-6xl mx-auto px-4">
         <div className="rounded-2xl bg-emerald-50 ring-1 ring-emerald-100 p-8 md:p-10 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-emerald-800">
+          <h2 className="text-2xl md:text-3xl font-bold text-emerald-500">
             {headline}
           </h2>
           <p className="mt-2 text-emerald-900/80">

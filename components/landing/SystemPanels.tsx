@@ -2,7 +2,7 @@ export default function SystemPanels() {
   return (
     <section className="py-14 md:py-20 bg-white">
       <div className="max-w-5xl md:max-w-6xl mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-emerald-700 text-center">
+        <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-emerald-500 text-center">
           One Ecosystem. Three Tools.
         </h2>
         
@@ -15,7 +15,7 @@ export default function SystemPanels() {
                 </div>
               </div>
             </div>
-            <h3 className="text-xl font-semibold text-emerald-600">Guest Tablet</h3>
+            <h3 className="text-xl font-semibold text-emerald-500">Guest Tablet</h3>
             <p className="mt-2 text-slate-600 text-sm leading-6">
               Instant service at the tap of a button.
               <br />
@@ -26,10 +26,10 @@ export default function SystemPanels() {
           <div className="rounded-2xl bg-white/90 backdrop-blur p-8 text-center shadow-[0_6px_24px_-8px_rgba(16,24,40,.15)] ring-1 ring-black/5 transition hover:shadow-[0_10px_32px_-8px_rgba(16,24,40,.2)]">
             <div className="h-10 mb-3 flex items-center justify-center">
               <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
-                <span className="text-emerald-600 text-lg">📲</span>
+                <span className="text-emerald-500 text-lg">📲</span>
               </div>
             </div>
-            <h3 className="text-xl font-semibold text-emerald-600">Staff App</h3>
+            <h3 className="text-xl font-semibold text-emerald-500">Staff App</h3>
             <p className="mt-2 text-slate-600 text-sm leading-6">
               Clear tasks, real-time updates.
               <br />
@@ -40,10 +40,10 @@ export default function SystemPanels() {
           <div className="rounded-2xl bg-white/90 backdrop-blur p-8 text-center shadow-[0_6px_24px_-8px_rgba(16,24,40,.15)] ring-1 ring-black/5 transition hover:shadow-[0_10px_32px_-8px_rgba(16,24,40,.2)]">
             <div className="h-10 mb-3 flex items-center justify-center">
               <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center">
-                <span className="text-emerald-600 text-lg">💻</span>
+                <span className="text-emerald-500 text-lg">💻</span>
               </div>
             </div>
-            <h3 className="text-xl font-semibold text-emerald-600">Manager Dashboard</h3>
+            <h3 className="text-xl font-semibold text-emerald-500">Manager Dashboard</h3>
             <p className="mt-2 text-slate-600 text-sm leading-6">
               Live visibility across operations.
               <br />

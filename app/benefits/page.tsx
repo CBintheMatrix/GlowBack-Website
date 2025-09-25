@@ -44,28 +44,28 @@ export default function BenefitsPage() {
               imageUrl="/Revenue.png"
             >
               <div className="mb-8">
-                <div className="text-xs uppercase tracking-wider text-emerald-700/80 mb-2">
+                <div className="text-xs uppercase tracking-wider text-emerald-500/80 mb-2">
                   Business Impact
                 </div>
-                <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-emerald-800">
+                <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-emerald-500">
                   Revenue Growth
                 </h3>
               </div>
               <div className="grid md:grid-cols-2 gap-3">
                 <FeatureItem
-                  icon={<TrendingUp className="h-5 w-5 text-emerald-700" />}
+                  icon={<TrendingUp className="h-5 w-5 text-emerald-500" />}
                   title="Elevated Visibility"
                   body="Stronger service leads to stronger impressions, keeping your property top of mind with travelers."
                   result="Faster responses, fewer complaints."
                 />
                 <FeatureItem
-                  icon={<Target className="h-5 w-5 text-emerald-700" />}
+                  icon={<Target className="h-5 w-5 text-emerald-500" />}
                   title="Effortless Upsells"
                   body="Guest tablets open new pathways to showcase local experiences and services naturally."
                   result="Clearer communication, happier guests."
                 />
                 <FeatureItem
-                  icon={<TrendingUp className="h-5 w-5 text-emerald-700" />}
+                  icon={<TrendingUp className="h-5 w-5 text-emerald-500" />}
                   title="Return Stays"
                   body="Guests remember when operations feel seamless — and they come back."
                   result="Less chasing, more control."
@@ -86,28 +86,28 @@ export default function BenefitsPage() {
               imageUrl="/Risk.png"
             >
               <div className="mb-8">
-                <div className="text-xs uppercase tracking-wider text-emerald-700/80 mb-2">
+                <div className="text-xs uppercase tracking-wider text-emerald-500/80 mb-2">
                   Operational Security
                 </div>
-                <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-emerald-800">
+                <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-emerald-500">
                   Risk Reduction
                 </h3>
               </div>
               <div className="grid md:grid-cols-2 gap-3">
                 <FeatureItem
-                  icon={<Shield className="h-5 w-5 text-emerald-700" />}
+                  icon={<Shield className="h-5 w-5 text-emerald-500" />}
                   title="Silent Recovery"
                   body="Requests are handled before they become frustrations."
                   result="Guests feel cared for, staff stay focused."
                 />
                 <FeatureItem
-                  icon={<Shield className="h-5 w-5 text-emerald-700" />}
+                  icon={<Shield className="h-5 w-5 text-emerald-500" />}
                   title="Predictive Calm"
                   body="Bottlenecks are caught early, so issues don't spill over into complaints."
                   result="Fair tracking, stronger trust."
                 />
                 <FeatureItem
-                  icon={<Shield className="h-5 w-5 text-emerald-700" />}
+                  icon={<Shield className="h-5 w-5 text-emerald-500" />}
                   title="Stronger Teams"
                   body="Clearer processes reduce stress, keeping staff focused and steady."
                   result="Cleaner workflows, fewer service gaps."
@@ -128,28 +128,28 @@ export default function BenefitsPage() {
               imageUrl="/Market Position.png"
             >
               <div className="mb-8">
-                <div className="text-xs uppercase tracking-wider text-emerald-700/80 mb-2">
+                <div className="text-xs uppercase tracking-wider text-emerald-500/80 mb-2">
                   Competitive Advantage
                 </div>
-                <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-emerald-800">
+                <h3 className="text-3xl md:text-4xl font-semibold tracking-tight text-emerald-500">
                   Market Position
                 </h3>
               </div>
               <div className="grid md:grid-cols-2 gap-3">
                 <FeatureItem
-                  icon={<Target className="h-5 w-5 text-emerald-700" />}
+                  icon={<Target className="h-5 w-5 text-emerald-500" />}
                   title="Recognized Leadership"
                   body="Owners and partners see visible consistency without extra effort."
                   result="Issues resolved faster, operations stay in control."
                 />
                 <FeatureItem
-                  icon={<Target className="h-5 w-5 text-emerald-700" />}
+                  icon={<Target className="h-5 w-5 text-emerald-500" />}
                   title="Guest Confidence"
                   body="Visitors sense when they're staying in a forward-thinking property."
                   result="Fair system that raises performance."
                 />
                 <FeatureItem
-                  icon={<Target className="h-5 w-5 text-emerald-700" />}
+                  icon={<Target className="h-5 w-5 text-emerald-500" />}
                   title="Future-Proof Operations"
                   body="A system that evolves with hospitality's changing standards."
                   result="Cleaner workflows, fewer service gaps."

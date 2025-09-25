@@ -20,22 +20,22 @@ export default function Navbar() {
               />
               <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-emerald-400/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
             </div>
-            <span className="font-bold text-xl bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent group-hover:from-green-500 group-hover:to-emerald-500 transition-all duration-300">Glowback</span>
+            <span className="font-bold text-xl bg-gradient-to-r from-emerald-500 to-emerald-500 bg-clip-text text-transparent group-hover:from-emerald-400 group-hover:to-emerald-400 transition-all duration-300">Glowback</span>
           </Link>
         </div>
         
         {/* Navigation Links - Center */}
         <nav className="hidden md:flex items-start justify-center w-1/3 space-x-8 text-sm font-medium pt-6">
-          <Link href="/services" className="text-green-600 hover:text-green-700 transition-colors duration-200 font-semibold">
+          <Link href="/services" className="text-emerald-500 hover:text-emerald-600 transition-colors duration-200 font-semibold">
             Services
           </Link>
-          <Link href="/benefits" className="text-green-600 hover:text-green-700 transition-colors duration-200 font-semibold">
+          <Link href="/benefits" className="text-emerald-500 hover:text-emerald-600 transition-colors duration-200 font-semibold">
             Benefits
           </Link>
-          <Link href="/about" className="text-green-600 hover:text-green-700 transition-colors duration-200 font-semibold">
+          <Link href="/about" className="text-emerald-500 hover:text-emerald-600 transition-colors duration-200 font-semibold">
             About
           </Link>
-          <Link href="/roadmap" className="text-green-600 hover:text-green-700 transition-colors duration-200 font-semibold">
+          <Link href="/roadmap" className="text-emerald-500 hover:text-emerald-600 transition-colors duration-200 font-semibold">
             Our Future
           </Link>
         </nav>
@@ -43,18 +43,18 @@ export default function Navbar() {
         {/* Action Buttons - Right side */}
         <div className="flex items-center justify-end space-x-3 w-1/3">
           <Link href="mailto:hello@glowback.io">
-            <Button variant="ghost" size="icon" className="text-black hover:text-green-600 hover:bg-green-50">
+            <Button variant="ghost" size="icon" className="text-black hover:text-emerald-600 hover:bg-emerald-50">
               <Mail className="h-4 w-4" />
               <span className="sr-only">Email</span>
             </Button>
           </Link>
           <Link href="#contact">
-            <Button variant="ghost" size="sm" className="text-black hover:text-green-600 hover:bg-green-50">
+            <Button variant="ghost" size="sm" className="text-black hover:text-emerald-600 hover:bg-emerald-50">
               Contact
             </Button>
           </Link>
           <Link href="/pilot">
-            <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white">
+            <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white">
               Apply for Pilot
             </Button>
           </Link>

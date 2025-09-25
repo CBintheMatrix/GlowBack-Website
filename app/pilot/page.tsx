@@ -20,7 +20,7 @@ declare global {
 }
 
 export default function PilotApplication() {
-  const [spotsRemaining, setSpotsRemaining] = useState(3)
+  const [hotelsBeingReviewed, setHotelsBeingReviewed] = useState(14)
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -65,6 +65,8 @@ export default function PilotApplication() {
 
     return () => clearInterval(timer)
   }, [])
+
+  // No automatic updates - only changes when someone actually applies
 
   // Load Turnstile script
   useEffect(() => {
@@ -118,6 +120,9 @@ export default function PilotApplication() {
       setMsg("Application received. We'll be in touch soon.")
       form.reset()
       
+      // Increase the review count to show the application was received
+      setHotelsBeingReviewed(prev => Math.min(18, prev + 1))
+      
       // Reset Turnstile widget
       if (turnstileWidgetId && window.turnstile) {
         window.turnstile.reset(turnstileWidgetId)
@@ -143,330 +148,501 @@ export default function PilotApplication() {
           {/* Header Section */}
           <div className="text-center mb-8 sm:mb-12">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6 leading-tight">
-              Join the Glowback <span className="text-emerald-400">Founding Partner Program</span>
+              Join the Glowback <span className="text-emerald-400">Pilot Program</span>
             </h1>
             <p className="text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed px-4">
               Hotels who secure founding status will always have a competitive edge over those who wait. This isn't just
-              early access — it's permanent competitive advantage that locks in revolutionary pricing and exclusive
+              early access. It's permanent competitive advantage that locks in revolutionary pricing and exclusive
               perks forever.
             </p>
           </div>
 
           {/* Scarcity Indicators */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-12">
-            {/* Spots Remaining */}
-            <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm">
-              <CardHeader>
-                <CardTitle className="flex items-center text-white">
-                  <Users className="w-5 h-5 mr-2 text-emerald-400" />
-                  Founding Partner Spots Remaining
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center">
-                  <div className="text-4xl sm:text-6xl font-bold text-red-400 mb-2">{spotsRemaining}</div>
-                  <p className="text-slate-200 text-sm sm:text-base">out of 3 total spots</p>
-                  <div className="w-full bg-slate-700 rounded-full h-2 sm:h-3 mt-4">
-                    <div
-                      className="bg-gradient-to-r from-red-500 to-orange-500 h-2 sm:h-3 rounded-full transition-all duration-500"
-                      style={{ width: `${(spotsRemaining / 3) * 100}%` }}
-                    ></div>
-                  </div>
+            {/* Hotels Being Reviewed */}
+            <div className="rounded-2xl bg-zinc-900/80 border border-white/10 p-6">
+              <div className="flex items-center mb-4">
+                <Users className="w-5 h-5 mr-2 text-emerald-600" />
+                <h3 className="text-lg font-semibold text-white">Application Review Status</h3>
+              </div>
+              <div className="text-center">
+                <div className="text-4xl sm:text-6xl font-bold text-emerald-600 mb-2">{hotelsBeingReviewed}</div>
+                <p className="text-zinc-300 text-sm sm:text-base mb-2">Hotels Currently Being Reviewed</p>
+                <p className="text-emerald-400 text-xs sm:text-sm font-medium">Final Places Decided Shortly</p>
+                <div className="w-full bg-zinc-800 rounded-full h-2 sm:h-3 mt-4">
+                  <div
+                    className="bg-emerald-600 h-2 sm:h-3 rounded-full transition-all duration-1000 animate-pulse"
+                    style={{ width: `${Math.min((hotelsBeingReviewed / 20) * 100, 100)}%` }}
+                  ></div>
                 </div>
-              </CardContent>
-            </Card>
+                <div className="flex justify-between text-xs text-zinc-400 mt-2">
+                  <span>0</span>
+                  <span>20+ Applications</span>
+                </div>
+              </div>
+            </div>
 
             {/* Countdown Timer */}
-            <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm">
-              <CardHeader>
-                <CardTitle className="flex items-center text-white">
-                  <Clock className="w-5 h-5 mr-2 text-emerald-400" />
-                  Application Deadline: December 31st, 2025
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-4 gap-2 sm:gap-4 text-center">
-                  <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                    <div className="text-xl sm:text-3xl font-bold text-emerald-400">{timeLeft.days.toString().padStart(2, '0')}</div>
-                    <div className="text-xs text-slate-300 font-medium">DAYS</div>
-                  </div>
-                  <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                    <div className="text-xl sm:text-3xl font-bold text-emerald-400">{timeLeft.hours.toString().padStart(2, '0')}</div>
-                    <div className="text-xs text-slate-300 font-medium">HOURS</div>
-                  </div>
-                  <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                    <div className="text-xl sm:text-3xl font-bold text-emerald-400">{timeLeft.minutes.toString().padStart(2, '0')}</div>
-                    <div className="text-xs text-slate-300 font-medium">MINS</div>
-                  </div>
-                  <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                    <div className="text-xl sm:text-3xl font-bold text-emerald-400">{timeLeft.seconds.toString().padStart(2, '0')}</div>
-                    <div className="text-xs text-slate-300 font-medium">SECS</div>
-                  </div>
+            <div className="rounded-2xl bg-zinc-900/80 border border-white/10 p-6">
+              <div className="flex items-center mb-4">
+                <Clock className="w-5 h-5 mr-2 text-emerald-600" />
+                <h3 className="text-lg font-semibold text-white">Application Deadline: December 31st, 2025</h3>
+              </div>
+              <div className="grid grid-cols-4 gap-2 sm:gap-4 text-center">
+                <div className="bg-zinc-800/50 rounded-lg p-3 border border-white/10">
+                  <div className="text-xl sm:text-3xl font-bold text-emerald-600">{timeLeft.days.toString().padStart(2, '0')}</div>
+                  <div className="text-xs text-zinc-300 font-medium">DAYS</div>
                 </div>
-                <p className="text-center text-slate-200 mt-4 text-xs sm:text-sm px-2">
-                  Applications close automatically on December 31st, 2025 at 11:59 PM
-                </p>
-              </CardContent>
-            </Card>
+                <div className="bg-zinc-800/50 rounded-lg p-3 border border-white/10">
+                  <div className="text-xl sm:text-3xl font-bold text-emerald-600">{timeLeft.hours.toString().padStart(2, '0')}</div>
+                  <div className="text-xs text-zinc-300 font-medium">HOURS</div>
+                </div>
+                <div className="bg-zinc-800/50 rounded-lg p-3 border border-white/10">
+                  <div className="text-xl sm:text-3xl font-bold text-emerald-600">{timeLeft.minutes.toString().padStart(2, '0')}</div>
+                  <div className="text-xs text-zinc-300 font-medium">MINS</div>
+                </div>
+                <div className="bg-zinc-800/50 rounded-lg p-3 border border-white/10">
+                  <div className="text-xl sm:text-3xl font-bold text-emerald-600">{timeLeft.seconds.toString().padStart(2, '0')}</div>
+                  <div className="text-xs text-zinc-300 font-medium">SECS</div>
+                </div>
+              </div>
+              <p className="text-center text-zinc-300 mt-4 text-xs sm:text-sm px-2">
+                Applications close automatically on December 31st, 2025 at 11:59 PM
+              </p>
+            </div>
           </div>
 
-          {/* Pilot Benefits */}
-          <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm mb-8 sm:mb-12">
-            <CardHeader>
-              <CardTitle className="text-white text-xl sm:text-2xl">What's Included in Your 60-Day Pilot</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-emerald-400 mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-semibold text-white">Full GlowBack System Activated</h4>
-                      <p className="text-slate-200 text-sm">
-                        Complete guest request → staff coordination → manager dashboard with live tracking and
-                        accountability
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-emerald-400 mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-semibold text-white">Complete Onboarding & Training</h4>
-                      <p className="text-slate-200 text-sm">
-                        Full staff training and dedicated support throughout the entire 60-day pilot period
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-emerald-400 mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-semibold text-white">Real-Time Analytics & Reporting</h4>
-                      <p className="text-slate-200 text-sm">
-                        End-of-pilot analytics: response times, staff efficiency, request categories, and guest service
-                        trends
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-emerald-400 mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-semibold text-white">Founding Partner Recognition</h4>
-                      <p className="text-slate-200 text-sm">
-                        Permanent recognition on GlowBack.io, global hotel map placement, and featured case studies
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-emerald-400 mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-semibold text-white">Free Promotional Content</h4>
-                      <p className="text-slate-200 text-sm">
-                        Professional video content showcasing your hotel powered by GlowBack for marketing use
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-emerald-400 mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-semibold text-white">Priority PR & Media Coverage</h4>
-                      <p className="text-slate-200 text-sm">
-                        Featured in articles, press releases, and industry publications about the pilot program
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <CheckCircle className="w-5 h-5 text-emerald-400 mt-1 flex-shrink-0" />
-                    <div>
-                      <h4 className="font-semibold text-white">First Access to New Features</h4>
-                      <p className="text-slate-200 text-sm">
-                        Priority access to all new GlowBack capabilities and upgrades before general release
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Exclusive Pricing Benefits Section */}
-          <Card className="bg-gradient-to-r from-emerald-900/30 to-blue-900/30 border-emerald-500/50 backdrop-blur-sm mb-8 sm:mb-12">
-            <CardHeader>
-              <CardTitle className="text-white text-xl sm:text-2xl">
-                Exclusive Founding Partner Rate — Discounted Pilot Pricing
-              </CardTitle>
-              <p className="text-emerald-300 font-semibold text-sm sm:text-base">
-                🔥 These benefits are NEVER offered again — once the pilot closes, they're gone forever. 🔥
+          {/* Pilot Includes Section */}
+          <section id="pilot-includes" className="bg-black py-12 md:py-16">
+            <div className="mx-auto max-w-6xl px-4 md:px-6">
+              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
+                What's Included in Your <span className="text-emerald-600">60-Day Pilot</span>
+              </h2>
+              <p className="mt-3 text-zinc-300">
+                Full platform access, hands-on enablement, and visibility to measure impact so you can decide with data.
               </p>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-                <div className="space-y-6">
-                  <div className="bg-slate-800/50 p-4 rounded-lg border border-emerald-500/30">
-                    <h4 className="font-bold text-emerald-400 text-lg mb-2">Exclusive Founding Partner Rate</h4>
-                    <div className="text-lg font-bold text-white mb-2">
-                      Each of the three pilot hotels will secure a unique discounted rate, permanently locked in for the
-                      life of their contract. This Founder's Partner Rate is never offered again.
-                    </div>
-                  </div>
-                  <div className="bg-slate-800/50 p-4 rounded-lg border border-blue-500/30">
-                    <h4 className="font-bold text-blue-400 text-lg mb-2">50% Off All Future Add Ons</h4>
-                    <p className="text-slate-200 text-sm">
-                      Permanent half price access to every future integration, expansion, and upgrade.
-                    </p>
-                  </div>
-                </div>
-                <div className="space-y-6">
-                  <div className="bg-slate-800/50 p-4 rounded-lg border border-purple-500/30">
-                    <h4 className="font-bold text-purple-400 text-lg mb-2">Founding Partner Recognition</h4>
-                    <p className="text-slate-200 text-sm">
-                      Permanent prestige as one of the first Glowback partners — featured in PR, case studies, and
-                      industry showcases.
-                    </p>
-                  </div>
-                  <div className="bg-slate-800/50 p-4 rounded-lg border border-orange-500/30">
-                    <h4 className="font-bold text-orange-400 text-lg mb-2">Priority Revenue Opportunities</h4>
-                    <p className="text-slate-200 text-sm">
-                      First access to new revenue streams through upsells and commission modules before public release.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-6 p-4 bg-slate-800/50 border border-slate-600/30 rounded-lg">
-                <p className="text-slate-200 font-semibold text-center">
-                  👉 Only three hotels will ever receive this Founder's Partner Rate. Once the pilot closes, the
-                  opportunity is gone permanently.
-                </p>
-              </div>
-              <div className="mt-4 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
-                <p className="text-blue-300 font-semibold text-center">
-                  No obligation beyond the pilot — if Glowback doesn't transform your operations, you're free to walk
-                  away.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
 
-          {/* Application Form */}
-          <Card className="bg-slate-900/50 border-slate-700/50 backdrop-blur-sm">
-            <CardHeader>
-              <CardTitle className="text-white text-xl sm:text-2xl">Pilot Application Form</CardTitle>
-              <p className="text-slate-200 text-sm sm:text-base">Complete this form to secure your spot in the exclusive pilot program</p>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-200 mb-2">
-                      <Building2 className="w-4 h-4 inline mr-2" />
-                      Hotel Name *
-                    </label>
-                    <Input
-                      name="hotelName"
-                      value={formData.hotelName}
-                      onChange={handleInputChange}
-                      placeholder="Enter your hotel name"
-                      className="bg-slate-800/50 border-slate-600 text-white placeholder-slate-400"
-                      required
-                    />
+              {/* grid of 6 benefits */}
+              <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                {/* 1 */}
+                <div className="card rounded-2xl bg-zinc-900/80 border border-white/10 p-5 md:p-6">
+                  <div className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-medium bg-zinc-800/80 border border-white/10 text-zinc-300">
+                    Platform
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-200 mb-2">Contact Name *</label>
-                    <Input
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      placeholder="Your full name"
-                      className="bg-slate-800/50 border-slate-600 text-white placeholder-slate-400"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-200 mb-2">
-                      <Mail className="w-4 h-4 inline mr-2" />
-                      Email Address *
-                    </label>
-                    <Input
-                      name="email"
-                      type="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="your.email@hotel.com"
-                      className="bg-slate-800/50 border-slate-600 text-white placeholder-slate-400"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-200 mb-2">
-                      <MapPin className="w-4 h-4 inline mr-2" />
-                      City
-                    </label>
-                    <Input
-                      name="city"
-                      value={formData.city}
-                      onChange={handleInputChange}
-                      placeholder="City, State/Country"
-                      className="bg-slate-800/50 border-slate-600 text-white placeholder-slate-400"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-slate-200 mb-2">
-                    Additional Notes
-                  </label>
-                  <Textarea
-                    name="notes"
-                    value={formData.notes}
-                    onChange={handleInputChange}
-                    placeholder="Tell us about your hotel, current challenges, or any questions you have..."
-                    className="bg-slate-800/50 border-slate-600 text-white placeholder-slate-400 min-h-[100px]"
-                  />
-                </div>
-
-                {/* Cloudflare Turnstile widget */}
-                <div className="flex justify-center">
-                  <div id="turnstile-widget"></div>
-                </div>
-
-                <div className="text-center pt-4 sm:pt-6">
-                  <Button
-                    type="submit"
-                    size="lg"
-                    disabled={status === "submitting"}
-                    className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-8 sm:px-12 py-3 sm:py-4 text-base sm:text-lg font-semibold disabled:opacity-50 w-full sm:w-auto"
-                  >
-                    {status === "submitting" ? "Submitting..." : "Lock In My Founding Partner Advantage"}
-                  </Button>
-                  <p className="text-slate-200 text-xs sm:text-sm mt-4 px-4">
-                    Applications are reviewed within 24 hours. Spots are awarded based on operational fit and readiness.
+                  <h3 className="mt-3 text-lg md:text-xl font-semibold">Full Glowback System Activated</h3>
+                  <p className="mt-2 text-zinc-300">
+                    Guest request → smart routing → staff coordination → manager view with live tracking and accountability.
                   </p>
                 </div>
 
-                {/* Status message */}
-                <div role="status" aria-live="polite" className="text-center">
-                  {msg && (
-                    <p className={`text-sm font-medium ${
-                      status === "ok" ? "text-emerald-400" : 
-                      status === "err" ? "text-red-400" : 
-                      "text-slate-200"
-                    }`}>
-                      {msg}
-                    </p>
-                  )}
+                {/* 2 */}
+                <div className="card rounded-2xl bg-zinc-900/80 border border-white/10 p-5 md:p-6">
+                  <div className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-medium bg-zinc-800/80 border border-white/10 text-zinc-300">
+                    Enablement
+                  </div>
+                  <h3 className="mt-3 text-lg md:text-xl font-semibold">Complete Onboarding & Training</h3>
+                  <p className="mt-2 text-zinc-300">
+                    Dedicated support for managers and staff throughout the 60 days, with simple materials and quick refreshers.
+                  </p>
                 </div>
-              </form>
-            </CardContent>
-          </Card>
+
+                {/* 3 */}
+                <div className="card rounded-2xl bg-zinc-900/80 border border-white/10 p-5 md:p-6">
+                  <div className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-medium bg-zinc-800/80 border border-white/10 text-zinc-300">
+                    Visibility
+                  </div>
+                  <h3 className="mt-3 text-lg md:text-xl font-semibold">Real-Time Analytics & Pilot Report</h3>
+                  <p className="mt-2 text-zinc-300">
+                    Live status during the pilot + a wrap-up report: response times, staff efficiency, request mix and service trends.
+                  </p>
+                </div>
+
+                {/* 4 */}
+                <div className="card rounded-2xl bg-zinc-900/80 border border-white/10 p-5 md:p-6">
+                  <div className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-medium bg-zinc-800/80 border border-white/10 text-zinc-300">
+                    Marketing
+                  </div>
+                  <h3 className="mt-3 text-lg md:text-xl font-semibold">Professional Promo Content</h3>
+                  <p className="mt-2 text-zinc-300">
+                    A short showcase of your hotel running on Glowback, produced for your marketing channels and sales partners.
+                  </p>
+                </div>
+
+                {/* 5 */}
+                <div className="card rounded-2xl bg-zinc-900/80 border border-white/10 p-5 md:p-6">
+                  <div className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-medium bg-zinc-800/80 border border-white/10 text-zinc-300">
+                    Exposure
+                  </div>
+                  <h3 className="mt-3 text-lg md:text-xl font-semibold">PR & Media Coverage Priority</h3>
+                  <p className="mt-2 text-zinc-300">
+                    Eligibility for features in articles, press releases and industry publications about the pilot program.
+                  </p>
+                </div>
+
+                {/* 6 */}
+                <div className="card rounded-2xl bg-zinc-900/80 border border-white/10 p-5 md:p-6">
+                  <div className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-medium bg-zinc-800/80 border border-white/10 text-zinc-300">
+                    Access
+                  </div>
+                  <h3 className="mt-3 text-lg md:text-xl font-semibold">First Access to New Features</h3>
+                  <p className="mt-2 text-zinc-300">
+                    Try new Glowback capabilities and upgrades ahead of general release, with direct feedback loops to our team.
+                  </p>
+                </div>
+              </div>
+
+              {/* reassurance line */}
+              <p className="mt-6 text-sm text-zinc-400">
+                Your team keeps control. We make operations faster, clearer and easier to manage. You measure the results.
+              </p>
+            </div>
+          </section>
+
+          {/* Pilot Benefits Section */}
+          <section id="pilot-benefits" className="bg-black py-16 md:py-24">
+            <div className="mx-auto max-w-6xl px-4 md:px-6">
+              {/* Header */}
+              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight">
+                Founding Partner Advantages: <span className="text-emerald-600">Pilot-Only Pricing</span>
+              </h2>
+              <p className="mt-3 text-zinc-300">
+                These benefits are exclusive to the pilot cohort. When selections are finalized, they are gone permanently.
+              </p>
+
+              {/* Cards Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mt-8">
+                {/* Card 1 */}
+                <div className="rounded-2xl bg-zinc-900/80 border border-white/10 p-5 md:p-6">
+                  <div className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-medium bg-zinc-800/80 border border-white/10 text-zinc-300">
+                    Founder's Rate
+                  </div>
+                  <h3 className="mt-3 text-xl md:text-2xl font-semibold">Permanent Discounted Rate</h3>
+                  <p className="mt-2 text-zinc-300">
+                    A unique discounted rate locked for the life of your contract. This Founder's Partner Rate is never offered again after the pilot.
+                  </p>
+                </div>
+
+                {/* Card 2 */}
+                <div className="rounded-2xl bg-zinc-900/80 border border-white/10 p-5 md:p-6">
+                  <div className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-medium bg-zinc-800/80 border border-white/10 text-zinc-300">
+                    Add-Ons
+                  </div>
+                  <h3 className="mt-3 text-xl md:text-2xl font-semibold">50% Off All Future Add-Ons</h3>
+                  <p className="mt-2 text-zinc-300">
+                    Permanent half-price on every future integration, expansion or upgrade released after your pilot.
+                  </p>
+                </div>
+
+                {/* Card 3 */}
+                <div className="rounded-2xl bg-zinc-900/80 border border-white/10 p-5 md:p-6">
+                  <div className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-medium bg-zinc-800/80 border border-white/10 text-zinc-300">
+                    Recognition
+                  </div>
+                  <h3 className="mt-3 text-xl md:text-2xl font-semibold">Pilot Program Recognition</h3>
+                  <p className="mt-2 text-zinc-300">
+                    Prestige as one of Glowback's first partners, eligible for PR features, case studies and industry showcases.
+                  </p>
+                </div>
+
+                {/* Card 4 */}
+                <div className="rounded-2xl bg-zinc-900/80 border border-white/10 p-5 md:p-6">
+                  <div className="inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs font-medium bg-zinc-800/80 border border-white/10 text-zinc-300">
+                    Revenue
+                  </div>
+                  <h3 className="mt-3 text-xl md:text-2xl font-semibold">Priority Revenue Opportunities</h3>
+                  <p className="mt-2 text-zinc-300">
+                    First access to new revenue streams through upsells and commission modules before public release.
+                  </p>
+                </div>
+              </div>
+
+              {/* Scarcity Bar */}
+              <div className="mt-8 rounded-xl border border-emerald-600/30 bg-emerald-600/5 px-4 py-3 text-sm text-emerald-300">
+                Selection is limited. Once the cohort is finalized, pilot-only pricing and recognition are closed permanently.
+              </div>
+
+              {/* Guarantee Bar */}
+              <div className="mt-3 rounded-xl border border-white/10 bg-zinc-900/70 px-4 py-3 text-sm text-zinc-300">
+                No obligation beyond the pilot. If Glowback doesn't transform your operations, you're free to walk away.
+              </div>
+            </div>
+          </section>
+
+          {/* Competitive Application Section */}
+          <div className="bg-black rounded-2xl border border-emerald-600/30 p-8 md:p-12">
+            {/* Scarcity & Intrigue Header */}
+            <div className="text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Pilot Program Application
+              </h2>
+              <p className="text-slate-300 text-lg mb-6">
+                Complete the form to be considered for Glowback's exclusive pilot program. Your answers help us understand your challenges, goals, and readiness to transform operations.
+              </p>
+              <p className="text-emerald-400 text-sm font-medium mb-6">
+                Hotels across Thailand are applying. Only a select few will be chosen.
+              </p>
+              
+              {/* Progress Bar */}
+              <div className="w-full bg-slate-800 rounded-full h-3 mb-4">
+                <div 
+                  className="bg-emerald-600 h-3 rounded-full transition-all duration-1000"
+                  style={{ width: `${Math.min((hotelsBeingReviewed / 20) * 100, 100)}%` }}
+                ></div>
+              </div>
+              <div className="flex justify-between text-xs text-slate-400">
+                <span>0</span>
+                <span>20+ Applications</span>
+              </div>
+            </div>
+
+            {/* Application Form */}
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <h3 className="text-2xl font-bold text-white mb-6">Pilot Program Application</h3>
+              
+              {/* Basic Information */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Hotel Name *
+                  </label>
+                  <Input
+                    name="hotelName"
+                    value={formData.hotelName}
+                    onChange={handleInputChange}
+                    placeholder="Enter your hotel name"
+                    className="bg-black border-emerald-600 text-white placeholder-slate-400 focus:ring-emerald-600 focus:ring-2 focus:border-emerald-600"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Location (City, Country) *
+                  </label>
+                  <Input
+                    name="location"
+                    placeholder="Bangkok, Thailand"
+                    className="bg-black border-emerald-600 text-white placeholder-slate-400 focus:ring-emerald-600 focus:ring-2 focus:border-emerald-600"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Contact Name & Position *
+                  </label>
+                  <Input
+                    name="contactName"
+                    placeholder="John Smith, General Manager"
+                    className="bg-black border-emerald-600 text-white placeholder-slate-400 focus:ring-emerald-600 focus:ring-2 focus:border-emerald-600"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Email Address *
+                  </label>
+                  <Input
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="your.email@hotel.com"
+                    className="bg-black border-emerald-600 text-white placeholder-slate-400 focus:ring-emerald-600 focus:ring-2 focus:border-emerald-600"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Phone Number *
+                  </label>
+                  <Input
+                    name="phone"
+                    placeholder="+66 2 123 4567"
+                    className="bg-black border-emerald-600 text-white placeholder-slate-400 focus:ring-emerald-600 focus:ring-2 focus:border-emerald-600"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Number of Rooms *
+                  </label>
+                  <Input
+                    name="roomCount"
+                    type="number"
+                    placeholder="150"
+                    className="bg-black border-emerald-600 text-white placeholder-slate-400 focus:ring-emerald-600 focus:ring-2 focus:border-emerald-600"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Hotel Type *
+                  </label>
+                  <select 
+                    name="hotelType"
+                    className="w-full bg-black border border-emerald-600 text-white rounded-md px-3 py-2 focus:ring-emerald-600 focus:ring-2 focus:border-emerald-600"
+                    required
+                  >
+                    <option value="">Select hotel type</option>
+                    <option value="resort">Resort</option>
+                    <option value="boutique">Boutique</option>
+                    <option value="chain">Chain</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-white mb-2">
+                    Level of Interest in AI/Automation *
+                  </label>
+                  <select 
+                    name="aiInterest"
+                    className="w-full bg-black border border-emerald-600 text-white rounded-md px-3 py-2 focus:ring-emerald-600 focus:ring-2 focus:border-emerald-600"
+                    required
+                  >
+                    <option value="">Select interest level</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">
+                  Current Operational Challenges *
+                </label>
+                <Textarea
+                  name="challenges"
+                  placeholder="Describe your main operational challenges (staff coordination, guest service delays, communication gaps, etc.)"
+                  className="bg-black border border-emerald-600 text-white placeholder-slate-400 focus:ring-emerald-600 focus:ring-2 focus:border-emerald-600 min-h-[120px]"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">
+                  Main Goals for Joining Glowback *
+                </label>
+                <Textarea
+                  name="goals"
+                  placeholder="What do you hope to achieve with Glowback? (improve guest satisfaction, streamline operations, increase revenue, etc.)"
+                  className="bg-black border border-emerald-600 text-white placeholder-slate-400 focus:ring-emerald-600 focus:ring-2 focus:border-emerald-600 min-h-[120px]"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">
+                  Current Systems in Use *
+                </label>
+                <select 
+                  name="currentSystems"
+                  className="w-full bg-black border border-emerald-600 text-white rounded-md px-3 py-2 focus:ring-emerald-600 focus:ring-2 focus:border-emerald-600 mb-2"
+                  required
+                >
+                  <option value="">Select current systems</option>
+                  <option value="pms">Property Management System (PMS)</option>
+                  <option value="crm">Customer Relationship Management (CRM)</option>
+                  <option value="manual">Manual processes</option>
+                  <option value="mixed">Mixed systems</option>
+                  <option value="other">Other (specify below)</option>
+                </select>
+                <Input
+                  name="systemDetails"
+                  placeholder="If 'Other', please specify your current systems"
+                  className="bg-black border border-emerald-600 text-white placeholder-slate-400 focus:ring-emerald-600 focus:ring-2 focus:border-emerald-600"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">
+                  Guest Satisfaction Pain Points *
+                </label>
+                <div className="space-y-2">
+                  {['Response Times', 'Staff Coordination', 'Service Reliability', 'Feedback Visibility', 'Other'].map((point) => (
+                    <label key={point} className="flex items-center space-x-2 text-white">
+                      <input 
+                        type="checkbox" 
+                        name="painPoints" 
+                        value={point.toLowerCase().replace(' ', '_')}
+                        className="rounded border-emerald-600 text-emerald-600 focus:ring-emerald-600"
+                      />
+                      <span>{point}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">
+                  Decision-Making Process *
+                </label>
+                <Textarea
+                  name="decisionProcess"
+                  placeholder="Who else is involved in technology decisions? What's your typical timeline for implementing new systems?"
+                  className="bg-black border border-emerald-600 text-white placeholder-slate-400 focus:ring-emerald-600 focus:ring-2 focus:border-emerald-600 min-h-[100px]"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">
+                  Additional Notes
+                </label>
+                <Textarea
+                  name="additionalNotes"
+                  placeholder="Any other information that would help us understand your hotel and needs..."
+                  className="bg-black border border-emerald-600 text-white placeholder-slate-400 focus:ring-emerald-600 focus:ring-2 focus:border-emerald-600 min-h-[100px]"
+                />
+              </div>
+
+              {/* Cloudflare Turnstile widget */}
+              <div className="flex justify-center">
+                <div id="turnstile-widget"></div>
+              </div>
+
+              {/* Submit Button */}
+              <div className="text-center pt-6">
+                <Button
+                  type="submit"
+                  size="lg"
+                  disabled={status === "submitting"}
+                  className="bg-gradient-to-r from-black to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-12 py-4 text-lg font-bold disabled:opacity-50 w-full sm:w-auto hover:shadow-lg hover:shadow-emerald-600/25 transition-all duration-300"
+                >
+                  {status === "submitting" ? "Submitting..." : "Submit My Application"}
+                </Button>
+                <p className="text-slate-300 text-sm mt-4 max-w-2xl mx-auto">
+                  Applications are reviewed within 24 hours. Selection is competitive and based on fit. If accepted, you'll unlock Pilot Program status with permanent advantages.
+                </p>
+              </div>
+
+              {/* Status message */}
+              <div role="status" aria-live="polite" className="text-center">
+                {msg && (
+                  <p className={`text-sm font-medium ${
+                    status === "ok" ? "text-emerald-400" : 
+                    status === "err" ? "text-red-400" : 
+                    "text-slate-200"
+                  }`}>
+                    {msg}
+                  </p>
+                )}
+              </div>
+            </form>
+          </div>
 
           {/* Urgency Footer */}
-          <div className="text-center mt-8 sm:mt-12 p-4 sm:p-6 bg-red-500/10 border border-red-500/30 rounded-lg">
-            <h3 className="text-lg sm:text-xl font-bold text-red-400 mb-2">The Window Is Closing Fast</h3>
-            <p className="text-slate-200 text-sm sm:text-base">Only 3 spots available. After that, the opportunity is gone permanently.</p>
+          <div className="text-center mt-8 sm:mt-12 p-4 sm:p-6 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
+            <h3 className="text-lg sm:text-xl font-bold text-emerald-400 mb-2">Final Review Phase Active</h3>
+            <p className="text-slate-200 text-sm sm:text-base">14 hotels currently under review. Final selections will be announced shortly. Apply now to secure your position.</p>
           </div>
         </div>
       </div>
