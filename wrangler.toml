@@ -2,7 +2,7 @@ name = "glowback-website"
 compatibility_date = "2024-01-01"
 
 # Cloudflare Pages configuration
-pages_build_output_dir = ".next"
+pages_build_output_dir = "out"
 
 [env.production]
 vars = { NODE_ENV = "production" }
