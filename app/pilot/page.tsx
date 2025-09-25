@@ -106,9 +106,30 @@ export default function PilotApplication() {
       const form = e.currentTarget
       const formData = new FormData(form)
       
+      // Collect required fields for Notion
+      const hotelName = formData.get('hotelName') as string
+      const location = formData.get('location') as string
+      const contactName = formData.get('contactName') as string
+      const contactEmail = formData.get('email') as string
+      const roomCount = formData.get('roomCount') as string
+      
+      // Collect pain points (checkboxes)
+      const painPointsElements = form.querySelectorAll('input[name="painPoints"]:checked')
+      const painPoints = Array.from(painPointsElements).map(el => (el as HTMLInputElement).value).join(', ')
+      
       const res = await fetch("/api/apply", { 
-        method: "POST", 
-        body: formData 
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          hotelName,
+          location,
+          contactName,
+          contactEmail,
+          painPoints,
+          roomCount
+        })
       })
       const data = await res.json()
       
@@ -120,6 +141,9 @@ export default function PilotApplication() {
       setMsg("Application received. We'll be in touch soon.")
       form.reset()
       
+      // Show success alert
+      alert("Application submitted!")
+      
       // Increase the review count to show the application was received
       setHotelsBeingReviewed(prev => Math.min(18, prev + 1))
       
@@ -130,6 +154,9 @@ export default function PilotApplication() {
     } catch (err: any) {
       setStatus("err")
       setMsg(err.message || "Something went wrong.")
+      
+      // Show error alert
+      alert("Something went wrong.")
     }
   }
 
