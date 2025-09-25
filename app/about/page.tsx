@@ -1,5 +1,5 @@
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
+import Navbar from "../../components/navbar"
+import Footer from "../../components/footer"
 import { Target, Users, Shield, Award, Lightbulb, Heart } from "lucide-react"
 
 export default function AboutPage() {

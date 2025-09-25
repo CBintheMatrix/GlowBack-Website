@@ -2,11 +2,11 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import Navbar from "@/components/navbar"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import Navbar from "../../components/navbar"
+import { Button } from "../../components/ui/button"
+import { Input } from "../../components/ui/input"
+import { Textarea } from "../../components/ui/textarea"
+import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card"
 import { Clock, Users, CheckCircle, Building2, Mail, Phone, MapPin } from "lucide-react"
 
 declare global { 
