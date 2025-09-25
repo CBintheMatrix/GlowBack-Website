@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "next build && npx @cloudflare/next-on-pages",
     "dev": "next dev",
     "lint": "next lint",
     "start": "npx serve out -l 3000",
@@ -73,5 +73,11 @@
     "@types/react-dom": "^18",
     "postcss": "^8.5",
     "tailwindcss": "^3.4.17"
+  },
+  "overrides": {
+    "next": "14.2.16"
+  },
+  "resolutions": {
+    "next": "14.2.16"
   }
 }
