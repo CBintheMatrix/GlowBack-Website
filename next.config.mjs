@@ -10,6 +10,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Enable API routes for Cloudflare Pages
+  experimental: {
+    runtime: 'nodejs',
+  },
 }
 
 export default nextConfig
