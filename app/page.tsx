@@ -1,9 +1,9 @@
-import Navbar from "@/components/navbar"
-import Hero from "@/components/landing/Hero"
-import QuickBenefits from "@/components/landing/QuickBenefits"
-import SystemPanels from "@/components/landing/SystemPanels"
-import PilotBanner from "@/components/landing/PilotBanner"
-import Footer from "@/components/footer"
+import Navbar from "../components/navbar"
+import Hero from "../components/landing/Hero"
+import QuickBenefits from "../components/landing/QuickBenefits"
+import SystemPanels from "../components/landing/SystemPanels"
+import PilotBanner from "../components/landing/PilotBanner"
+import Footer from "../components/footer"
 
 export default function Home() {
   return (

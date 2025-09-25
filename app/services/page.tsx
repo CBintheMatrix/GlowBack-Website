@@ -12,14 +12,14 @@ import {
   Shield,
 } from "lucide-react"
 import Link from "next/link"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
-import Hero from "@/components/ui/hero"
-import Section from "@/components/site/section"
-import ProductBlock from "@/components/site/product-block"
-import FeatureItem from "@/components/site/feature-item"
-import MiniCta from "@/components/site/mini-cta"
-import CtaBanner from "@/components/ui/cta-banner"
+import Navbar from "../../components/navbar"
+import Footer from "../../components/footer"
+import Hero from "../../components/ui/hero"
+import Section from "../../components/site/section"
+import ProductBlock from "../../components/site/product-block"
+import FeatureItem from "../../components/site/feature-item"
+import MiniCta from "../../components/site/mini-cta"
+import CtaBanner from "../../components/ui/cta-banner"
 
 export default function ServicesPage() {
   return (
