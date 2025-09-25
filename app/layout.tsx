@@ -11,13 +11,6 @@ export const metadata: Metadata = {
   description:
     "Transform your hotel into an intelligent service ecosystem. Connect guests, staff, and managers with our comprehensive hotel operations platform.",
   generator: 'v0.app',
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
-  themeColor: '#10B981',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -27,10 +20,18 @@ export const metadata: Metadata = {
     telephone: false,
   },
   icons: {
-    icon: '/favicon.svg',
+    icon: '/favicon.png',
     apple: '/apple-touch-icon.png',
   },
   manifest: '/manifest.json',
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: '#10B981',
 }
 
 export default function RootLayout({
