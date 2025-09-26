@@ -106,35 +106,17 @@ export default function PilotApplication() {
       const form = e.currentTarget
       const formData = new FormData(form)
       
-      // Collect required fields for Notion
-      const hotelName = formData.get('hotelName') as string
-      const location = formData.get('location') as string
-      const contactName = formData.get('contactName') as string
-      const contactEmail = formData.get('email') as string
-      const roomCount = formData.get('roomCount') as string
-      
-      // Collect pain points (checkboxes)
-      const painPointsElements = form.querySelectorAll('input[name="painPoints"]:checked')
-      const painPoints = Array.from(painPointsElements).map(el => (el as HTMLInputElement).value).join(', ')
-      
-      const res = await fetch("/api/apply", { 
+      // Submit to Formspree
+      const res = await fetch("https://formspree.io/f/manpnaoz", {
         method: "POST",
+        body: formData,
         headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          hotelName,
-          location,
-          contactName,
-          contactEmail,
-          painPoints,
-          roomCount
-        })
+          'Accept': 'application/json'
+        }
       })
-      const data = await res.json()
       
-      if (!res.ok || !data.ok) {
-        throw new Error(data?.error || "Submit failed")
+      if (!res.ok) {
+        throw new Error("Submit failed")
       }
       
       setStatus("ok")
