@@ -18,7 +18,7 @@ export default function Hero({ headline, subline, primaryCta, secondaryCta }: He
     <section className="py-16 md:py-24 bg-white">
       <div className="max-w-5xl md:max-w-6xl mx-auto px-4">
         <div className="text-center">
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-emerald-700 mb-6">
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-emerald-500 mb-6">
             {headline}
           </h1>
           <p className="text-lg md:text-xl text-slate-600 mb-12 max-w-3xl mx-auto">
