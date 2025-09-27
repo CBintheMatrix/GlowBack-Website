@@ -8,6 +8,7 @@ import { Input } from "../../components/ui/input"
 import { Textarea } from "../../components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card"
 import { Clock, Users, CheckCircle, Building2, Mail, Phone, MapPin } from "lucide-react"
+import { counterService } from "../../lib/counter-service"
 
 declare global { 
   interface Window { 
@@ -64,6 +65,21 @@ export default function PilotApplication() {
     }, 1000)
 
     return () => clearInterval(timer)
+  }, [])
+
+  // Initialize counter service and subscribe to updates
+  useEffect(() => {
+    // Set initial counter value
+    setHotelsBeingReviewed(counterService.getCount())
+
+    // Subscribe to counter updates
+    const unsubscribe = counterService.subscribe((count) => {
+      setHotelsBeingReviewed(count)
+    })
+
+    return () => {
+      unsubscribe()
+    }
   }, [])
 
   // No automatic updates - only changes when someone actually applies
@@ -126,8 +142,8 @@ export default function PilotApplication() {
       // Show success alert
       alert("Application submitted!")
       
-      // Increase the review count to show the application was received
-      setHotelsBeingReviewed(prev => Math.min(18, prev + 1))
+      // Increase the review count using the counter service
+      counterService.increment()
       
       // Reset Turnstile widget
       if (turnstileWidgetId && window.turnstile) {
