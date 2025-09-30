@@ -36,50 +36,69 @@ export class CounterService {
   }
 
   /**
-   * Get the current counter value
+   * Get the current counter value from Cloudflare Function
    */
   public async getCount(): Promise<number> {
     if (typeof window === 'undefined') return 14 // Default for SSR
     
     try {
-      // Use sessionStorage for persistence across tabs in the same browser session
-      const stored = sessionStorage.getItem('glowback_counter')
-      const count = stored ? parseInt(stored, 10) : 14
-      this.cachedCount = count
-      return count
+      const response = await fetch(`${API_BASE_URL}/api/counter`)
+      if (response.ok) {
+        const data = await response.json()
+        this.cachedCount = data.count
+        return data.count
+      } else {
+        console.warn(`API returned ${response.status}: ${response.statusText}`)
+      }
     } catch (error) {
-      console.warn('Failed to get counter from sessionStorage:', error)
-      return this.cachedCount
+      console.warn('Failed to fetch counter from API, using cached value:', error)
     }
+    
+    return this.cachedCount
   }
 
   /**
-   * Increment the counter and notify all listeners
+   * Increment the counter via Cloudflare Function and notify all listeners
    */
   public async increment(): Promise<number> {
     if (typeof window === 'undefined') return this.cachedCount
     
     try {
-      const newCount = Math.min(20, this.cachedCount + 1)
-      this.cachedCount = newCount
+      const response = await fetch(`${API_BASE_URL}/api/counter`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       
-      // Store in sessionStorage for persistence across tabs
-      sessionStorage.setItem('glowback_counter', newCount.toString())
-      
-      // Broadcast the update to other tabs
-      if (this.channel) {
-        this.channel.postMessage({
-          type: 'COUNTER_UPDATE',
-          count: newCount
-        })
+      if (response.ok) {
+        const data = await response.json()
+        this.cachedCount = data.count
+        
+        // Broadcast the update to other tabs
+        if (this.channel) {
+          this.channel.postMessage({
+            type: 'COUNTER_UPDATE',
+            count: data.count
+          })
+        }
+        
+        // Notify local listeners
+        this.notifyListeners(data.count)
+        
+        return data.count
+      } else {
+        console.warn(`Increment API returned ${response.status}: ${response.statusText}`)
+        // Fallback: increment locally if API fails
+        this.cachedCount = Math.min(20, this.cachedCount + 1)
+        this.notifyListeners(this.cachedCount)
+        return this.cachedCount
       }
-      
-      // Notify local listeners
-      this.notifyListeners(newCount)
-      
-      return newCount
     } catch (error) {
-      console.warn('Failed to increment counter:', error)
+      console.warn('Failed to increment counter via API, incrementing locally:', error)
+      // Fallback: increment locally if API fails
+      this.cachedCount = Math.min(20, this.cachedCount + 1)
+      this.notifyListeners(this.cachedCount)
       return this.cachedCount
     }
   }
