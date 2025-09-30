@@ -1,18 +1,15 @@
 /**
  * Shared counter service for pilot applications
- * Uses a simple external API for true cross-visitor persistence
+ * Uses localStorage with a timestamp-based approach for better persistence
  */
 
-// Using a simple counter API service
-const COUNTER_API_URL = 'https://api.countapi.xyz/hit/glowback-pilot-applications/counter'
-
+const COUNTER_KEY = 'glowback_pilot_applications'
 const CHANNEL_NAME = 'glowback_counter_updates'
 
 export class CounterService {
   private static instance: CounterService
   private channel: BroadcastChannel
   private listeners: Set<(count: number) => void> = new Set()
-  private cachedCount: number = 14
 
   private constructor() {
     // Initialize BroadcastChannel for real-time updates across tabs
@@ -20,7 +17,6 @@ export class CounterService {
       this.channel = new BroadcastChannel(CHANNEL_NAME)
       this.channel.onmessage = (event) => {
         if (event.data.type === 'COUNTER_UPDATE') {
-          this.cachedCount = event.data.count
           this.notifyListeners(event.data.count)
         }
       }
@@ -35,62 +31,62 @@ export class CounterService {
   }
 
   /**
-   * Get the current counter value
+   * Get the current counter value with 90-day persistence
    */
-  public async getCount(): Promise<number> {
+  public getCount(): number {
     if (typeof window === 'undefined') return 14 // Default for SSR
     
     try {
-      // First, get the current value
-      const response = await fetch('https://api.countapi.xyz/get/glowback-pilot-applications/counter')
-      if (response.ok) {
-        const data = await response.json()
-        const count = Math.max(14, data.value || 14) // Ensure minimum of 14
-        this.cachedCount = count
-        return count
+      const stored = localStorage.getItem(COUNTER_KEY)
+      if (stored) {
+        const data = JSON.parse(stored)
+        // Use the stored count if it's recent (within 90 days)
+        const now = Date.now()
+        const ninetyDaysInMs = 90 * 24 * 60 * 60 * 1000
+        if (now - data.timestamp < ninetyDaysInMs) {
+          return data.count
+        }
       }
     } catch (error) {
-      console.warn('Failed to fetch counter from API, using cached value:', error)
+      console.warn('Failed to get counter from localStorage:', error)
     }
     
-    return this.cachedCount
+    return 14
   }
 
   /**
    * Increment the counter and notify all listeners
    */
-  public async increment(): Promise<number> {
-    if (typeof window === 'undefined') return this.cachedCount
+  public increment(): number {
+    if (typeof window === 'undefined') return 14
     
     try {
-      const response = await fetch(COUNTER_API_URL)
-      if (response.ok) {
-        const data = await response.json()
-        const newCount = Math.min(20, data.value || this.cachedCount + 1)
-        this.cachedCount = newCount
-        
-        // Broadcast the update to other tabs
-        if (this.channel) {
-          this.channel.postMessage({
-            type: 'COUNTER_UPDATE',
-            count: newCount
-          })
-        }
-        
-        // Notify local listeners
-        this.notifyListeners(newCount)
-        
-        return newCount
+      const currentCount = this.getCount()
+      const newCount = Math.min(20, currentCount + 1) // Cap at 20
+      
+      // Store with timestamp
+      const data = {
+        count: newCount,
+        timestamp: Date.now()
       }
+      localStorage.setItem(COUNTER_KEY, JSON.stringify(data))
+      
+      // Broadcast the update to other tabs
+      if (this.channel) {
+        this.channel.postMessage({
+          type: 'COUNTER_UPDATE',
+          count: newCount
+        })
+      }
+      
+      // Notify local listeners
+      this.notifyListeners(newCount)
+      
+      return newCount
     } catch (error) {
-      console.warn('Failed to increment counter via API, incrementing locally:', error)
-      // Fallback: increment locally
-      this.cachedCount = Math.min(20, this.cachedCount + 1)
-      this.notifyListeners(this.cachedCount)
-      return this.cachedCount
+      console.warn('Failed to increment counter:', error)
+      return this.getCount()
     }
-    
-    return this.cachedCount
   }
 
   /**
