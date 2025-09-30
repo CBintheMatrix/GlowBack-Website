@@ -1,10 +1,12 @@
 /**
  * Shared counter service for pilot applications
- * Uses a simple external API for true cross-visitor persistence
+ * Uses JSONBin.io for true cross-visitor persistence
  */
 
-// Using a simple counter API service
-const COUNTER_API_URL = 'https://api.countapi.xyz/hit/glowback-pilot-applications/counter'
+// JSONBin.io configuration - free service for JSON storage
+const JSONBIN_API_KEY = '$2a$10$XqK8h4Y2vR9pL3mN6sT7BuQwE5fG8hJ9kL2mP4rS6tU1vW3xY7zA'
+const JSONBIN_BIN_ID = '676a8b8f5b60727b4c4a1234'
+const JSONBIN_URL = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`
 
 const CHANNEL_NAME = 'glowback_counter_updates'
 
@@ -35,38 +37,53 @@ export class CounterService {
   }
 
   /**
-   * Get the current counter value
+   * Get the current counter value from JSONBin
    */
   public async getCount(): Promise<number> {
     if (typeof window === 'undefined') return 14 // Default for SSR
     
     try {
-      // First, get the current value
-      const response = await fetch('https://api.countapi.xyz/get/glowback-pilot-applications/counter')
+      const response = await fetch(JSONBIN_URL, {
+        headers: {
+          'X-Master-Key': JSONBIN_API_KEY
+        }
+      })
+      
       if (response.ok) {
         const data = await response.json()
-        const count = Math.max(14, data.value || 14) // Ensure minimum of 14
+        const count = data.record?.count || 14
         this.cachedCount = count
         return count
+      } else {
+        console.warn(`JSONBin returned ${response.status}: ${response.statusText}`)
       }
     } catch (error) {
-      console.warn('Failed to fetch counter from API, using cached value:', error)
+      console.warn('Failed to fetch counter from JSONBin, using cached value:', error)
     }
     
     return this.cachedCount
   }
 
   /**
-   * Increment the counter and notify all listeners
+   * Increment the counter via JSONBin and notify all listeners
    */
   public async increment(): Promise<number> {
     if (typeof window === 'undefined') return this.cachedCount
     
     try {
-      const response = await fetch(COUNTER_API_URL)
+      const newCount = Math.min(20, this.cachedCount + 1)
+      
+      // Update JSONBin
+      const response = await fetch(JSONBIN_URL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Master-Key': JSONBIN_API_KEY
+        },
+        body: JSON.stringify({ count: newCount })
+      })
+      
       if (response.ok) {
-        const data = await response.json()
-        const newCount = Math.min(20, data.value || this.cachedCount + 1)
         this.cachedCount = newCount
         
         // Broadcast the update to other tabs
@@ -81,16 +98,20 @@ export class CounterService {
         this.notifyListeners(newCount)
         
         return newCount
+      } else {
+        console.warn(`JSONBin increment failed: ${response.status}`)
+        // Fallback: increment locally
+        this.cachedCount = newCount
+        this.notifyListeners(this.cachedCount)
+        return this.cachedCount
       }
     } catch (error) {
-      console.warn('Failed to increment counter via API, incrementing locally:', error)
+      console.warn('Failed to increment counter via JSONBin, incrementing locally:', error)
       // Fallback: increment locally
       this.cachedCount = Math.min(20, this.cachedCount + 1)
       this.notifyListeners(this.cachedCount)
       return this.cachedCount
     }
-    
-    return this.cachedCount
   }
 
   /**
