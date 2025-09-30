@@ -1,15 +1,19 @@
 /**
  * Shared counter service for pilot applications
- * Uses localStorage for persistence and BroadcastChannel for real-time updates
+ * Uses API endpoint for persistent storage and BroadcastChannel for real-time updates
  */
 
-const COUNTER_KEY = 'glowback_pilot_applications'
+const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://glowback-website.pages.dev' 
+  : 'http://localhost:3000'
+
 const CHANNEL_NAME = 'glowback_counter_updates'
 
 export class CounterService {
   private static instance: CounterService
   private channel: BroadcastChannel
   private listeners: Set<(count: number) => void> = new Set()
+  private cachedCount: number = 14
 
   private constructor() {
     // Initialize BroadcastChannel for real-time updates across tabs
@@ -17,6 +21,7 @@ export class CounterService {
       this.channel = new BroadcastChannel(CHANNEL_NAME)
       this.channel.onmessage = (event) => {
         if (event.data.type === 'COUNTER_UPDATE') {
+          this.cachedCount = event.data.count
           this.notifyListeners(event.data.count)
         }
       }
@@ -31,46 +36,61 @@ export class CounterService {
   }
 
   /**
-   * Get the current counter value
+   * Get the current counter value from API
    */
-  public getCount(): number {
+  public async getCount(): Promise<number> {
     if (typeof window === 'undefined') return 14 // Default for SSR
     
     try {
-      const stored = localStorage.getItem(COUNTER_KEY)
-      return stored ? parseInt(stored, 10) : 14
-    } catch {
-      return 14
+      const response = await fetch(`${API_BASE_URL}/api/counter`)
+      if (response.ok) {
+        const data = await response.json()
+        this.cachedCount = data.count
+        return data.count
+      }
+    } catch (error) {
+      console.warn('Failed to fetch counter from API, using cached value:', error)
     }
+    
+    return this.cachedCount
   }
 
   /**
-   * Increment the counter and notify all listeners
+   * Increment the counter via API and notify all listeners
    */
-  public increment(): number {
-    if (typeof window === 'undefined') return 14
+  public async increment(): Promise<number> {
+    if (typeof window === 'undefined') return this.cachedCount
     
     try {
-      const currentCount = this.getCount()
-      const newCount = Math.min(20, currentCount + 1) // Cap at 20
+      const response = await fetch(`${API_BASE_URL}/api/counter`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       
-      localStorage.setItem(COUNTER_KEY, newCount.toString())
-      
-      // Broadcast the update to other tabs
-      if (this.channel) {
-        this.channel.postMessage({
-          type: 'COUNTER_UPDATE',
-          count: newCount
-        })
+      if (response.ok) {
+        const data = await response.json()
+        this.cachedCount = data.count
+        
+        // Broadcast the update to other tabs
+        if (this.channel) {
+          this.channel.postMessage({
+            type: 'COUNTER_UPDATE',
+            count: data.count
+          })
+        }
+        
+        // Notify local listeners
+        this.notifyListeners(data.count)
+        
+        return data.count
       }
-      
-      // Notify local listeners
-      this.notifyListeners(newCount)
-      
-      return newCount
-    } catch {
-      return this.getCount()
+    } catch (error) {
+      console.warn('Failed to increment counter via API:', error)
     }
+    
+    return this.cachedCount
   }
 
   /**

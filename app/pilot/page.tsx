@@ -70,7 +70,12 @@ export default function PilotApplication() {
   // Initialize counter service and subscribe to updates
   useEffect(() => {
     // Set initial counter value
-    setHotelsBeingReviewed(counterService.getCount())
+    const initializeCounter = async () => {
+      const count = await counterService.getCount()
+      setHotelsBeingReviewed(count)
+    }
+    
+    initializeCounter()
 
     // Subscribe to counter updates
     const unsubscribe = counterService.subscribe((count) => {
@@ -143,7 +148,7 @@ export default function PilotApplication() {
       alert("Application submitted!")
       
       // Increase the review count using the counter service
-      counterService.increment()
+      counterService.increment().catch(console.error)
       
       // Reset Turnstile widget
       if (turnstileWidgetId && window.turnstile) {
