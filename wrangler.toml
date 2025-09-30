@@ -4,5 +4,11 @@ compatibility_date = "2024-01-01"
 # Cloudflare Pages configuration
 pages_build_output_dir = "out"
 
+# KV namespace bindings
+[[kv_namespaces]]
+binding = "GLOWBACK_COUNTER_KV"
+id = "8f4c47532c064285a5efff505a409113"
+preview_id = "8f4c47532c064285a5efff505a409113"
+
 [env.production]
 vars = { NODE_ENV = "production" }

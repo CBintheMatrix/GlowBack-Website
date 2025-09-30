@@ -1,38 +1,33 @@
-# Counter Setup Guide
+# Counter Setup Guide - Cloudflare Functions
 
 ## Problem Solved
 The application counter was using `localStorage` which is browser-specific and doesn't persist across different browsers or incognito mode. This caused inconsistent counter values (14 vs 15) for different visitors.
 
 ## Solution
-Created a persistent API endpoint that stores the counter value server-side, ensuring consistency across all visitors.
+Using Cloudflare Functions with KV storage for true cross-visitor persistence.
 
 ## Files Changed
 
-1. **`pages/api/counter.ts`** - Simple in-memory API endpoint
-2. **`pages/api/counter-kv.ts`** - Production-ready version using Cloudflare KV storage
-3. **`lib/counter-service.ts`** - Updated to use API instead of localStorage
-4. **`app/pilot/page.tsx`** - Updated to handle async counter operations
+1. **`functions/api/counter.js`** - Cloudflare Function for persistent counter storage
+2. **`lib/counter-service.ts`** - Updated to use Cloudflare Function API
+3. **`app/pilot/page.tsx`** - Updated to handle async counter operations
 
-## Deployment Options
+## Setup Instructions
 
-### Option 1: Simple In-Memory (Current)
-- Uses `pages/api/counter.ts`
-- Counter resets when Cloudflare function restarts
-- Good for testing and low-traffic sites
+### Step 1: Create KV Namespace
+1. Go to **Cloudflare Dashboard** → **Workers & Pages** → **KV**
+2. Click **"Create a namespace"**
+3. Name it: `glowback-counter`
+4. Copy the **Namespace ID**
 
-### Option 2: Persistent with KV Storage (Recommended)
-- Uses `pages/api/counter-kv.ts`
-- Requires Cloudflare KV setup
-- Counter persists across function restarts
+### Step 2: Configure Environment Variables
+1. Go to your **Cloudflare Pages project** → **Settings** → **Environment Variables**
+2. Add new variable:
+   - **Variable name:** `GLOWBACK_COUNTER_KV`
+   - **Value:** `your-namespace-id` (from Step 1)
 
-## KV Setup Instructions
-
-1. Go to Cloudflare Dashboard → Workers & Pages → KV
-2. Create a new KV namespace named `glowback-counter`
-3. In your Cloudflare Pages project settings, add the KV binding:
-   - Variable name: `GLOWBACK_COUNTER_KV`
-   - KV namespace: `glowback-counter`
-4. Update `lib/counter-service.ts` to use `/api/counter-kv` endpoint
+### Step 3: Deploy
+The `functions/api/counter.js` file will automatically be deployed as a Cloudflare Function when you push to GitHub.
 
 ## Testing
 

@@ -36,7 +36,7 @@ export class CounterService {
   }
 
   /**
-   * Get the current counter value from API
+   * Get the current counter value from Cloudflare Function
    */
   public async getCount(): Promise<number> {
     if (typeof window === 'undefined') return 14 // Default for SSR
@@ -56,7 +56,7 @@ export class CounterService {
   }
 
   /**
-   * Increment the counter via API and notify all listeners
+   * Increment the counter via Cloudflare Function and notify all listeners
    */
   public async increment(): Promise<number> {
     if (typeof window === 'undefined') return this.cachedCount
