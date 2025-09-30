@@ -47,6 +47,8 @@ export class CounterService {
         const data = await response.json()
         this.cachedCount = data.count
         return data.count
+      } else {
+        console.warn(`API returned ${response.status}: ${response.statusText}`)
       }
     } catch (error) {
       console.warn('Failed to fetch counter from API, using cached value:', error)
@@ -85,12 +87,20 @@ export class CounterService {
         this.notifyListeners(data.count)
         
         return data.count
+      } else {
+        console.warn(`Increment API returned ${response.status}: ${response.statusText}`)
+        // Fallback: increment locally if API fails
+        this.cachedCount = Math.min(20, this.cachedCount + 1)
+        this.notifyListeners(this.cachedCount)
+        return this.cachedCount
       }
     } catch (error) {
-      console.warn('Failed to increment counter via API:', error)
+      console.warn('Failed to increment counter via API, incrementing locally:', error)
+      // Fallback: increment locally if API fails
+      this.cachedCount = Math.min(20, this.cachedCount + 1)
+      this.notifyListeners(this.cachedCount)
+      return this.cachedCount
     }
-    
-    return this.cachedCount
   }
 
   /**

@@ -147,8 +147,13 @@ export default function PilotApplication() {
       // Show success alert
       alert("Application submitted!")
       
-      // Increase the review count using the counter service
-      counterService.increment().catch(console.error)
+      // Increase the review count using the counter service (don't let this break the form)
+      try {
+        await counterService.increment()
+      } catch (error) {
+        console.error('Counter increment failed:', error)
+        // Don't show error to user, just log it
+      }
       
       // Reset Turnstile widget
       if (turnstileWidgetId && window.turnstile) {
