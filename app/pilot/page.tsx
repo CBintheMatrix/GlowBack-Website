@@ -21,7 +21,7 @@ declare global {
 }
 
 export default function PilotApplication() {
-  const [hotelsBeingReviewed, setHotelsBeingReviewed] = useState(14)
+  const [hotelsBeingReviewed, setHotelsBeingReviewed] = useState<number | null>(null)
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -196,13 +196,17 @@ export default function PilotApplication() {
                 <h3 className="text-lg font-semibold text-white">Application Review Status</h3>
               </div>
               <div className="text-center">
-                <div className="text-4xl sm:text-6xl font-bold text-emerald-600 mb-2">{hotelsBeingReviewed}</div>
+                <div className="text-4xl sm:text-6xl font-bold text-emerald-600 mb-2">
+                  {hotelsBeingReviewed !== null ? hotelsBeingReviewed : (
+                    <div className="inline-block animate-pulse bg-emerald-600/20 rounded-lg h-16 w-16 sm:h-20 sm:w-20"></div>
+                  )}
+                </div>
                 <p className="text-zinc-300 text-sm sm:text-base mb-2">Hotels Currently Being Reviewed</p>
                 <p className="text-emerald-400 text-xs sm:text-sm font-medium">Final Places Decided Shortly</p>
                 <div className="w-full bg-zinc-800 rounded-full h-2 sm:h-3 mt-4">
                   <div
                     className="bg-emerald-600 h-2 sm:h-3 rounded-full transition-all duration-1000 animate-pulse"
-                    style={{ width: `${Math.min((hotelsBeingReviewed / 20) * 100, 100)}%` }}
+                    style={{ width: hotelsBeingReviewed !== null ? `${Math.min((hotelsBeingReviewed / 20) * 100, 100)}%` : '0%' }}
                   ></div>
                 </div>
                 <div className="flex justify-between text-xs text-zinc-400 mt-2">
@@ -416,7 +420,7 @@ export default function PilotApplication() {
               <div className="w-full bg-slate-800 rounded-full h-3 mb-4">
                 <div 
                   className="bg-emerald-600 h-3 rounded-full transition-all duration-1000"
-                  style={{ width: `${Math.min((hotelsBeingReviewed / 20) * 100, 100)}%` }}
+                  style={{ width: hotelsBeingReviewed !== null ? `${Math.min((hotelsBeingReviewed / 20) * 100, 100)}%` : '0%' }}
                 ></div>
               </div>
               <div className="flex justify-between text-xs text-slate-400">
