@@ -61,12 +61,6 @@ export default function Hero() {
             >
               Apply for Pilot Program
             </Link>
-            <a
-              href="/#demo"
-              className="bg-transparent text-white ring-1 ring-white/40 hover:ring-white/70 rounded-xl h-10 px-6 font-semibold transition-all duration-300 flex items-center justify-center"
-            >
-              See How It Works
-            </a>
           </div>
         </div>
       </div>

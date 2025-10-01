@@ -26,10 +26,6 @@ export default function BenefitsPage() {
           text: "Apply for Pilot Program",
           href: "/pilot"
         }}
-        secondaryCta={{
-          text: "See How It Works", 
-          href: "/#demo"
-        }}
       />
 
       <div className="bg-[radial-gradient(ellipse_at_top,_rgba(20,184,166,0.08),transparent_60%)]">
