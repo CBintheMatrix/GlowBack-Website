@@ -67,17 +67,23 @@ export default function Hero() {
     }
 
     const handleLoadedData = () => {
-      console.log('Video loaded, attempting to play')
+      console.log(`Video ${currentVideoIndex} loaded: ${heroVideos[currentVideoIndex]}`)
       playVideo()
+    }
+
+    const handleError = (e: any) => {
+      console.error(`Video ${currentVideoIndex} error:`, e, `File: ${heroVideos[currentVideoIndex]}`)
     }
 
     video.load()
     video.addEventListener('loadeddata', handleLoadedData)
     video.addEventListener('ended', handleVideoEnd)
+    video.addEventListener('error', handleError)
 
     return () => {
       video.removeEventListener('loadeddata', handleLoadedData)
       video.removeEventListener('ended', handleVideoEnd)
+      video.removeEventListener('error', handleError)
     }
   }, [currentVideoIndex])
 
