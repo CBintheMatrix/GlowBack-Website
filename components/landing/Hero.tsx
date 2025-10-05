@@ -17,6 +17,24 @@ export default function Hero() {
 
   useEffect(() => {
     setIsVisible(true)
+    
+    // Ensure video plays on initial load
+    const video = videoRef.current
+    if (video) {
+      const playInitialVideo = async () => {
+        try {
+          video.muted = true
+          await video.play()
+          console.log('Initial video playing')
+        } catch (error) {
+          console.log('Initial video play failed:', error)
+        }
+      }
+      
+      // Try to play immediately and also after a short delay
+      playInitialVideo()
+      setTimeout(playInitialVideo, 500)
+    }
   }, [])
 
   // Video cycling with fade transitions
@@ -29,21 +47,36 @@ export default function Hero() {
         video.currentTime = 0
         video.muted = true
         await video.play()
+        console.log(`Playing video ${currentVideoIndex}: ${heroVideos[currentVideoIndex]}`)
       } catch (error) {
         console.log('Video autoplay failed:', error)
+        // Try to play again after a short delay
+        setTimeout(async () => {
+          try {
+            await video.play()
+          } catch (e) {
+            console.log('Retry play failed:', e)
+          }
+        }, 100)
       }
     }
 
     const handleVideoEnd = () => {
+      console.log('Video ended, cycling to next')
       setCurrentVideoIndex((prev) => (prev + 1) % heroVideos.length)
     }
 
+    const handleLoadedData = () => {
+      console.log('Video loaded, attempting to play')
+      playVideo()
+    }
+
     video.load()
-    video.addEventListener('canplay', playVideo)
+    video.addEventListener('loadeddata', handleLoadedData)
     video.addEventListener('ended', handleVideoEnd)
 
     return () => {
-      video.removeEventListener('canplay', playVideo)
+      video.removeEventListener('loadeddata', handleLoadedData)
       video.removeEventListener('ended', handleVideoEnd)
     }
   }, [currentVideoIndex])
