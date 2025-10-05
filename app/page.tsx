@@ -1,5 +1,5 @@
 import Navbar from "../components/navbar"
-import Hero from "../components/hero"
+import Hero from "../components/landing/Hero"
 import QuickBenefits from "../components/landing/QuickBenefits"
 import SystemPanels from "../components/landing/SystemPanels"
 import PilotBanner from "../components/landing/PilotBanner"

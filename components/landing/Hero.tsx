@@ -1,20 +1,67 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 
 export default function Hero() {
   const [isVisible, setIsVisible] = useState(false)
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  const heroVideos = [
+    "/hero-video-001.mp4",
+    "/hero-video-002.mp4", 
+    "/hero-video-003.mp4"
+  ]
 
   useEffect(() => {
     setIsVisible(true)
+  }, [])
+
+  // Video cycling with fade transitions
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    const playVideo = async () => {
+      try {
+        video.currentTime = 0
+        video.muted = true
+        await video.play()
+      } catch (error) {
+        console.log('Video autoplay failed:', error)
+      }
+    }
+
+    const handleVideoEnd = () => {
+      setCurrentVideoIndex((prev) => (prev + 1) % heroVideos.length)
+    }
+
+    video.load()
+    video.addEventListener('canplay', playVideo)
+    video.addEventListener('ended', handleVideoEnd)
+
+    return () => {
+      video.removeEventListener('canplay', playVideo)
+      video.removeEventListener('ended', handleVideoEnd)
+    }
+  }, [currentVideoIndex])
+
+  // Video cycling timer (every 10 seconds)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentVideoIndex((prev) => (prev + 1) % heroVideos.length)
+    }, 10000) // Change video every 10 seconds
+
+    return () => clearInterval(interval)
   }, [])
 
   return (
     <section className="relative w-full h-[70vh] flex items-center justify-center overflow-hidden">
       {/* Background Video */}
       <video
+        ref={videoRef}
         className="absolute inset-0 w-full h-full object-cover z-0"
         autoPlay
         muted
@@ -22,7 +69,7 @@ export default function Hero() {
         playsInline
         poster="/hero-video-001.mp4"
       >
-        <source src="/hero-video-001.mp4" type="video/mp4" />
+        <source src={heroVideos[currentVideoIndex]} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       
